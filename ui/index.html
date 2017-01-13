@@ -1,48 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!--[if lt IE 9]>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Bootstrap 101 Template</title>
+      <link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+      <link href="css/index.css" rel="stylesheet">
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse navbar-static-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Open Alexandria</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">About</a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Design</a></li>
-						<li><a href="#">Development</a></li>
-						<li><a href="#">Consulting</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Contact</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
-      
-    <h1>Hello, world!</h1>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+      <![endif]-->
+   </head>
+   <body>
+      <nav class="navbar bluebg">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <a class="navbar-brand" href="#">Open Alexandria</a>
+            </div>
+            <ul class="nav navbar-nav">
+               <li class="active"><a href="#">Features</a></li>
+               <li><a href="#">Explore</a></li>
+               <li><a href="#">Share</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+               <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+               <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+         </div>
+      </nav>
+      <div class="container col-md-6 col-md-offset-3 vertical-center transparent round-corners shadow ">
+         <div class="row">
+            <div class="col-md-12">
+               <h1 class="centering large-title-font title">Open Alexandria</h1>
+               <br>
+               <div id="custom-search-input">
+                  <div class="input-group col-md-8 col-md-offset-2">
+                     <input type="text" class="form-control input-lg" placeholder="Search topic" />
+                     <span class="input-group-btn">
+                     <button class="btn btn-info btn-lg" type="button">
+                     <i class="glyphicon glyphicon-search"></i>
+                     </button>
+                     </span>
+                  </div>
+               </div>
+               <br>
+               <div class="centering">
+                  <label class="radio-inline"><input type="radio" name="optradio">Files</label>
+                  <label class="radio-inline"><input type="radio" name="optradio">Flashcards</label>
+                  <label class="radio-inline"><input type="radio" name="optradio">Q&amp;A</label>
+               </div>
+            </div>
+         </div>
+      </div>
+      <footer>
+         <div class="navbar navbar-fixed-bottom ">
+            <div class="container centering">
+               <div class="navbar-collapse collapse" id="footer-body">
+                  <ul class="nav navbar-nav ">
+                     <li><a href="#">Browse Our Library</a></li>
+                     <li><a href="#">About Us</a></li>
+                     <li><a href="#">Contact Us</a></li>
+                     <li><a href="#">Our Partners</a></li>
+                     <li><a href="#">User Review</a></li>
+                     <li><a href="#">Terms &amp; Conditions</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+   </body>
 </html>

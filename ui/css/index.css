@@ -1,0 +1,96 @@
+.whitebg {
+    background-color: #FFFFFF;
+            
+}
+
+.theme-text-color {
+    color: white;
+}
+
+.transparent {
+                    background-color: rgba(255, 255, 255, .9); /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
+
+}
+.round-corners {
+    border-radius: 10px ;
+
+}
+.shadow {
+    box-shadow: 10px 10px 56px black;
+}
+.vertical-center {
+    margin-top: 10%;
+  min-height: 30%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 30vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+.centering{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+}
+body::before {
+  background: url(../images/books.jpg) no-repeat center center fixed;
+  content: '';
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  position:absolute; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+.img {
+    
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    color: black;
+}
+.title {
+font-family: 'Oleo Script Swash Caps', cursive;
+        color: firebrick;
+
+}
+p, div {
+    font-family: 'Oswald', sans-serif;
+        color: black;
+
+}
+
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+.bluebg {
+    background-color: white;
+}
+
+.navbar-fixed-bottom {
+    height: 15%;
+            background-color: rgba(255, 255, 255, 0.95); /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
+    font-size: 20px;
+}
+.large-title-font {
+       font-size: 56px;
+
+}
