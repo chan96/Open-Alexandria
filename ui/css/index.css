@@ -1,23 +1,4 @@
-.whitebg {
-    background-color: #FFFFFF;
-            
-}
 
-.theme-text-color {
-    color: white;
-}
-
-.transparent {
-                    background-color: rgba(255, 255, 255, .9); /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
-
-}
-.round-corners {
-    border-radius: 10px ;
-
-}
-.shadow {
-    box-shadow: 10px 10px 56px black;
-}
 .vertical-center {
     margin-top: 10%;
   min-height: 30%;  /* Fallback for browsers do NOT support vh unit */
@@ -35,21 +16,13 @@
 body {
 }
 body::before {
-  background: url(../images/books.jpg) no-repeat center center fixed;
+  background: url(../images/symbols-background.png) repeat center center fixed;
   content: '';
   z-index: -1;
   width: 100%;
   height: 100%;
   position:absolute; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
+  
 }
 .img {
     
@@ -87,10 +60,56 @@ p, div {
 
 .navbar-fixed-bottom {
     height: 15%;
-            background-color: rgba(255, 255, 255, 0.95); /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
+            background-color: rgba(255, 255, 255, 0); /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
     font-size: 20px;
+    color: grey;
 }
 .large-title-font {
        font-size: 56px;
 
+}
+
+.subtitle {
+    color: gray;
+}
+
+.sub-img {
+    max-width: 5%;
+    height: auto;
+}
+.logo-img {
+    max-width: 7%;
+    height: auto;
+    padding-bottom: 1%;
+}
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 200px rgba(0,0,0,.6) inset;
+}
+
+.transparency {
+        opacity: 1;
+
+}
+.radio-inline {
+    color: darkolivegreen;
+    font-size: 15px;
+}
+.navbar-default .navbar-brand {
+    color: white;
+        background-color: firebrick;
+
+}
+
+.nav > li > a:hover{
+    background-color: firebrick;
+    color: white;
+}
+
+nav.navbar-nav.navbar-right li a {
+    color: black;
 }
