@@ -104,3 +104,70 @@ h4 {
 .tile .title {
   margin-top: 0px;
 }
+
+
+
+
+/* CSS talk bubble */
+.talk-bubble {
+  display: inline-block;
+  position: relative;
+	width: 200px;
+	height: auto;
+	background-color: lightyellow;
+    
+}
+.border{
+  border: 8px solid #666;
+}
+.round{
+  border-radius: 30px;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+
+}
+
+/*Section for User Questions*/
+
+/* Based of of https://codepen.io/Founts/pen/gmhcl 
+
+/* Right triangle placed top left flush. */
+.tri-right.border.left-top:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -40px;
+	right: auto;
+  top: -8px;
+	bottom: auto;
+	border: 32px solid;
+	border-color: #666 transparent transparent transparent;
+}
+.tri-right.left-top:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 0px;
+	bottom: auto;
+	border: 22px solid;
+	border-color: lightyellow transparent transparent transparent;
+    
+}
+/* talk bubble contents */
+.talktext{
+  padding: 1em;
+	text-align: left;
+  line-height: 1.5em;
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+
+}
+.talktext p{
+  /* remove webkit p margins */
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+}
+/************************/
