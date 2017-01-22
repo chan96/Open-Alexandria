@@ -21,8 +21,9 @@ body::before {
   z-index: -1;
   width: 100%;
   height: 100%;
-  position:absolute; 
-  
+  position:fixed; 
+
+
 }
 .img {
     
@@ -58,11 +59,17 @@ p, div {
     background-color: white;
 }
 
-.navbar-fixed-bottom {
-    height: 15%;
-            background-color: rgba(255, 255, 255, 0); /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
+.navbar-fixed-bottom li a{
+         //   background-color: none; /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
+    color: red;
+}
+.navbar-custom li a{
+    margin: 10px;
     font-size: 20px;
-    color: grey;
+    color: firebrick;
+        font-family: 'Oswald', sans-serif;
+
+//    background-color: #CC3333;
 }
 .large-title-font {
        font-size: 56px;
