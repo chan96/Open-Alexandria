@@ -1,12 +1,28 @@
-var countries = [
-    { value: 'Andorra', data: 'AD' },
-    // ...
-    { value: 'Zimbabwe', data: 'ZZ' }
-];
+$( "autocomplete" ).autocomplete({
+    source: function( request, response ) {
+        $.ajax({
+            dataType: "json",
+            type : 'Get',
+            url: 'Openalexandria.us.to:3000/getRelatedItems/open',
+            success: function(data) {
+                $('autocomplete').removeClass('ui-autocomplete-loading');  
+                // hide loading image
+                alert("hi");
+                response( $.map( data, function(item) {
+                    // your operation on data
+                                    alert("hi");
 
-$('#autocomplete').autocomplete({
-    lookup: countries,
-    onSelect: function (suggestion) {
-        //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-    }
+                }));
+            },
+            error: function(data) {
+                alert("hi");
+                $('autocomplete').removeClass('ui-autocomplete-loading');  
+            }
+        });
+    },
+    minLength: 3,
+    open: function() {},
+    close: function() {},
+    focus: function(event,ui) {},
+    select: function(event, ui) {}
 });
