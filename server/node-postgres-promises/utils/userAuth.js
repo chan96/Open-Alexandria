@@ -1,4 +1,4 @@
-var tokenGen = require("../utils/tokengen.js");
+var tokenGen = require("./tokengen.js");
 
 function User(userID, timeExpire, isAdmin){
 	this.userID = userID;

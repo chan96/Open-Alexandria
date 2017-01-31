@@ -1,4 +1,3 @@
-//Testing Github Key
 var promise = require('bluebird');
 var options = {
   // Initialization Options
@@ -11,6 +10,9 @@ var db = pgp(connectionString);
 
 var mockdata = require('../utils/MOCK_DATA');
 var relatedString = require('../utils/relatedString');
+var userAuth = require('../utils/userAuth');
+
+var fs = require('fs');
 
 function getRelatedItems(req, res, next) {
   var phrase = req.params.phrase;
@@ -18,7 +20,6 @@ function getRelatedItems(req, res, next) {
   res.status(200).json({
     strings: data
   }); 
-  
 }
 
 module.exports = {
