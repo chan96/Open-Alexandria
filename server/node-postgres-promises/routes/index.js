@@ -14,6 +14,6 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/getRelatedItems/:phrase', db.getRelatedItems);
+router.get('/getRelatedItems', db.getRelatedItems);
 
 module.exports = router;

@@ -15,10 +15,10 @@ var userAuth = require('../utils/userAuth');
 var fs = require('fs');
 
 function getRelatedItems(req, res, next) {
-  var phrase = req.params.phrase;
+  var phrase = req.query.query;
   var data = relatedString.findString(mockdata.Hi, phrase);
   res.status(200).json({
-    strings: data
+    suggestions: data
   }); 
 }
 
