@@ -11,19 +11,20 @@ function checkOccurFirst(a, b){
 
 function findString(listOfString, input){
   var commonString = []; 
-  //  var secondaryString = [];
+  var secondaryString = [];
   for(i = 0; i < listOfString.length; i++){
     var aUpper = listOfString[i].toUpperCase();
     var bUpper = input.toUpperCase();
 
     if(checkCommonLetter(aUpper, bUpper)){
-      // if(checkOccurFirst(aUpper, bUpper)){
-      commonString.push({value:listOfString[i],data:"shit"});
-      // }else{
-      //   secondaryString.push(listOfString[i]); 
-      // }
+      if(checkOccurFirst(aUpper, bUpper)){
+        commonString.push({value:listOfString[i],data:"shit"});
+      }else{
+         secondaryString.push(listOfString[i]); 
+      }
     }
   }
+  Array.prototype.push.apply(commonString, secondaryString)
   return commonString;
 }
 
