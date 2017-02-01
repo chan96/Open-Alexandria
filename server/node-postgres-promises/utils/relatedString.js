@@ -18,14 +18,14 @@ function findString(listOfString, input){
 
     if(checkCommonLetter(aUpper, bUpper)){
       if(checkOccurFirst(aUpper, bUpper)){
-        commonString.push({value:listOfString[i],data:"shit"});
+        commonString.push({value:listOfString[i],data:listOfString[i]});
       }else{
-         secondaryString.push(listOfString[i]); 
+        secondaryString.push({value:listOfString[i],data:listOfString[i]}); 
       }
     }
   }
   Array.prototype.push.apply(commonString, secondaryString)
-  return commonString;
+    return commonString;
 }
 
 module.exports = {
