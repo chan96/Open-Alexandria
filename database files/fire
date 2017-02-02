@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Start DB Script ================================================================"
+PGPASSWORD=openalexandria psql -U cs407team4 openalexandriadb -h openalexandria.cdu6pdycmke1.us-west-2.rds.amazonaws.com -a -f dbpopulate.sql
+echo "End DB Script =================================================================="
+
