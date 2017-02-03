@@ -19,6 +19,10 @@ router.get('/', function(req, res, next) {
 
 router.get('/getRelatedItems', db.getRelatedItems);
 router.post('/loginUser', db.loginUser);
+router.get('/logoutUser', db.logoutUser);
+router.post('/createNewUser', db.createNewUser);
+router.get('/getUserInfo', db.getUserInfo);
+router.post('/editUserInfo', db.editUserInfo);
 router.post('/uploadDocuments', upload.single('document'), db.uploadDocuments);
 
 module.exports = router;
