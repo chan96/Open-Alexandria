@@ -23,10 +23,35 @@ function getRelatedItems(req, res, next) {
 }
 
 function loginUser(req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var token = req.cookies.token;
+  var tokenUserID = userAuth.getUserID(token);
+  var ttl = userAuth.getTokenTTL(token); 
 
+  if (userAuth.checkUserAlive(token) && (tokenUserID === username)){
+    res.status(200).json({
+      status: "Already logged in",
+      ttl: ttl
+    });
+  } else{
+    ttl = 60*60*24*7;
+    token = userAuth.addUserToMap(username, ttl, false);
+    tokenUserID = userAuth.getUserID(token);
+    res.cookie('token', token);
+    res.status(200).json({
+      status: "Successful login",
+      ttl: ttl
+    });
+  }
 }
 
+function uploadDocuments(req, res, next){
+  console.log(req.file);
+  res.status(200).json(req.file);
+}
 module.exports = {
   getRelatedItems: getRelatedItems,
   loginUser: loginUser,
+  uploadDocuments: uploadDocuments,
 };

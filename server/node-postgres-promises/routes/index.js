@@ -1,4 +1,7 @@
 var express = require('express');
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
+
 var router = express.Router();
 
 var db = require('./queries');
@@ -15,6 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getRelatedItems', db.getRelatedItems);
-router.get('/loginUser', db.loginUser);
+router.post('/loginUser', db.loginUser);
+router.post('/uploadDocuments', upload.single('document'), db.uploadDocuments);
 
 module.exports = router;
