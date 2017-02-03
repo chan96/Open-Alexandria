@@ -4,7 +4,8 @@ var upload = multer({ dest: 'uploads/' })
 
 var router = express.Router();
 
-var db = require('./queries');
+var queries = require('./queries');
+var users = require('./users');
 
 var mockdata = require('../utils/MOCK_DATA');
 
@@ -17,12 +18,13 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/getRelatedItems', db.getRelatedItems);
-router.post('/loginUser', db.loginUser);
-router.get('/logoutUser', db.logoutUser);
-router.post('/createNewUser', db.createNewUser);
-router.get('/getUserInfo', db.getUserInfo);
-router.post('/editUserInfo', db.editUserInfo);
-router.post('/uploadDocuments', upload.single('document'), db.uploadDocuments);
+router.get('/getRelatedItems', queries.getRelatedItems);
+router.post('/uploadDocuments', upload.single('document'), queries.uploadDocuments);
+
+router.post('/loginUser', users.loginUser);
+router.get('/logoutUser', users.logoutUser);
+router.post('/createNewUser', users.createNewUser);
+router.get('/getUserInfo', users.getUserInfo);
+router.post('/editUserInfo', users.editUserInfo);
 
 module.exports = router;
