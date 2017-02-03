@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Start DB Script ================================================================"
+echo "What do you wish to do?"
+select yn in "Connect" "Load" "Exit"; do
+    case $yn in
+        Connect ) PGPASSWORD=openalexandria psql -U cs407team4 -d openalexandriadb -h openalexandria.cdu6pdycmke1.us-west-2.rds.amazonaws.com;;
+		Load ) PGPASSWORD=openalexandria psql -U cs407team4 openalexandriadb -h openalexandria.cdu6pdycmke1.us-west-2.rds.amazonaws.com -a -f dbpopulate.sql;;
+        Exit ) exit;;
+    esac
+done
