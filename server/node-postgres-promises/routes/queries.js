@@ -22,6 +22,11 @@ function getRelatedItems(req, res, next) {
   }); 
 }
 
+function loginUser(req, res, next) {
+
+}
+
 module.exports = {
   getRelatedItems: getRelatedItems,
+  loginUser: loginUser,
 };

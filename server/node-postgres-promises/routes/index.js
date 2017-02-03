@@ -15,5 +15,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getRelatedItems', db.getRelatedItems);
+router.get('/loginUser', db.loginUser);
 
 module.exports = router;
