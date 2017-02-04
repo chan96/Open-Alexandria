@@ -19,7 +19,8 @@ CREATE TABLE USERS(
 
   USERS_DESCRIPTION varchar default 'Web created users',
   USERS_ENTRYUSER varchar default 'Web App',
-  USERS_DATEADDED timestamp default current_timestamp
+  USERS_DATECREATED timestamp default current_timestamp,
+  USERS_DATEUPDATED timestamp default current_timestamp
  );
 
 CREATE TABLE COURSES(
@@ -55,19 +56,48 @@ CREATE TABLE SUBSCRIPTIONS(
 );
 
 CREATE TABLE QUESTIONS(
-  QUESTIONS_UNIQUE_ID serial primary key not null
+  QUESTIONS_UNIQUE_ID serial primary key not null,
+  QUESTIONS_TITLE varchar not null,
+  QUESTIONS_BODY varchar not null default 'Empty',
+  QUESTIONS_COURSES_ID int not null,
+  QUESTIONS_USERS_ID int not null,
+  QUESTIONS_DATECREATED timestamp default current_timestamp,
+  QUESTIONS_DATEUPDATED timestamp default current_timestamp,
+  QUESTIONS_ISACTIVE boolean not null default true
 );
 
 CREATE TABLE ANSWERS(
-  ANSWERS_UNIQUE_ID serial primary key not null
+  ANSWERS_UNIQUE_ID serial primary key not null,
+  ANSWERS_QUESTIONS_ID int not null,
+  ANSWERS_COURSES_ID int not null,
+  ANSWERS_USERS_ID int not null,
+  ANSWERS_BODY varchar not null default 'Empty',
+  ANSWERS_DATECREATED timestamp default current_timestamp,
+  ANSWERS_DATEUPDATED timestamp default current_timestamp,
+  ANSWERS_ISACTIVE boolean not null default true,
+  ANSWERS_NUMLIKE int default 0,
+  ANSWERS_NUMDISLIKE int default 0
 );
 
 CREATE TABLE FLASHCARDDECKS(
-  FLASHCARDDECKS_UNIQUE_ID serial primary key not null
+  FLASHCARDDECKS_UNIQUE_ID serial primary key not null,
+  FLASHCARDDECKS_COURSES_ID int not null,
+  FLASHCARDDECKS_USERS_ID int not null,
+  FLASHCARDDECKS_NAME varchar not null default 'flashcard deck',
+  FLASHCARDDECKS_DESCRIPTION varchar not null default 'This is a deck of flashcards',
+  FLASHCARDDECKS_NUMCARDS int not null default 0,
+  FLASHCARDDECKS_DATECREATED timestamp default current_timestamp,
+  FLASHCARDDECKS_DATEUPDATED timestamp default current_timestamp
 );
 
 CREATE TABLE FLASHCARDS(
-  FLASHCARDS_UNIQUE_ID serial primary key not null
+  FLASHCARDS_UNIQUE_ID serial primary key not null,
+  FLASHCARDS_FLASHCARDSDECKS_ID int not null,
+  FLASHCARDS_FRONT varchar not null default 'This is the front.',
+  FLASHCARDS_BACK varchar not null default 'This is the back',
+  FLASHCARDS_ISACTIVE boolean default true,
+  FLASHCARDS_DATECREATED timestamp default current_timestamp,
+  FLASHCARDS_DATEUPDATED timestamp default current_timestamp
 );
 
 insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIVE, USERS_EMAIL, USERS_PASSWORD, USERS_DESCRIPTION, USERS_ENTRYUSER)
