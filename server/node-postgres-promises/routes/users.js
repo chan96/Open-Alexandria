@@ -36,7 +36,7 @@ function loginUser(req, res, next) {
         ttl = 60*60*24*7;
         token = userAuth.addUserToMap(data.users_unique_id, ttl, adminStatus);
         tokenUserID = userAuth.getUserID(token);
-        res.cookie('token', token);
+        res.cookie('token', token, {maxAge: ttl});
         res.status(200).json({
           status: "Successful login",
           code: 1,
