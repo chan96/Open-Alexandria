@@ -65,14 +65,25 @@ function addNewCourse(req, res, next) {
 }
 
 function getCourseKeyword(req, res, next) {
-  var keyword = "%" + req.query.keyword + "%";
+  var keyword = "%" + req.query.query + "%";
+  var keyword = req.query.query;
   var token = req.cookies.token;
 
-  var dbSelect = 'select * from courses where COURSES_NAME LIKE $1;';
+  var dbSelect = "select * from courses where COURSES_NAME ~* $1;";
 
   db.any(dbSelect, [keyword])
     .then(function(data){
-      console.log(data);
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        var courseInfo = {
+          coursename: data[i].courses_name,
+          coursedescription: data[i].courses_description,
+          coursenummember: data[i].courses_nummember,
+          courseuniqueid: data[i].courses_unique_id
+        }
+        commonString.push({value:data[i].courses_name,data:courseInfo});
+      }
+      res.status(200).json(commonString);
     })
   .catch(function(err){
     console.log(err);

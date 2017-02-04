@@ -18,9 +18,9 @@ function findString(listOfString, input){
 
     if(checkCommonLetter(aUpper, bUpper)){
       if(checkOccurFirst(aUpper, bUpper)){
-        commonString.push({value:listOfString[i],data:listOfString[i]});
+        commonString.push({value:listOfString[i],data:'Jack has cancer'});
       }else{
-        secondaryString.push({value:listOfString[i],data:listOfString[i]}); 
+        secondaryString.push({value:listOfString[i],data:'Jack has cancer'}); 
       }
     }
   }
