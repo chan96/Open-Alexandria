@@ -25,7 +25,6 @@ function loginUser(req, res, next) {
   var ttl = userAuth.getTokenTTL(token); 
   db.one('select * from users where USERS_EMAIL = $1 and USERS_PASSWORD = $2 and USERS_ISACTIVE = true;', [username, password])
     .then(function(data){
-
       if (userAuth.checkUserAlive(token) && (tokenUserID === username)){
         res.status(200).json({
           status: "Already logged in",
