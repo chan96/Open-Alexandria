@@ -39,6 +39,7 @@ CREATE TABLE DOCUMENTS(
   DOCUMENTS_COURSES_ID int not null,
   DOCUMENTS_USERS_ID int not null,
   DOCUMENTS_DESCRIPTION varchar default 'A simple document',
+  DOCUMENTS_TYPE varchar default 'document',
   DOCUMENTS_DATECREATED timestamp default current_timestamp,
   DOCUMENTS_ISACTIVE boolean not null default true,
   DOCUMENTS_NUMLIKE int default 0,
@@ -78,14 +79,16 @@ insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIV
 insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIVE, USERS_EMAIL, USERS_PASSWORD, USERS_DESCRIPTION, USERS_ENTRYUSER)
  values ('Emma','Johnson', false, true, 'emma1@openalex.com', 'hunter2', 'Original Test User Account', 'default');
 
+
+insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION, COURSES_ISACTIVE) values ('MA 26500','Linear Algebra', false); 
 insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 18000','Problem Solving And Object-Oriented Programming');
 insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 18200','Foundations Of Computer Science');
 insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 24000','Programming In C');
 insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 25000','Computer Architecture'); 
 
-insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID) values ('Cake' , 'http://i.huffpost.com/gadgets/slideshows/337377/slide_337377_3422717_free.gif',1,2);
+insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE) values ('Cake' , 'http://i.imgur.com/6Vvno2g.jpg',1,2,'picture');
 update COURSES set COURSES_DATEUPDATED = current_timestamp where COURSES_UNIQUE_ID = 1;
-insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID) values ('Demo' , 'http://www.youtube.com/watch?v=dQw4w9WgXcQ', 2,1);
+insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE) values ('Demo' , 'http://www.youtube.com/watch?v=dQw4w9WgXcQ', 2,1,'link');
 update COURSES set COURSES_DATEUPDATED = current_timestamp where COURSES_UNIQUE_ID = 2;
 
 insert into SUBSCRIPTIONS (SUBSCRIPTIONS_COURSES_ID, SUBSCRIPTIONS_USERS_ID) values (1,2);
