@@ -83,7 +83,7 @@ function getCourseKeyword(req, res, next) {
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
-      res.status(200).json(commonString);
+      res.status(200).json({suggestions:commonString});
     })
   .catch(function(err){
     console.log(err);
