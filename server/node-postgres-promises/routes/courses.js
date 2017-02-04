@@ -69,7 +69,7 @@ function getCourseKeyword(req, res, next) {
   var keyword = req.query.query;
   var token = req.cookies.token;
 
-  var dbSelect = "select * from courses where COURSES_NAME ~* $1;";
+  var dbSelect = "select * from courses where COURSES_NAME ~* $1 and COURSES_ISACTIVE = true;";
 
   db.any(dbSelect, [keyword])
     .then(function(data){
