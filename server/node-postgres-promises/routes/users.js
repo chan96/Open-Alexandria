@@ -20,30 +20,40 @@ var userAuth = require('../utils/userAuth');
 function loginUser(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
-  var token = req.cookies.token;
-  var tokenUserID = userAuth.getUserID(token);
-  var ttl = userAuth.getTokenTTL(token); 
+  var token = undefined;
+  if(req.cookies.token !== undefined){
+    token = req.cookies.token;
+    console.log("Repeat token:" + token);
+    var tokenUserID = userAuth.getUserID(token);
+
+    var ttl = userAuth.getTokenTTL(token); 
+  }
   db.one('select * from users where USERS_EMAIL = $1 and USERS_PASSWORD = $2 and USERS_ISACTIVE = true;', [username, password])
-    .then(function(data){
-      if (userAuth.checkUserAlive(token) && (tokenUserID === username)){
-        res.status(200).json({
-          status: "Already logged in",
-          code: 1,
-          ttl: ttl
-        });
-      } else{
-        var adminStatus = data.users_isadmin;
-        ttl = 60*60*24*7;
-        token = userAuth.addUserToMap(data.users_unique_id, ttl, adminStatus);
-        tokenUserID = userAuth.getUserID(token);
-        res.cookie('token', token, {maxAge: ttl});
-        res.status(200).json({
-          status: "Successful login",
-          code: 1,
-          ttl: ttl
-        });
+    .then(function(data){ 
+      if(token !== undefined){
+        if (userAuth.checkUserAlive(token) && (tokenUserID === data.users_unique_id)){
+          console.log("If");
+          res.status(200).json({
+            status: "Already logged in",
+            code: 1,
+            ttl: ttl
+          });
+          return;
+        }
       }
-      console.log(data);
+
+      console.log("else");
+      var adminStatus = data.users_isadmin;
+      ttl = 60*60*24*7;
+      token = userAuth.addUserToMap(data.users_unique_id, ttl, adminStatus);
+      console.log("Before cookie");
+      res.cookie('token', token, {maxAge: ttl, httpOnly: true});
+      console.log("Login Token: " + token);
+      res.status(200).json({
+        status: "Successful login",
+        code: 1,
+        ttl: ttl
+      });
     }).catch(function(error){
       res.status(401).json({
         status: "Authentication has failed. Incorrect username or password.",
@@ -112,12 +122,12 @@ function getUserInfo(req, res, next){
         email: data.users_email
       });
     })
-    .catch(function(err){
-      res.status(400).json({
-        status: "Error cannot find user.",
-        code: -1
-      });
+  .catch(function(err){
+    res.status(400).json({
+      status: "Error cannot find user.",
+      code: -1
     });
+  });
 }
 
 function editUserInfo(req, res, next){
@@ -138,13 +148,13 @@ function editUserInfo(req, res, next){
         email: username,
       });
     })
-    .catch(function(err){
-      res.status(400).json({
-        status: "Error cannot change profile",
-        code: -1,
-        error: {name:err.name, message: err.message}
-      });
+  .catch(function(err){
+    res.status(400).json({
+      status: "Error cannot change profile",
+      code: -1,
+      error: {name:err.name, message: err.message}
     });
+  });
 }
 
 module.exports = {

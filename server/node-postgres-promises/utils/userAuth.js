@@ -67,7 +67,6 @@ module.exports = {
   },
 
   checkUserAlive: function(token){
-    console.log(token);
     if(this.checkToken(token) && this.checkTokenTTL(token)){
       return true;
     }
@@ -83,7 +82,6 @@ module.exports = {
 
   getUserID: function(token){
     if(this.checkUserAlive(token)){
-      console.log(userList[token]);
       var currentUserID = userList[token].userID;
       return currentUserID;
     }
