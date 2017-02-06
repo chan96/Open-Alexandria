@@ -12,11 +12,7 @@ var mockdata = require('../utils/MOCK_DATA');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.status(200).json({
-    status: 'success',
-    data: mockdata.Hi,
-    message: 'Retrieved ALL puppies'
-  });
+  res.sendFile('/home/monollama/cs407/Open-Alexandria/front_end/ui/index.html');
 });
 
 router.get('/getRelatedItems', queries.getRelatedItems);

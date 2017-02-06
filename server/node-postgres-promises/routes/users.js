@@ -42,13 +42,10 @@ function loginUser(req, res, next) {
         }
       }
 
-      console.log("else");
       var adminStatus = data.users_isadmin;
       ttl = 60*60*24*7;
       token = userAuth.addUserToMap(data.users_unique_id, ttl, adminStatus);
-      console.log("Before cookie");
       res.cookie('token', token, {maxAge: ttl, httpOnly: true});
-      console.log("Login Token: " + token);
       res.status(200).json({
         status: "Successful login",
         code: 1,
