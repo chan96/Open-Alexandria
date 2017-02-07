@@ -69,13 +69,14 @@
                 <fieldset>
 
                     <!-- Form Name -->
-                    <legend><strong>Create a Course!</strong></legend>
+                    <h2><strong class=" centering">Create a Course!</strong></h2>
+                    <br>
 
                     <!-- Text input-->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Course Name</label>  
                         <div class="col-md-4">
-                            <input name="textinput" class="form-control input-md" id="textinput" type="text" placeholder="Ex. CS250">
+                            <input id="courseNameBox" name="textinput" class="form-control input-md" id="textinput" type="text" placeholder="Ex. CS250" pattern=".{5,10}" required title="5 to 10 characters">
                         </div>
                     </div>
 
@@ -83,7 +84,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Course Description</label>  
                         <div class="col-md-4">
-                            <input name="textinput" class="form-control input-md" id="textinput" type="text" placeholder="Ex. Computer Algorithms">
+                            <input id="courseDescrBox" name="textinput" class="form-control input-md" id="textinput" type="text" placeholder="Ex. Computer Algorithms">
                         </div>
                     </div>
 
@@ -137,16 +138,16 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">School</label>  
                         <div class="col-md-4">
-                            <input name="textinput" class="form-control input-md" id="textinput" type="text" placeholder="Ex. Purdue University">
+                            <input id="schoolBox" name="textinput" class="form-control input-md" id="textinput" type="text" placeholder="Ex. Purdue University">
                         </div>
                     </div>
 
                     <!-- Button (Double) -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="button1id">Double Button</label>
+                        <label class="col-md-4 control-label" for="button1id"></label>
                         <div class="col-md-8">
-                            <button name="button1id" class="btn btn-success" id="button1id">Create</button>
-                            <button name="button2id" class="btn btn-danger" id="button2id">Cancel</button>
+                            <button name="button1id" class="btn btn-success" id="createBttn">Create</button>
+                            <button name="button2id" class="btn btn-danger" id="cancelBttn">Cancel</button>
                         </div>
                     </div>
 
@@ -190,5 +191,6 @@
         <script src="../../bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
         <script src="../../bower_components/typeahead.js/dist/bloodhound.min.js"></script>
 <script src="js/bootstrap-tagsinput.js"></script>
+        <script src="js/newcourse.js"></script>
     </body>
 </html>
