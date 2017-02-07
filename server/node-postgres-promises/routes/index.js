@@ -69,7 +69,7 @@ router.get('/getCourseInfo', courses.getCourseInfo);
  * GET getCourseKeyword
  * @param {string} query
  */
-router.get('/getCourseKeyword', courses.getCourseKeyword);a
+router.get('/getCourseKeyword', courses.getCourseKeyword);
 /**
  * GET disableCourse
  * @param {cookie} token
