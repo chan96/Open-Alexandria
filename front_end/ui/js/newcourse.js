@@ -1,11 +1,14 @@
 $( document ).ready(function() {
     console.log( "ready!" );
      $('#createBttn').on('click', function(e) {  
-        var courseName = $('#courseNameBox').val();
+         if (validate()) {
+             var courseName = $('#courseNameBox').val();
          var courseDescription = $('#courseDescrBox').val();
          var school = $('#schoolBox').val();
          
          createCourse(courseName, courseDescription, school);
+         }
+        
     });
     
      $('#cancelBttn').on('click', function(e) {  
@@ -13,6 +16,14 @@ $( document ).ready(function() {
          location.href = './index.html';
     });
 });
+
+function validate() {
+    if ($('#courseNameBox').val().trim() < 5) {
+        return 0;
+    }
+    
+    return 1;
+}
 
 function createCourse(cn, cd, s) {
      $.ajax({
@@ -23,8 +34,9 @@ function createCourse(cn, cd, s) {
         success: function(data) {
             console.log(data);
         },
-        error: function() {
-            alert('Error occured');
+        error: function(data) {
+            alert(data);
+            
         }
     });
 }
