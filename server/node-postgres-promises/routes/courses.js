@@ -65,7 +65,6 @@ function addNewCourse(req, res, next) {
 }
 
 function getCourseKeyword(req, res, next) {
-  var keyword = "%" + req.query.query + "%";
   var keyword = req.query.query;
   var token = req.cookies.token;
 
@@ -92,38 +91,27 @@ function getCourseKeyword(req, res, next) {
 
 function getCourseInfo(req, res, next){
   var uniqueID = req.query.uniqueid;
-  var token = req.cookies.token;
 
   var dbSelect = 'select * from courses where COURSES_UNIQUE_ID = $1 and COURSES_ISACTIVE = true;';
-  if(userAuth.checkUserAlive(token)){
-    db.one(dbSelect, [uniqueID])
-      .then(function(data){
-        res.status(200).json({
-          status: "Successful retrieved course",
-          code: 1,
-          courseuniqueid: data.courses_unique_id,
-          coursename: data.courses_name,
-          coursedescription: data.courses_description,
-          coursenummember: data.courses_nummember,
-        });
-      })
-    .catch(function(err){
-      res.status(500).json({
-        status: "Error unknown",
-        error: {name: err.name, message: err.message},
-        code: -1
-      })
-    });
-  }else{
-    res.status(401).json({
-      status: "Error Authentication Error",
+  db.one(dbSelect, [uniqueID])
+    .then(function(data){
+      res.status(200).json({
+        status: "Successful retrieved course",
+        code: 1,
+        courseuniqueid: data.courses_unique_id,
+        coursename: data.courses_name,
+        coursedescription: data.courses_description,
+        coursenummember: data.courses_nummember,
+      });
+    })
+  .catch(function(err){
+    res.status(500).json({
+      status: "Error unknown",
+      error: {name: err.name, message: err.message},
       code: -1
-    });
-  }
-
+    })
+  });
 }
-
-
 
 function disableCourse(req, res, next){
   var uniqueid = req.query.uniqueid;
