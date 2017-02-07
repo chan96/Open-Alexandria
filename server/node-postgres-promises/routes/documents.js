@@ -19,7 +19,6 @@ var db = pgp(connectionInfo);
 var userAuth = require("../utils/userAuth");
 
 function uploadDocuments(req, res, next){
-  console.log(req.file);
   var filename = req.query.rename;
   if(filename === undefined){
     filename = req.file.originalname;
