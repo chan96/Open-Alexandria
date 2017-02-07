@@ -7,6 +7,7 @@ var router = express.Router();
 var queries = require('./queries');
 var users = require('./users');
 var courses = require('./courses');
+var documents = require('./documents');
 
 var mockdata = require('../utils/MOCK_DATA');
 
@@ -16,7 +17,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getRelatedItems', queries.getRelatedItems);
-router.post('/uploadDocuments', upload.single('document'), queries.uploadDocuments);
 
 router.post('/loginUser', users.loginUser);
 router.get('/logoutUser', users.logoutUser);
@@ -30,6 +30,14 @@ router.get('/getCourseKeyword', courses.getCourseKeyword);
 router.get('/disableCourse', courses.disableCourse);
 router.get('/enableCourse', courses.enableCourse);
 router.post('/editCourseInfo', courses.editCourseInfo);
+
+router.post('/uploadDocuments', upload.single('document'), documents.uploadDocuments);
+router.get('/searchDocument', documents.searchDocument);
+router.get('/searchDocumentByCourse', documents.searchDocumentByCourse);
+router.get('/searchDocumentByUser', documents.searchDocumentByUser);
+router.get('/getDocument', documents.getDocument);
+router.get('/disableDocument', documents.disableDocument);
+router.get('/enableDocument', documents.enableDocument);
 
 
 module.exports = router;

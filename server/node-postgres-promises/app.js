@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static("/home/monollama/cs407/Open-Alexandria/front_end/ui"));
+app.use('/documents', express.static("/uploads"));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods: GET, POST");

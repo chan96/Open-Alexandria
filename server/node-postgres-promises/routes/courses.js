@@ -40,7 +40,7 @@ function addNewCourse(req, res, next) {
                 status: "Successful added course",
                 code: 1
               });
-            }).catch(function(error){
+            }).catch(function(err){
               res.status(500).json({
                 status: "Error unknown",
                 error: {name: err.name, message: err.message},
@@ -140,7 +140,7 @@ function disableCourse(req, res, next){
               status: "Successful course disabled",
               code: 1
             });
-          }).catch(function(error){
+          }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
               error: {name: err.name, message: err.message},
@@ -178,7 +178,7 @@ function enableCourse(req, res, next){
               status: "Successful course enabled",
               code: 1
             });
-          }).catch(function(error){
+          }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
               error: {name: err.name, message: err.message},
@@ -217,7 +217,7 @@ function editCourseInfo(req, res, next){
               status: "Successful courses description changed",
               code: 1
             });
-          }).catch(function(error){
+          }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
               error: {name: err.name, message: err.message},

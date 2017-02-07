@@ -51,9 +51,10 @@ function loginUser(req, res, next) {
         code: 1,
         ttl: ttl
       });
-    }).catch(function(error){
+    }).catch(function(err){
       res.status(401).json({
         status: "Authentication has failed. Incorrect username or password.",
+        error: {name: err.name, message: err.message},
         code: -1
       });
     });
