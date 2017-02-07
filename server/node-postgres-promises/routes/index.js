@@ -1,6 +1,7 @@
 var express = require('express');
 var multer  = require('multer')
 var upload = multer({ dest: 'uploads/' })
+var path = require('path');
 
 var router = express.Router();
 
@@ -13,7 +14,7 @@ var mockdata = require('../utils/MOCK_DATA');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.sendFile(path.normalizei(path.join(__dirname, '../../front_end/ui/index.html')));
+  res.sendFile(path.normalize(path.join(__dirname, '../../../front_end/ui/index.html')));
 });
 
 router.get('/getRelatedItems', queries.getRelatedItems);
