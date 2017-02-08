@@ -12,11 +12,6 @@ var documents = require('./documents');
 
 var mockdata = require('../utils/MOCK_DATA');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.sendFile(path.normalize(path.join(__dirname, '../../../front_end/ui/index.html')));
-});
-
 router.get('/getRelatedItems', queries.getRelatedItems);
 
 /**
