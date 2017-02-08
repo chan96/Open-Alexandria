@@ -1,6 +1,7 @@
 var express = require('express');
 var multer  = require('multer')
 var upload = multer({ dest: 'uploads/' })
+var path = require('path');
 
 var router = express.Router();
 
@@ -10,11 +11,6 @@ var courses = require('./courses');
 var documents = require('./documents');
 
 var mockdata = require('../utils/MOCK_DATA');
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.sendFile('/home/monollama/cs407/Open-Alexandria/front_end/ui/index.html');
-});
 
 router.get('/getRelatedItems', queries.getRelatedItems);
 

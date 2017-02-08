@@ -20,7 +20,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static("/home/monollama/cs407/Open-Alexandria/front_end/ui"));
+var testing = path.normalize(path.join(__dirname, '../../front_end/ui'));
+console.log(testing);
+app.use(express.static(testing));
 app.use('/documents', express.static("/uploads"));
 
 app.use(function(req, res, next) {
