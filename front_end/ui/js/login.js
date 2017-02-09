@@ -1,11 +1,11 @@
 function submitLogin(form){
-  var theUrl = "http://openalexandria.us.to:3000/loginUser";
+  var theUrl = "http://openalexandria.us.to/loginUser";
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
   console.log("FUCK");
   $.post(theUrl, formData, function (data) {
         console.log("SHIT");
-        window.location.href = 'http://openalexandria.us.to:3000/login.html';
+        window.location.href = 'http://openalexandria.us.to/login.html';
     }).done(function(){
       console.log("DOONE");
 
