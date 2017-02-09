@@ -1,18 +1,20 @@
 function submitLogin(form){
-  var theUrl = "http://openalexandria.us.to/loginUser";
+  var theUrl = "http://localhost:3000/loginUser";
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
   console.log("FUCK");
   $.post(theUrl, formData, function (data) {
         console.log("SHIT");
-        window.location.href = 'http://openalexandria.us.to/login.html';
+
+        window.location.href = "http://localhost:3000";
+        //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       console.log("DOONE");
 
     }).fail(function (){
-        console.log("ass");
+        $("incorrect").html("<p>Login Incorrect</p>");
     });
-  return false;
+
   /*
   var formData = new FormData();
   formData.append('username', document.getElementById("username").value);

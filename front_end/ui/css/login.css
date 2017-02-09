@@ -55,3 +55,6 @@ over-ride "Weak" message, show font in dark grey
 .title {
 	font-size: 40px;
 }
+.login_incorrect{
+	color: red;
+}
