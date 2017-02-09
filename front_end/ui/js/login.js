@@ -5,16 +5,15 @@ function submitLogin(form){
   console.log("FUCK");
   $.post(theUrl, formData, function (data) {
         console.log("SHIT");
-
         window.location.href = "http://localhost:3000";
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       console.log("DOONE");
 
     }).fail(function (){
-        $("incorrect").html("<p>Login Incorrect</p>");
+        $("#incorrect").html("<p>Login Incorrect</p>");
     });
-
+    return false;
   /*
   var formData = new FormData();
   formData.append('username', document.getElementById("username").value);
