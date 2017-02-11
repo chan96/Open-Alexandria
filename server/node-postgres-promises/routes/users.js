@@ -71,7 +71,7 @@ function logoutUser(req, res, next) {
 
 
 function createNewUser(req, res, next){
-  var username = req.body.email;
+  var username = req.body.username;
   var password = req.body.password;
   var firstname = req.body.firstname;
   var lastname = req.body.lastname;
