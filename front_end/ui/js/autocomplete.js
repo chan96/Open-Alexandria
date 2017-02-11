@@ -1,6 +1,6 @@
 
 $('#autocomplete').autocomplete({
-    serviceUrl: 'http://Openalexandria.us.to/getCourseKeyword/',
+  serviceUrl: 'http://Openalexandria.us.to/getCourseKeyword/',
     onSelect: function (suggestion) {
         //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
         console.log(suggestion.data);
