@@ -150,6 +150,6 @@ router.get('/getQuestionInfo', questions.getQuestionInfo);
  * @param {int} courseid
  * @param {int} creatorid
  */
-router.post('/getQuestionInfo', questions.getQuestionInfo);
+router.post('/postQuestion', questions.postQuestion);
 
 module.exports = router;

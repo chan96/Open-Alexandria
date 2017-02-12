@@ -28,7 +28,7 @@ function getQuestions(req, res, next) {
   //gets questions based off of given course ID. Not as safe?
   var dbSelect = " select * from courses c inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.COURSES_UNIQUE_ID=$1;"
 
-  db.any(dbSelect, [keyword])
+  db.any(dbSelect, [courseID])
     .then(function(data){
       var commonString = [];
       for(var i = 0; i < data.length; i++){
@@ -52,7 +52,7 @@ function getQuestionInfo(req, res, next) {
 
   var dbSelect = "select * from questions where questions_unique_id=$1;"
 
-  db.any(dbSelect, [keyword])
+  db.any(dbSelect, [questionID])
     .then(function(data){
       var commonString = [];
       for(var i = 0; i < data.length; i++){
