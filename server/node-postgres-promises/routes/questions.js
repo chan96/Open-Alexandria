@@ -17,10 +17,8 @@ var db = pgp(connectionInfo);
 
 var userAuth = require('../utils/userAuth');
 
-//TODO
 function getQuestions(req, res, next) {
-  var courseName = req.query.courseid;
-  var school = req.query.school;
+  var courseID = req.query.courseid;
   var token = req.cookies.token;
 
   //query to get the questions of a course based on given school name and course.
@@ -35,9 +33,36 @@ function getQuestions(req, res, next) {
       var commonString = [];
       for(var i = 0; i < data.length; i++){
         var courseInfo = {
-          title: data[i].questions_title,
-          datecreated: data[i].questions_datecreated,
-          dateupdated: data[i].questions_dateupdated
+          title:        data[i].questions_title,
+          datecreated:  data[i].questions_datecreated,
+          dateupdated:  data[i].questions_dateupdated
+        }
+        commonString.push({value:data[i].courses_name,data:courseInfo});
+      }
+      res.status(200).json({suggestions:commonString});
+    })
+  .catch(function(err){
+    console.log(err);
+  });
+}
+
+function getQuestionInfo(req, res, next) {
+  var questionID = req.query.questionid
+  var token = req.cookies.token;
+
+  var dbSelect = "select * from questions where questions_unique_id=$1;"
+
+  db.any(dbSelect, [keyword])
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        var courseInfo = {
+          title:        data[i].questions_title,
+          datecreated:  data[i].questions_datecreated,
+          dateupdated:  data[i].questions_dateupdated,
+          body:         data[i].questions_body,
+          creatorid:    data[i].questions_users_id,
+          courseid:     data[i].questions_courses_id
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
