@@ -35,7 +35,7 @@ function createCourse(cn, cd, s) {
             console.log(data);
         },
         error: function(data) {
-            alert(data);
+            console.log(data.error.message);
             
         }
     });
