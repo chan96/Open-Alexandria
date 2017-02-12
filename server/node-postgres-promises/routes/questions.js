@@ -80,11 +80,12 @@ function postQuestion(req, res, next) {
   var creatorID = req.query.creatorid;
   var token = req.cookies.token;
 
-  var dbInsert = 'insert into questions set(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) = ($1, $2, $3, $4)';
+  var dbInsert = 'insert into questions(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) values($1, $2, $3, $4);'
+
   db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
     .then(function(){
       res.status(200).json({
-        status: "Successful profile changed",
+        status: "Successful question insert",
         code: 1,
         title: qTitle,
         body: qBody,
@@ -94,9 +95,15 @@ function postQuestion(req, res, next) {
     })
   .catch(function(err){
     res.status(400).json({
-      status: "Error cannot change profile",
+      status: "Error cannot insert question",
       code: -1,
       error: {name:err.name, message: err.message}
     });
   });
 }
+
+module.exports = {
+  getQuestions: getQuestions,
+  getQuestionInfo: getQuestionInfo,
+  postQuestion: postQuestion
+};
