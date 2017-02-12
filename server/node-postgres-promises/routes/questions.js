@@ -72,3 +72,31 @@ function getQuestionInfo(req, res, next) {
     console.log(err);
   });
 }
+
+function postQuestion(req, res, next) {
+  var qTitle = req.query.questiontitle;
+  var qBody = req.query.questionbody;
+  var qCourseID = req.query.courseid;
+  var creatorID = req.query.creatorid;
+  var token = req.cookies.token;
+
+  var dbInsert = 'insert into questions set(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) = ($1, $2, $3, $4)';
+  db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
+    .then(function(){
+      res.status(200).json({
+        status: "Successful profile changed",
+        code: 1,
+        title: qTitle,
+        body: qBody,
+        courseid: qCourseID,
+        creatorid: creatorID
+      });
+    })
+  .catch(function(err){
+    res.status(400).json({
+      status: "Error cannot change profile",
+      code: -1,
+      error: {name:err.name, message: err.message}
+    });
+  });
+}
