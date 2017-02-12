@@ -196,7 +196,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
 })(jQuery, window, document);
 
 $( ".talk-bubble" ).click(function() {
-    location.href = './qa.html?coursename=' + coursename + '&school=' + 'todo' + '&question=' + 'todo';//question;
+    location.href = globalUrl + 'qa.html?coursename=' + coursename + '&school=' + 'todo' + '&question=' + 'todo';//question;
     //window.location = './qa.html';
 });
 $('#topic').upvote();

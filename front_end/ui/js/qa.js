@@ -13,7 +13,7 @@ function getAnswers(questionID) {
 function createQuestion(cn, cd, s) {
     $.ajax({
         type: "POST",
-        url: 'http://Openalexandria.us.to/createQuestion/',
+        url: globalUrl + 'createQuestion/',
         data: ({
                 courseid    : cId,
                 userid      : uId,
