@@ -9,6 +9,7 @@ var queries = require('./queries');
 var users = require('./users');
 var courses = require('./courses');
 var documents = require('./documents');
+var subscriptions = require('./subscriptions');
 var questions = require('./questions');
 
 var mockdata = require('../utils/MOCK_DATA');
@@ -130,6 +131,10 @@ router.get('/disableDocument', documents.disableDocument);
  * @param {string} uniqueid
  */
 router.get('/enableDocument', documents.enableDocument);
+
+router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
+router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
+
 /**
  * GET getQuestions
  * @param {cookie} token
