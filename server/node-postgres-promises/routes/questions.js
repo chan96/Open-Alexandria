@@ -23,8 +23,12 @@ function getQuestions(req, res, next) {
   var school = req.query.school;
   var token = req.cookies.token;
 
+  //query to get the questions of a course based on given school name and course.
+  //Does not need courseID.
+  //select * from courses c inner join universities u on u.universities_unique_id=c.courses_unique_id inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.courses_name='COURSE_NAME_HERE' and u.universities_name='SCHOOL_NAME_HERE';
+
+  //gets questions based off of given course ID. Not as safe?
   var dbSelect = " select * from courses c inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.COURSES_UNIQUE_ID=$1;"
-    //"select * from courses c, school s inner join s on s.school_id=courses_school_id where COURSES_NAME = $1 and COURSES_ISACTIVE = true;";
 
   db.any(dbSelect, [keyword])
     .then(function(data){
