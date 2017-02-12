@@ -35,10 +35,9 @@ function getQuestions(req, res, next) {
       var commonString = [];
       for(var i = 0; i < data.length; i++){
         var courseInfo = {
-          coursename: data[i].courses_name,
-          coursedescription: data[i].courses_description,
-          coursenummember: data[i].courses_nummember,
-          courseuniqueid: data[i].courses_unique_id
+          title: data[i].questions_title,
+          datecreated: data[i].questions_datecreated,
+          dateupdated: data[i].questions_dateupdated
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
