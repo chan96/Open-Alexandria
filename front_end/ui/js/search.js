@@ -1,6 +1,26 @@
-var coursename;
-
+var courseName;
+var courseID;
 $(document).ready(function() {
+    
+    setListeners();
+    
+    courseName = getUrlParameter('coursename');
+    courseID = getUrlParameter('courseid');
+
+    $('.course-name').text(coursename);
+    $('.course-name').css("font-weight","Bold");
+    
+    getQuestions(courseID);
+});
+
+function setListeners() {
+    setDocumentGridListener();
+    setNewDocumentListener();
+    setNewFlashcardListener();
+    setNewQuestionListener();
+}
+
+function setDocumentGridListener() {
     $('#pinBoot').pinterest_grid({
         no_columns: 4,
         padding_x: 10,
@@ -8,11 +28,21 @@ $(document).ready(function() {
         margin_bottom: 50,
         single_column_breakpoint: 700
     });
-    coursename = getUrlParameter('coursename');
+}
+
+function setNewQuestionListener() {
+    $('#newQuestionBttn').click(function () {
+        
+    });
+}
+
+function setNewFlashcardListener() {
     
-    $('.course-name').text(coursename);
-    $('.course-name').css("font-weight","Bold");
-});
+}
+
+function setNewDocumentListener() {
+    
+}
 
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -199,6 +229,48 @@ $( ".talk-bubble" ).click(function() {
     location.href = globalUrl + 'qa.html?coursename=' + coursename + '&school=' + 'todo' + '&question=' + 'todo';//question;
     //window.location = './qa.html';
 });
+
+function postQuestion(cid, qt, qb, uid) {
+    $.ajax({
+        type: "POST",
+        url: globalUrl + 'postQuestions/',
+        data: ({ courseid : cid, questiontitle : qt, questionbody : qb, creatorid : uid}),
+        dataType: "html",
+        success: function(data) {
+            console.log(data);
+        },
+        error: function(data) {
+            console.log(data.error.message);
+            
+        }
+    });
+}
+
+
+function getQuestions(cid) {
+     $.ajax({
+        type: "GET",
+        url: globalUrl + 'getQuestions/',
+        data: ({ courseid : cid}),
+        dataType: "html",
+        success: function(data) {
+            console.log(data);
+        },
+        error: function(data) {
+            console.log(data.error.message);
+            
+        }
+    });
+    for (var i = 0; i < 3; i++) {
+        var $div = $('div[id^="question"]:last');
+        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
+        var $question = $div.clone().prop('id', 'question'+num );
+        $question.show();
+        $('#questions-row').append($question);
+    }
+
+}
+
 $('#topic').upvote();
 $('#topic').upvote({count: 5, upvoted: 1});
 $('#topic').upvote({count: 5, downvoted: 1});

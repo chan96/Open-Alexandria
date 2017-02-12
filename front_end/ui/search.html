@@ -69,7 +69,7 @@
         <div class="container">
             <h1 class="course-name centering"><strong></strong></h1>
             <div class="row">
-                
+
                 <h1>Documents</h1>
                 <hr>
                 <section id="pinBoot">
@@ -208,50 +208,54 @@
 
         </div>
 
-        <div class="container">
+        <div class="questions-container container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1><strong>Questions</strong></h1>
+                    <h1 class="section"><strong>Questions</strong></h1>
+<!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
+                    <button id="newQuestionBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#questionModal" data-whatever="@mdo">+</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-4">
+            <div id="questions-row" class="row">
+                <div hidden id="question0" class="col-sm-4">
                     <div class="talk-bubble tri-right left-top">
                         <div class="talktext">
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus.  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
+                            <p></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="talk-bubble tri-right left-top">
-                        <div class="talktext">
-                            <p> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Question</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="message-title" class="form-control-label">Title:</label>
+                                <input type="text" class="form-control" id="recipient-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">Body:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
                     </div>
-                <div class="col-sm-4">
-                    <div class="talk-bubble tri-right left-top">
-                        <div class="talktext">
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="talk-bubble tri-right left-top">
-                        <div class="talktext">
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus. nisi ut aliquid ex ea commodi consequatur?</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="talk-bubble tri-right left-top">
-                        <div class="talktext">
-                            <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil. At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
-                        </div>
-                    </div>
-                </div>
                 </div>
             </div>
+        </div>
 
 
         <nav class="navbar fixed-bottom navbar-light bg-faded centering navbar-custom">
