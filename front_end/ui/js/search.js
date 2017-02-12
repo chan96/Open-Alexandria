@@ -1,12 +1,16 @@
+var coursename;
+
 $(document).ready(function() {
-$('#pinBoot').pinterest_grid({
-no_columns: 4,
-padding_x: 10,
-padding_y: 10,
-margin_bottom: 50,
-single_column_breakpoint: 700
-});
-    $('.course-name').text(getUrlParameter('coursename'));
+    $('#pinBoot').pinterest_grid({
+        no_columns: 4,
+        padding_x: 10,
+        padding_y: 10,
+        margin_bottom: 50,
+        single_column_breakpoint: 700
+    });
+    coursename = getUrlParameter('coursename');
+    
+    $('.course-name').text(coursename);
     $('.course-name').css("font-weight","Bold");
 });
 
@@ -95,7 +99,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
             row = 0,
             $container = $(this.element),
             container_width = $container.width();
-            $article = $(this.element).children();
+        $article = $(this.element).children();
 
         if(single_column_mode === true) {
             article_width = $container.width() - self.options.padding_x;
@@ -184,7 +188,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
         return this.each(function () {
             if (!$.data(this, 'plugin_' + pluginName)) {
                 $.data(this, 'plugin_' + pluginName,
-                new Plugin(this, options));
+                       new Plugin(this, options));
             }
         });
     }
@@ -192,7 +196,8 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
 })(jQuery, window, document);
 
 $( ".talk-bubble" ).click(function() {
-  window.location = './qa.html';
+    location.href = globalUrl + 'qa.html?coursename=' + coursename + '&school=' + 'todo' + '&question=' + 'todo';//question;
+    //window.location = './qa.html';
 });
 $('#topic').upvote();
 $('#topic').upvote({count: 5, upvoted: 1});

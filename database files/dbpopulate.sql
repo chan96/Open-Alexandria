@@ -27,6 +27,7 @@ CREATE TABLE COURSES(
   COURSES_UNIQUE_ID serial primary key not null,
   COURSES_DATECREATED timestamp default current_timestamp,
   COURSES_DATEUPDATED timestamp default current_timestamp,
+  COURSES_SCHOOL_ID int default 0,
   COURSES_NUMMEMBER int default 0,
   COURSES_NAME varchar not null,
   COURSES_DESCRIPTION varchar default 'A simple course',
@@ -86,6 +87,7 @@ CREATE TABLE FLASHCARDDECKS(
   FLASHCARDDECKS_NAME varchar not null default 'flashcard deck',
   FLASHCARDDECKS_DESCRIPTION varchar not null default 'This is a deck of flashcards',
   FLASHCARDDECKS_NUMCARDS int not null default 0,
+  FLASHCARDDECKS_ISACTIVE boolean not null default true,
   FLASHCARDDECKS_DATECREATED timestamp default current_timestamp,
   FLASHCARDDECKS_DATEUPDATED timestamp default current_timestamp
 );
@@ -110,11 +112,11 @@ insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIV
  values ('Emma','Johnson', false, true, 'emma1@openalex.com', 'hunter2', 'Original Test User Account', 'default');
 
 
-insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION, COURSES_ISACTIVE) values ('MA 26500','Linear Algebra', false); 
-insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 18000','Problem Solving And Object-Oriented Programming');
-insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 18200','Foundations Of Computer Science');
-insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 24000','Programming In C');
-insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ('CS 25000','Computer Architecture'); 
+insert into COURSES (COURSES_SCHOOL_ID, COURSES_NAME, COURSES_DESCRIPTION, COURSES_ISACTIVE) values (8384, 'MA 26500','Linear Algebra', false); 
+insert into COURSES (COURSES_SCHOOL_ID, COURSES_NAME, COURSES_DESCRIPTION) values (8384, 'CS 18000','Problem Solving And Object-Oriented Programming');
+insert into COURSES (COURSES_SCHOOL_ID, COURSES_NAME, COURSES_DESCRIPTION) values (8384, 'CS 18200','Foundations Of Computer Science');
+insert into COURSES (COURSES_SCHOOL_ID, COURSES_NAME, COURSES_DESCRIPTION) values (8384, 'CS 24000','Programming In C');
+insert into COURSES (COURSES_SCHOOL_ID, COURSES_NAME, COURSES_DESCRIPTION) values (7847, 'CS 25000','Computer Architecture'); 
 
 insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE) values ('Cake' , 'http://i.imgur.com/6Vvno2g.jpg',1,2,'picture');
 update COURSES set COURSES_DATEUPDATED = current_timestamp where COURSES_UNIQUE_ID = 1;
@@ -126,4 +128,6 @@ update COURSES set COURSES_NUMMEMBER = 1 where COURSES_UNIQUE_ID = 1;
 insert into SUBSCRIPTIONS (SUBSCRIPTIONS_COURSES_ID, SUBSCRIPTIONS_USERS_ID) values (2,1);
 update COURSES set COURSES_NUMMEMBER = 1 where COURSES_UNIQUE_ID = 2;
 
-
+insert into FLASHCARDDECKS (FLASHCARDDECKS_COURSES_ID, FLASHCARDDECKS_USERS_ID, FLASHCARDDECKS_NAME) values (2,2,'Java Volcab');
+insert into FLASHCARDS (FLASHCARDS_FLASHCARDSDECKS_ID, FLASHCARDS_FRONT, FLASHCARDS_BACK) values (1,'What is ASCII?',' A standard assignment of 7-bit numeric codes to characters.');
+update FLASHCARDDECKS set FLASHCARDDECKS_DATEUPDATED =  current_timestamp where FLASHCARDDECKS_UNIQUE_ID = 1;

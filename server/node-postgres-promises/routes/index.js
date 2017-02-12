@@ -10,6 +10,7 @@ var users = require('./users');
 var courses = require('./courses');
 var documents = require('./documents');
 var subscriptions = require('./subscriptions');
+var questions = require('./questions');
 
 var mockdata = require('../utils/MOCK_DATA');
 
@@ -134,5 +135,26 @@ router.get('/enableDocument', documents.enableDocument);
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
 
+/**
+ * GET getQuestions
+ * @param {cookie} token
+ * @param {int} courseid
+ */
+router.get('/getQuestions', questions.getQuestions);
+/**
+ * GET getQuestionInfo
+ * @param {cookie} token
+ * @param {int} questionid
+ */
+router.get('/getQuestionInfo', questions.getQuestionInfo);
+/**
+ * POST postQuestion
+ * @param {cookie} token
+ * @param {string} questiontitle
+ * @param {string} questionbody
+ * @param {int} courseid
+ * @param {int} creatorid
+ */
+router.post('/postQuestion', questions.postQuestion);
 
 module.exports = router;

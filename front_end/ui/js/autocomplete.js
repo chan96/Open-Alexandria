@@ -1,12 +1,12 @@
 
 $('#autocomplete').autocomplete({
-    serviceUrl: 'http://Openalexandria.us.to/getCourseKeyword/',
+    serviceUrl: globalUrl + 'getCourseKeyword/',
     onSelect: function (suggestion) {
         //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
         console.log(suggestion.data);
         console.log(suggestion.data.coursename);
         
-        location.href = 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename.replace(/\s+/g, '');
+        location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename.replace(/\s+/g, '');
         
     }
 })
