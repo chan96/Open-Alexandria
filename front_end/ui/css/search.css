@@ -3,7 +3,10 @@ img {
     width: 100%;
 }
 .btn-primary {
-     background: magenta;
+     //background: magenta;
+}
+.inline {
+	display: inline;
 }
 /*
 Ref:

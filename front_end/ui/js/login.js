@@ -1,11 +1,11 @@
 function submitLogin(form){
-  var theUrl = "http://localhost:3000/loginUser";
+  var theUrl = globalUrl + "loginUser";
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
   console.log("FUCK");
   $.post(theUrl, formData, function (data) {
         console.log("SHIT");
-        window.location.href = "http://localhost:3000";
+        window.location.href = globalUrl;
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       console.log("DOONE");
