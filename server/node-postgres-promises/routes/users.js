@@ -46,7 +46,7 @@ function loginUser(req, res, next) {
       var adminStatus = data.users_isadmin;
       ttl = 60*60*24*7;
       token = userAuth.addUserToMap(data.users_unique_id, ttl, adminStatus);
-      res.cookie('token', token, {maxAge: ttl, httpOnly: true});
+      res.cookie('token', token, {maxAge: ttl, httpOnly: false});
       res.status(200).json({
         status: "Successful login",
         code: 1,
