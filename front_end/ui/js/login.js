@@ -4,11 +4,12 @@ function submitLogin(form){
   var formData = $(form).serializeArray();
   console.log("FUCK");
   $.post(theUrl, formData, function (data) {
-        console.log("SHIT");
+        //console.log("SHIT");
         window.location.href = "http://localhost:3000";
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       console.log("DOONE");
+      //document.cookie;
 
     }).fail(function (){
         $("#incorrect").html("<p>Login Incorrect</p>");
