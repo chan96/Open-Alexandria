@@ -28,14 +28,14 @@ function validate() {
 function createCourse(cn, cd, s) {
      $.ajax({
         type: "POST",
-        url: 'http://Openalexandria.us.to/getCourseKeyword/',
+        url: 'http://Openalexandria.us.to/addNewCourse/',
         data: ({ coursename : cn, coursedescription: cd, school : s}),
         dataType: "html",
         success: function(data) {
             console.log(data);
         },
         error: function(data) {
-            alert(data);
+            console.log(data.error.message);
             
         }
     });
