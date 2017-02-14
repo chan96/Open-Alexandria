@@ -11,6 +11,8 @@ var courses = require('./courses');
 var documents = require('./documents');
 var subscriptions = require('./subscriptions');
 var questions = require('./questions');
+var answers = require('./answers');
+
 
 var mockdata = require('../utils/MOCK_DATA');
 
@@ -156,5 +158,11 @@ router.get('/getQuestionInfo', questions.getQuestionInfo);
  * @param {int} creatorid
  */
 router.post('/postQuestion', questions.postQuestion);
+
+router.post('/addAnswerToQuestion', answers.addAnswerToQuestion);
+router.post('/editAnswer', answers.editAnswer);
+router.get('/disableAnswer', answers.disableAnswer);
+router.get('/enableAnswer', answers.enableAnswer);
+router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
 
 module.exports = router;

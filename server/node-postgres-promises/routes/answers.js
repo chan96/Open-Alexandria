@@ -31,7 +31,7 @@ function addAnswerToQuestion(req, res, next){
 
   var dbInsert = "insert into answers (ANSWERS_QUESTIONS_ID, ANSWERS_COURSES_ID, ANSWERS_USERS_ID, ANSWERS_BODY) values ($1, $2, $3, $4);";
 
-  db.none(dbInsert, [questionsid, courseid, userid, answerbody])
+  db.none(dbInsert, [questionid, courseid, userid, answerbody])
     .then(function(data){
       res.status(200).json({
         status: "Succesful question added",
@@ -46,8 +46,8 @@ function addAnswerToQuestion(req, res, next){
     });
 }
 
-function editAnswerToQuestion(req, res, next){
-  var questionid = req.query.questionid;
+function editAnswer(req, res, next){
+  var answerid = req.query.answerid;
   var answerbody = req.body.answerbody;
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
@@ -57,25 +57,37 @@ function editAnswerToQuestion(req, res, next){
     });
   }
 
-  var dbUpdate = "update answers set (ANSWERS_BODY) = ($1) where ANSWERS_QUESTIONS_ID = $2 and ANSWERS_ISACTIVE = true;";
+  var dbSelect = "select * from answers where ANSWERS_UNIQUE_ID = $1 and ANSWERS_ISACTIVE = true;";
+  var dbUpdate = "update answers set (ANSWERS_BODY) = ($1) where ANSWERS_UNIQUE_ID = $2 and ANSWERS_ISACTIVE = true;";
 
-  db.none(dbUpdate, [answerbody, 50])
+  db.one(dbSelect, [answerid])
     .then(function(){
-      res.status(200).json({
-        status: "Succesful question updated",
-        code: 1
-      });
+      db.none(dbUpdate, [answerbody, answerid])
+        .then(function(){
+          res.status(200).json({
+            status: "Succesful question updated",
+            code: 1
+          });
+        }).catch(function(err){
+          res.status(500).json({
+            status: "Error unknown",
+            error: {name: err.name, message: err.message},
+            code: -1 
+          });
+        });
+
     }).catch(function(err){
       res.status(500).json({
         status: "Error unknown",
         error: {name: err.name, message: err.message},
         code: -1 
       });
+
     });
 }
 
-function deleteAnswerToQuestion(req, res, next){
-  var questionid = req.query.questionid;
+function disableAnswer(req, res, next){
+  var answerid = req.query.answerid;
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
     res.status(401).json({
@@ -84,9 +96,9 @@ function deleteAnswerToQuestion(req, res, next){
     });
   }
 
-  var dbUpdate = "update answers set (ANSWERS_ISACTIVE) = (false) where ANSWERS_QUESTIONS_ID = $1 and ANSWERS_ISACTIVE = true;";
+  var dbUpdate = "update answers set (ANSWERS_ISACTIVE) = (false) where ANSWERS_UNIQUE_ID = $1 and ANSWERS_ISACTIVE = true;";
 
-  db.none(dbUpdate, [questionid])
+  db.none(dbUpdate, [answerid])
     .then(function(){
       res.status(200).json({
         status: "Succesful disabled question",
@@ -101,8 +113,8 @@ function deleteAnswerToQuestion(req, res, next){
     });
 }
 
-function getAnswerByQuestion(req, res, next){
-  var questionid = req.query.questionid;
+function enableAnswer(req, res, next){
+  var answerid = req.query.answerid;
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
     res.status(401).json({
@@ -111,23 +123,44 @@ function getAnswerByQuestion(req, res, next){
     });
   }
 
+  var dbUpdate = "update answers set (ANSWERS_ISACTIVE) = (true) where ANSWERS_UNIQUE_ID = $1 and ANSWERS_ISACTIVE = false;";
+
+  db.none(dbUpdate, [answerid])
+    .then(function(){
+      res.status(200).json({
+        status: "Succesful enabled question",
+        code: 1
+      });
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1 
+      });
+    });
+}
+
+
+function getAnswersToQuestion(req, res, next){
+  var questionid = req.query.questionid;
+
   var dbSelect = "select * from answers where ANSWERS_QUESTIONS_ID = $1 and ANSWERS_ISACTIVE = true;";
 
   db.any(dbSelect, [questionid])
     .then(function(data){
-      var commonString = []l
-      for(int i = 0; i < data.length; i++){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
         var answersInfo = {
           answersuniqueid: data[i].ANSWERS_UNIQUE_ID,
-          answersquestionsid = data[i].ANSWERS_QUESTIONS_ID,
-          answerscoursesid = data[i].ANSWERS_COURSES_ID ,
-          answersusersid = data[i].ANSWERS_USERS_ID,
-          answersbody = data[i].ANSWERS_BODY,
-          answersupdated = data[i].ANSWERS_DATEUPDATED,
-          answerslike = data[i].ANSWERS_NUMLIKE,
-          answersdislike = data[i].ANSWERS_NUMDISLIKE,
+          answersquestionsid: data[i].ANSWERS_QUESTIONS_ID,
+          answerscoursesid: data[i].ANSWERS_COURSES_ID ,
+          answersusersid: data[i].ANSWERS_USERS_ID,
+          answersbody: data[i].ANSWERS_BODY,
+          answersupdated: data[i].ANSWERS_DATEUPDATED,
+          answerslike: data[i].ANSWERS_NUMLIKE,
+          answersdislike: data[i].ANSWERS_NUMDISLIKE
         }
-        commonString.push({value:data[i], data:answersIndo});
+        commonString.push({value:data[i], data:answersInfo});
       }
       res.status(200).json({
         suggestions:commonString  
@@ -143,6 +176,9 @@ function getAnswerByQuestion(req, res, next){
 }
 
 module.exports = {
-  getRelatedItems: getRelatedItems,
-  uploadDocuments: uploadDocuments,
+  addAnswerToQuestion: addAnswerToQuestion,
+  editAnswer: editAnswer,
+  disableAnswer: disableAnswer,
+  enableAnswer: enableAnswer,
+  getAnswersToQuestion: getAnswersToQuestion
 };
