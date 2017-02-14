@@ -1,15 +1,14 @@
 var courseName;
-var courseID;
+
 $(document).ready(function() {
-    
+
     setListeners();
-    
+
     courseName = getUrlParameter('coursename');
-    courseID = getUrlParameter('courseid');
 
     $('.course-name').text(coursename);
     $('.course-name').css("font-weight","Bold");
-    
+
     getQuestions(courseID);
 });
 
@@ -17,7 +16,7 @@ function setListeners() {
     setDocumentGridListener();
     setNewDocumentListener();
     setNewFlashcardListener();
-    setNewQuestionListener();
+    setNewPostQuestionListener();
 }
 
 function setDocumentGridListener() {
@@ -30,18 +29,60 @@ function setDocumentGridListener() {
     });
 }
 
-function setNewQuestionListener() {
-    $('#newQuestionBttn').click(function () {
-        
+function setNewPostQuestionListener() {
+
+    $('#postBttn').click(function () {
+        var questionTitle = $('#question-title').val();
+        var questionBody = $('#question-body').val();
+        var userid = getUserID;
+        var courseID = getUrlParameter('courseid');
+        var postBttn = $('#postBttn');
+        console.log('courseID ' + courseID);
+
+        postBttn.prop('disabled', true);
+        postBttn.text('Submitting...');
+
+        $.ajax({
+            type: "POST",
+            url: globalUrl + 'postQuestion/',
+            data: ({ questiontitle : questionTitle,
+                    questionbody : questionBody,
+                    courseid : cid,
+                    creatorid : userid}),
+            dataType: "html",
+            success: function(data) {
+                console.log(data);
+                postBttn.prop('enabled', true);
+                postBttn.text('Post Question');
+
+
+            },
+            error: function(data) {
+                console.log(data.error.message);
+                postBttn.prop('enabled', true);
+                postBttn.text('Post Question');
+                alert('Cannot connect');
+
+
+            }
+        });
     });
 }
 
 function setNewFlashcardListener() {
-    
+
 }
 
 function setNewDocumentListener() {
-    
+
+}
+
+function getUserID() {
+    var userID = document.cookie.split(';')[1].split('=')[1];
+
+    console.log('userID = ' + userID);
+
+    return userID;
 }
 
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -241,14 +282,14 @@ function postQuestion(cid, qt, qb, uid) {
         },
         error: function(data) {
             console.log(data.error.message);
-            
+
         }
     });
 }
 
 
 function getQuestions(cid) {
-     $.ajax({
+    $.ajax({
         type: "GET",
         url: globalUrl + 'getQuestions/',
         data: ({ courseid : cid}),
@@ -258,7 +299,7 @@ function getQuestions(cid) {
         },
         error: function(data) {
             console.log(data.error.message);
-            
+
         }
     });
     for (var i = 0; i < 3; i++) {
