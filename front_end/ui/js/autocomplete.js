@@ -10,7 +10,7 @@ $('#autocomplete').autocomplete({
         console.log(suggestion.data);
         console.log(suggestion.data.coursename);
 
-        location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename.replace(/\s+/g, '');
+        location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename;
 
     },
     
