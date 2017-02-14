@@ -120,7 +120,7 @@ function unsubscribeUserToCourse(req,res, next){
       });
     });
 }
-
+/*
 function subscriptionByUser(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
@@ -132,7 +132,7 @@ function subscriptionByUser(req, res, next){
   }
 //select subscriptions.subscriptions_courses_id, subscriptions.subscriptions_unique_id, courses.courses_name from subscriptions inner join courses  on courses.courses_unique_id = subscriptions.subscriptions_courses_id and subscriptions.subscriptions_users_id = 2;
 
-  va dbSelect = 'select * from subscriptions where SUBSCRIPTIONS_USERS_ID = $1 and SUBSCRIPTIONS_ISACTIVE = true;';
+  var dbSelect = 'select * from subscriptions where SUBSCRIPTIONS_USERS_ID = $1 and SUBSCRIPTIONS_ISACTIVE = true;';
   var dbSelectCourse = 'select * from courses where COURSES_UNIQUE_IS = $1 and COURSES_ISACTIVE = true;';
   db.any(dbSelect, [userid])
     .then(function(data){
@@ -155,7 +155,7 @@ function subscriptionByUser(req, res, next){
 function subscriptionByCourse(req, res, next){
 
 }
-
+*/
 module.exports = {
   subscribeUserToCourse: subscribeUserToCourse,
   unsubscribeUserToCourse: unsubscribeUserToCourse,
