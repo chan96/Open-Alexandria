@@ -36,7 +36,8 @@ function loginUser(req, res, next) {
           res.status(200).json({
             status: "Already logged in",
             code: 1,
-            ttl: ttl
+            ttl: ttl,
+            userid: data.users_unique_id
           });
           return;
         }
@@ -45,11 +46,14 @@ function loginUser(req, res, next) {
       var adminStatus = data.users_isadmin;
       ttl = 60*60*24*7;
       token = userAuth.addUserToMap(data.users_unique_id, ttl, adminStatus);
-      res.cookie('token', token, {maxAge: ttl, httpOnly: true});
+      res.cookie('token', token, {maxAge: ttl, httpOnly: false});
+      res.cookie('userid', data.users_unique_id, {maxAge: ttl, httpOnly:false});
+      res.cookie('isadmin', data.users_isadmin, {maxAge: ttl, httpOnly: false});
       res.status(200).json({
         status: "Successful login",
         code: 1,
-        ttl: ttl
+        ttl: ttl,
+        userid: data.users_unique_id
       });
     }).catch(function(err){
       res.status(401).json({
@@ -117,7 +121,8 @@ function getUserInfo(req, res, next){
         code: 1,
         firstname: data.users_firstname,
         lastname: data.users_lastname,
-        email: data.users_email
+        email: data.users_email,
+        isadmin: data.users_isadmin
       });
     })
   .catch(function(err){
@@ -155,10 +160,70 @@ function editUserInfo(req, res, next){
   });
 }
 
+function disableUser(req, res, next){
+  var userid = req.query.userid;
+  var adminid = userAuth.getUserID(req.cookies.token);
+  var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
+  if(!userid || !adminStatus){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+
+  var dbUpdate = 'update users set(USERS_ISACTIVE) = (false) where USERS_UNIQUE_ID = $1;';
+
+  db.none(dbUpdate, [userid])
+    .then(function(){
+      res.status(200).json({
+        status: "Successful disable users",
+        code: 1
+      }); 
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+function enableUser(req, res, next){
+  var userid = req.query.userid;
+  var adminid = userAuth.getUserID(req.cookies.token);
+  var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
+  if(!userid || !adminStatus){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+
+  var dbUpdate = 'update users set(USERS_ISACTIVE) = (true) where USERS_UNIQUE_ID = $1;';
+
+  db.none(dbUpdate, [userid])
+    .then(function(){
+      res.status(200).json({
+        status: "Successful enable users",
+        code: 1
+      }); 
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
 module.exports = {
   loginUser: loginUser,
   logoutUser: logoutUser,
   createNewUser: createNewUser,
   getUserInfo: getUserInfo,
   editUserInfo: editUserInfo,
+  enableUser: enableUser,
+  disableUser: disableUser
 };
