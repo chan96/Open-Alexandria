@@ -33,6 +33,12 @@ function setDocumentGridListener() {
 }
 
 function setGetQuestionListener() {
+
+    $('#questionModal').on('show.bs.modal', function (e) {
+        if (document.cookie == '') {
+          location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+        }
+    })
     setQuestions(courseID);
 }
 
