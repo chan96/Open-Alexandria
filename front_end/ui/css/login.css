@@ -5,7 +5,6 @@ over-ride "Weak" message, show font in dark grey
 .progress-bar {
     color: #333;
 } 
-
 #login .form-control {
 	position: relative;
 	font-size: 16px;
@@ -19,6 +18,7 @@ over-ride "Weak" message, show font in dark grey
 }
 .login-form {
 	margin-top: 60px;
+	min-width: 350px;
 }
 
 #login form[role=login] {

@@ -32,15 +32,19 @@ function subscribeUserToCourse(req, res, next){
   var dbInsert = 'insert into SUBSCRIPTIONS (SUBSCRIPTIONS_COURSES_ID, SUBSCRIPTIONS_USERS_ID) values ($1, $2);';
   var dbUpdate = 'update SUBSCRIPTIONS set SUBSCRIPTIONS_ISACTIVE = true where SUBSCRIPTIONS_UNIQUE_ID = $1';
   var dbSelect = "select * from SUBSCRIPTIONS where SUBSCRIPTIONS_COURSES_ID = $1 and SUBSCRIPTIONS_USERS_ID = $2;";
+  var dbUpdateCourse = 'update courses set COURSES_nummember = COURSES_NUMMEMBER+1 where courses_unique_id = $1';
   db.oneOrNone(dbSelect, [courseid, userid])
     .then(function(data){
       if(data == null){
         db.none(dbInsert, [courseid, userid])
           .then(function(data){
-            res.status(200).json({
-              status: "Successful course update",
-              code: 1
-            });
+            db.none(dbUpdateCourse, [courseid])
+              .then(function(){
+                res.status(200).json({
+                  status: "Successful course update",
+                  code: 1
+                });
+              });
           }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
@@ -51,10 +55,13 @@ function subscribeUserToCourse(req, res, next){
       } else if(data.subscriptions_isactive == false){
         db.none(dbUpdate, [data.subscriptions_unique_id])
           .then(function(data){
-            res.status(200).json({
-              status: "Successful course update",
-              code: 1
-            });
+            db.none(dbUpdateCourse, [courseid])
+              .then(function(){
+                res.status(200).json({
+                  status: "Successful course update",
+                  code: 1
+                });
+              });
           }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
@@ -90,15 +97,20 @@ function unsubscribeUserToCourse(req,res, next){
 
   var dbUpdate = 'update SUBSCRIPTIONS set SUBSCRIPTIONS_ISACTIVE = false where SUBSCRIPTIONS_UNIQUE_ID = $1';
   var dbSelect = "select * from SUBSCRIPTIONS where SUBSCRIPTIONS_COURSES_ID = $1 and SUBSCRIPTIONS_USERS_ID = $2;";
+  var dbUpdateCourse = 'update courses set COURSES_nummember = COURSES_NUMMEMBER-1 where courses_unique_id = $1';
+
   db.oneOrNone(dbSelect, [courseid, userid])
     .then(function(data){
       if(data.subscriptions_isactive == true){
         db.none(dbUpdate, [data.subscriptions_unique_id])
           .then(function(data){
-            res.status(200).json({
-              status: "Successful course unsubscription",
-              code: 1
-            });
+            db.none(dbUpdateCourse, [courseid])
+              .then(function(){
+                res.status(200).json({
+                  status: "Successful course unsubscription",
+                  code: 1
+                });
+              });
           }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
@@ -120,8 +132,9 @@ function unsubscribeUserToCourse(req,res, next){
       });
     });
 }
-/*
-function subscriptionByUser(req, res, next){
+
+
+function subscriptionsByUser(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
     res.status(401).json({
@@ -130,33 +143,90 @@ function subscriptionByUser(req, res, next){
     });
     return;
   }
-//select subscriptions.subscriptions_courses_id, subscriptions.subscriptions_unique_id, courses.courses_name from subscriptions inner join courses  on courses.courses_unique_id = subscriptions.subscriptions_courses_id and subscriptions.subscriptions_users_id = 2;
+  //select subscriptions.subscriptions_courses_id, subscriptions.subscriptions_unique_id, courses.courses_name from subscriptions inner join courses  on courses.courses_unique_id = subscriptions.subscriptions_courses_id and subscriptions.subscriptions_users_id = 2;
+  var dbSelect = `SELECT subscriptions.subscriptions_courses_id, 
+  subscriptions.subscriptions_unique_id, 
+  courses.courses_name, 
+  universities.universities_name 
+    FROM   subscriptions 
+    INNER JOIN courses 
+    ON courses.courses_unique_id = 
+    subscriptions.subscriptions_courses_id 
+    AND subscriptions.subscriptions_users_id = $1
+    INNER JOIN universities 
+    ON universities.universities_unique_id = 
+    courses.courses_school_id;`;
 
-  var dbSelect = 'select * from subscriptions where SUBSCRIPTIONS_USERS_ID = $1 and SUBSCRIPTIONS_ISACTIVE = true;';
-  var dbSelectCourse = 'select * from courses where COURSES_UNIQUE_IS = $1 and COURSES_ISACTIVE = true;';
   db.any(dbSelect, [userid])
     .then(function(data){
       var commonString = [];
       for(var i = 0; i < data.length; i++){
-        db.one(dbSelectCourse, data[i].subscriptions_courses_id
         var subscriptionInfo = {
-          subscriptionuniqueid = data[i].subscriptions_unique_id,
-          subscriptioncourseid = data[i].subscriptions_courses_id,
+          courseid: data[i].subscriptions_courses_id,
+          subscriptionid: data[i].subscriptions_unique_id,
+          coursename: data[i].courses_name,
+          universityname: data[i].universities_name
         }
-        commonString.push({value: 
+        commonString.push({value:subscriptionInfo.coursename, data:subscriptionInfo});
       }
+      res.status(200).json({suggestions:commonString});
     }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
 
     });
-
-
 }
 
-function subscriptionByCourse(req, res, next){
+function subscriptionsByCourse(req, res, next){
+  var courseid = req.query.courseid;
 
+  var dbSelect = `SELECT subscriptions.subscriptions_courses_id, 
+  subscriptions.subscriptions_unique_id, 
+  courses.courses_name, 
+  universities.universities_name, 
+  users.users_email, 
+  users.users_unique_id 
+    FROM   subscriptions 
+    INNER JOIN courses 
+    ON courses.courses_unique_id = 
+    subscriptions.subscriptions_courses_id 
+    AND courses.courses_unique_id = 1 
+    INNER JOIN universities 
+    ON universities.universities_unique_id = 
+    courses.courses_school_id 
+    INNER JOIN users 
+    ON users.users_unique_id = subscriptions.subscriptions_users_id;`;
+
+  db.any(dbSelect, [courseid])
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        var subscriptionInfo = {
+          courseid: data[i].subscriptions_courses_id,
+          subscriptionid: data[i].subscriptions_unique_id,
+          coursename: data[i].courses_name,
+          universityname: data[i].universities_name,
+          email: data[i].users_email,
+          userid: data[i].users_unique_id
+        }
+        commonString.push({value:subscriptionInfo.users_email, data:subscriptionInfo});
+      }
+      res.status(200).json({suggestions:commonString});
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
 }
-*/
+
 module.exports = {
   subscribeUserToCourse: subscribeUserToCourse,
   unsubscribeUserToCourse: unsubscribeUserToCourse,
+  subscriptionsByUser: subscriptionsByUser,
+  subscriptionsByCourse: subscriptionsByCourse,
 };

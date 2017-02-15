@@ -53,6 +53,9 @@ router.get('/getUserInfo', users.getUserInfo);
  */
 router.post('/editUserInfo', users.editUserInfo);
 
+router.get('/enableUser', users.enableUser);
+router.get('/disableUser', users.disableUser);
+
 /**
  * POST addNewCourse
  * @param {cookie} token
@@ -136,6 +139,8 @@ router.get('/enableDocument', documents.enableDocument);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
+router.get('/subscriptionsByUser', subscriptions.subscriptionsByUser);
+router.get('/subscriptionsByCourse', subscriptions.subscriptionsByCourse);
 
 /**
  * GET getQuestions
