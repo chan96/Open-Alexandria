@@ -1,6 +1,6 @@
 $( document ).ready(function() {
   console.log( "ready!" );
-  getQuestionInfo(getUrlParameter('questionid'));
+  setQuestionInfo(getUrlParameter('questionid'));
 });
 
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -18,7 +18,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
-function getQuestionInfo(qid) {
+function setQuestionInfo(qid) {
 
   console.log('hi');
   $.ajax({
@@ -27,7 +27,12 @@ function getQuestionInfo(qid) {
     data: ({ questionid : qid}),
     dataType: "html",
     success: function(data) {
-      console.log(data);
+      var parsedData = $.parseJSON(data).question[0].data;
+      var title = parsedData.title;
+      var body = parsedData.body;
+
+      $('.topic-title').text(title);
+      $('.author-content').text(body);
 
     },
     error: function(data) {

@@ -67,7 +67,7 @@ function getQuestionInfo(req, res, next) {
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
-      res.status(200).json({suggestions:commonString});
+      res.status(200).json({question:commonString});
     })
   .catch(function(err){
     console.log(err);
