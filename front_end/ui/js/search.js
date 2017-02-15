@@ -2,7 +2,7 @@ var courseName;
 
 $(document).ready(function() {
 
-    setListeners();
+
 
     courseName = getUrlParameter('coursename');
     courseID = getUrlParameter('courseid');
@@ -10,14 +10,16 @@ $(document).ready(function() {
     $('.course-name').text(courseName);
     $('.course-name').css("font-weight","Bold");
 
-    getQuestions(courseID);
+    setListeners();
+
 });
 
 function setListeners() {
     setDocumentGridListener();
+    setGetQuestionListener();
+    setNewPostQuestionListener();
     setNewDocumentListener();
     setNewFlashcardListener();
-    setNewPostQuestionListener();
 }
 
 function setDocumentGridListener() {
@@ -28,6 +30,10 @@ function setDocumentGridListener() {
         margin_bottom: 50,
         single_column_breakpoint: 700
     });
+}
+
+function setGetQuestionListener() {
+    setQuestions(courseID);
 }
 
 function setNewPostQuestionListener() {
@@ -47,10 +53,10 @@ function setNewPostQuestionListener() {
             type: 'POST',
             url: globalUrl + 'postQuestion/',
             data: { 'questiontitle': questionTitle,
-                    'questionbody': questionBody,
-                    'courseid': courseID,
-                    'creatorid': userid},
-                //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                   'questionbody': questionBody,
+                   'courseid': courseID,
+                   'creatorid': userid},
+            //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function(data) {
                 console.log(data);
                 postBttn.prop('disabled', false);
@@ -273,36 +279,62 @@ $( ".talk-bubble" ).click(function() {
     //window.location = './qa.html';
 });
 
-function getQuestions(cid) {
-  $.ajax({
-    type: "GET",
-    url: globalUrl + 'getQuestions/',
-    data: ({ courseid : cid}),
-    dataType: "html",
-    success: function(data) {
-      //console.log(data);
-      var jsonData = $.parseJSON(data).suggestions;
-      console.log(jsonData);
-      for (var i = 0; i < jsonData.length; i++) {
-        console.log(jsonData[i].data.title);
-        var $div = $('#question0');
-        var id = jsonData[i].data.questionid;
-        console.log(id);
-        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
-        var $question = $div.clone().prop('id', 'question'+num );
+function setQuestions(cid) {
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'getQuestions/',
+        data: ({ courseid : cid}),
+        dataType: "html",
+        success: function(data) {
+            //console.log(data);
+            var jsonData = $.parseJSON(data).suggestions;
+            console.log(jsonData);
+            for (var i = 0; i < jsonData.length; i++) {
+                console.log(jsonData[i].data.title);
+                var $div = $('#question0');
+                var id = jsonData[i].data.questionid;
+                console.log(id);
+                var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
+                var $question = $div.clone().prop('id', 'question'+num );
 
-        $question.find('p').text(jsonData[i].data.title);
-        $('#questions-row').append($question);
-        $question.show();
-      }
+                $question.find('p').text(jsonData[i].data.title);
 
-    },
-    error: function(data) {
-      console.log(data.error.message);
+                setQuestionOnClick($question);
 
-    }
-  });
 
+                $('#questions-row').append($question);
+                $question.show();
+            }
+
+        },
+        error: function(data) {
+            console.log(data.error.message);
+
+        }
+    });
+
+}
+
+function setQuestionOnClick(div) {
+    var qid = $div.attr('id');
+
+    $question.click(function() {
+        $.ajax({
+            type: "GET",
+            url: globalUrl + 'getQuestionInfo/',
+            data: ({ questionid : qid}),
+            dataType: "html",
+            success: function(data) {
+                console.log(data);
+            
+            },
+            error: function(data) {
+                console.log(data.error.message);
+
+            },
+            async: false;
+        });
+    });
 }
 
 $('#topic').upvote();
