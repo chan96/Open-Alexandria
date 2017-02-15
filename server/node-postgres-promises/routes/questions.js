@@ -74,11 +74,14 @@ function getQuestionInfo(req, res, next) {
 }
 
 function postQuestion(req, res, next) {
-  var qTitle = req.query.questiontitle;
-  var qBody = req.query.questionbody;
-  var qCourseID = req.query.courseid;
-  var creatorID = req.query.creatorid;
+  var qTitle = req.body.questiontitle;
+  var qBody = req.body.questionbody;
+  var qCourseID = req.body.courseid;
+  var creatorID = req.body.creatorid;
   var token = req.cookies.token;
+
+
+  console.log(qTitle + '| ' + qBody + '|' + qCourseID + '|' + creatorID);
 
   var dbInsert = 'insert into questions(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) values($1, $2, $3, $4);'
 

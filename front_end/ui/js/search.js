@@ -9,7 +9,7 @@ $(document).ready(function() {
     $('.course-name').text(coursename);
     $('.course-name').css("font-weight","Bold");
 
-    getQuestions(courseID);
+    //getQuestions(courseID);
 });
 
 function setListeners() {
@@ -34,34 +34,37 @@ function setNewPostQuestionListener() {
     $('#postBttn').click(function () {
         var questionTitle = $('#question-title').val();
         var questionBody = $('#question-body').val();
-        var userid = getUserID;
+        var userid = getUserID();
         var courseID = getUrlParameter('courseid');
         var postBttn = $('#postBttn');
-        console.log('courseID ' + courseID);
+        console.log('\ncourseID:' + courseID + '\nuserid:' + userid + '\nqT:' + questionTitle + '\nqB:' + questionBody);
 
         postBttn.prop('disabled', true);
         postBttn.text('Submitting...');
 
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: globalUrl + 'postQuestion/',
-            data: ({ questiontitle : questionTitle,
-                    questionbody : questionBody,
-                    courseid : cid,
-                    creatorid : userid}),
-            dataType: "html",
+            data: { 'questiontitle': questionTitle,
+                    'questionbody': questionBody,
+                    'courseid': courseID,
+                    'creatorid': userid},
+                //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function(data) {
                 console.log(data);
-                postBttn.prop('enabled', true);
+                postBttn.prop('disabled', false);
                 postBttn.text('Post Question');
-
+                $('#questionModal').modal('hide'); 
+                $('#question-title').val('');
+                $('#question-body').val(''); 
 
             },
-            error: function(data) {
-                console.log(data.error.message);
-                postBttn.prop('enabled', true);
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.log(err.Message);
+                postBttn.prop('disabled', false);
                 postBttn.text('Post Question');
-                alert('Cannot connect');
+                //alert(data.error.message);
 
 
             }
