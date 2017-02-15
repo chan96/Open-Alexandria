@@ -5,11 +5,12 @@ $(document).ready(function() {
     setListeners();
 
     courseName = getUrlParameter('coursename');
+    courseID = getUrlParameter('courseid');
 
-    $('.course-name').text(coursename);
+    $('.course-name').text(courseName);
     $('.course-name').css("font-weight","Bold");
 
-    //getQuestions(courseID);
+    getQuestions(courseID);
 });
 
 function setListeners() {
@@ -54,10 +55,8 @@ function setNewPostQuestionListener() {
                 console.log(data);
                 postBttn.prop('disabled', false);
                 postBttn.text('Post Question');
-                $('#questionModal').modal('hide'); 
-                $('#question-title').val('');
-                $('#question-body').val(''); 
 
+                location.reload();
             },
             error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -274,44 +273,33 @@ $( ".talk-bubble" ).click(function() {
     //window.location = './qa.html';
 });
 
-function postQuestion(cid, qt, qb, uid) {
-    $.ajax({
-        type: "POST",
-        url: globalUrl + 'postQuestions/',
-        data: ({ courseid : cid, questiontitle : qt, questionbody : qb, creatorid : uid}),
-        dataType: "html",
-        success: function(data) {
-            console.log(data);
-        },
-        error: function(data) {
-            console.log(data.error.message);
-
-        }
-    });
-}
-
-
 function getQuestions(cid) {
-    $.ajax({
-        type: "GET",
-        url: globalUrl + 'getQuestions/',
-        data: ({ courseid : cid}),
-        dataType: "html",
-        success: function(data) {
-            console.log(data);
-        },
-        error: function(data) {
-            console.log(data.error.message);
-
-        }
-    });
-    for (var i = 0; i < 3; i++) {
-        var $div = $('div[id^="question"]:last');
-        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getQuestions/',
+    data: ({ courseid : cid}),
+    dataType: "html",
+    success: function(data) {
+      //console.log(data);
+      var jsonData = $.parseJSON(data).suggestions;
+      console.log(jsonData);
+      for (var i = 0; i < jsonData.length; i++) {
+        console.log(jsonData[i].data.title);
+        var $div = $('#question0');
+        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + i;
         var $question = $div.clone().prop('id', 'question'+num );
-        $question.show();
+
+        $question.find('p').text(jsonData[i].data.title);
         $('#questions-row').append($question);
+        $question.show();
+      }
+
+    },
+    error: function(data) {
+      console.log(data.error.message);
+
     }
+  });
 
 }
 
