@@ -296,13 +296,15 @@ function setQuestions(cid) {
                 console.log(id);
                 var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
                 var $question = $div.clone().prop('id', 'question'+num );
+                var qid = $question.attr('id');
+                console.log(qid);
 
                 $question.find('p').text(jsonData[i].data.title);
 
-                setQuestionOnClick($question);
 
 
                 $('#questions-row').append($question);
+                setQuestionOnClick(qid);
                 $question.show();
             }
 
@@ -315,25 +317,14 @@ function setQuestions(cid) {
 
 }
 
-function setQuestionOnClick(div) {
-    var qid = $div.attr('id');
+function setQuestionOnClick(qid) {
 
-    $question.click(function() {
-        $.ajax({
-            type: "GET",
-            url: globalUrl + 'getQuestionInfo/',
-            data: ({ questionid : qid}),
-            dataType: "html",
-            success: function(data) {
-                console.log(data);
-            
-            },
-            error: function(data) {
-                console.log(data.error.message);
+  var qNum = qid.replace(/[^0-9]/gi, '');
+    
 
-            },
-            async: false;
-        });
+    $('#' + qid).click(function() {
+      location.href = globalUrl + 'qa.html?questionid=' + qNum;
+      
     });
 }
 
