@@ -4,13 +4,8 @@ function submitLogin(form){
   var formData = $(form).serializeArray();
   console.log("FUCK");
   $.post(theUrl, formData, function (data) {
-<<<<<<< HEAD
-        //console.log("SHIT");
-        window.location.href = "http://localhost:3000";
-=======
         console.log("SHIT");
         window.location.href = globalUrl;
->>>>>>> 7602962cea31d7658d5d7fd722b4997d13cd9db2
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       console.log("DOONE");
