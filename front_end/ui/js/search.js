@@ -286,7 +286,9 @@ function getQuestions(cid) {
       for (var i = 0; i < jsonData.length; i++) {
         console.log(jsonData[i].data.title);
         var $div = $('#question0');
-        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + i;
+        var id = jsonData[i].data.questionid;
+        console.log(id);
+        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
         var $question = $div.clone().prop('id', 'question'+num );
 
         $question.find('p').text(jsonData[i].data.title);

@@ -35,7 +35,8 @@ function getQuestions(req, res, next) {
         var courseInfo = {
           title:        data[i].questions_title,
           datecreated:  data[i].questions_datecreated,
-          dateupdated:  data[i].questions_dateupdated
+          dateupdated:  data[i].questions_dateupdated,
+          questionid:   data[i].questions_unique_id
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
