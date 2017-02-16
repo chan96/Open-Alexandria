@@ -62,10 +62,9 @@ function getAnswers(qid) {
         dataType: "html",
         success: function(data) {
             console.log(data);
-            var parsedData = $.parseJSON(data).question[0].data;
-            var title = parsedData.title;
-            var body = parsedData.body;
+            var parsedData = $.parseJSON(data).suggestions;
 
+            console.log(parsedData);
             showAnswers(parsedData);
 
         },
@@ -79,20 +78,21 @@ function getAnswers(qid) {
 function showAnswers(jsonData) {
 
     for (var i = 0; i < jsonData.length; i++) {
-        console.log(jsonData[i].data.title);
-        var $div = $('.response');
-        var id = jsonData[i].data.answersuniqueid;
+        console.log(jsonData[i].value.answers_body);
+        var $div = $('.empty-response');
+        var id = jsonData[i].value.answers_unique_id;
         console.log(id);
-        var num = parseInt( $('#answer0').prop("id").match(/\d+/g), 10 ) + id;
-        var $answer = $div.clone().siblings('.answers').prop('id', 'answer'+num );
-
-        console.log(qid);
-
-        $answer.siblings('answers').text(jsonData[i].data.title);
-
+        //var num = parseInt( $('#answer0').prop("id").match(/\d+/g), 10 ) + id;
+        //console.log('num ' + num);
+        var $answer = $div.clone().removeClass('empty-response');
+        $answer.find('#answer0').text(jsonData[i].value.answers_body);
+        $answer.find('#answer0').prop('id', 'answer'+id );
 
 
-        $('.comments-containter').append($answer);
+
+
+
+        $('.inner-comments-container').append($answer);
         $answer.show();
     }
 
