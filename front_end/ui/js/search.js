@@ -1,14 +1,103 @@
+var courseName;
+
 $(document).ready(function() {
-$('#pinBoot').pinterest_grid({
-no_columns: 4,
-padding_x: 10,
-padding_y: 10,
-margin_bottom: 50,
-single_column_breakpoint: 700
-});
-    $('.course-name').text(getUrlParameter('coursename'));
+
+
+
+    courseName = getUrlParameter('coursename');
+    courseID = getUrlParameter('courseid');
+
+    $('.course-name').text(courseName);
     $('.course-name').css("font-weight","Bold");
+
+    setListeners();
+
 });
+
+function setListeners() {
+    setDocumentGridListener();
+    setGetQuestionListener();
+    setNewPostQuestionListener();
+    setNewDocumentListener();
+    setNewFlashcardListener();
+}
+
+function setDocumentGridListener() {
+    $('#pinBoot').pinterest_grid({
+        no_columns: 4,
+        padding_x: 10,
+        padding_y: 10,
+        margin_bottom: 50,
+        single_column_breakpoint: 700
+    });
+}
+
+function setGetQuestionListener() {
+
+    $('#questionModal').on('show.bs.modal', function (e) {
+        if (document.cookie == '') {
+          location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+        }
+    })
+    setQuestions(courseID);
+}
+
+function setNewPostQuestionListener() {
+
+    $('#postBttn').click(function () {
+        var questionTitle = $('#question-title').val();
+        var questionBody = $('#question-body').val();
+        var userid = getUserID();
+        var courseID = getUrlParameter('courseid');
+        var postBttn = $('#postBttn');
+        console.log('\ncourseID:' + courseID + '\nuserid:' + userid + '\nqT:' + questionTitle + '\nqB:' + questionBody);
+
+        postBttn.prop('disabled', true);
+        postBttn.text('Submitting...');
+
+        $.ajax({
+            type: 'POST',
+            url: globalUrl + 'postQuestion/',
+            data: { 'questiontitle': questionTitle,
+                   'questionbody': questionBody,
+                   'courseid': courseID,
+                   'creatorid': userid},
+            //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function(data) {
+                console.log(data);
+                postBttn.prop('disabled', false);
+                postBttn.text('Post Question');
+
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.log(err.Message);
+                postBttn.prop('disabled', false);
+                postBttn.text('Post Question');
+                //alert(data.error.message);
+
+
+            }
+        });
+    });
+}
+
+function setNewFlashcardListener() {
+
+}
+
+function setNewDocumentListener() {
+
+}
+
+function getUserID() {
+    var userID = document.cookie.split(';')[1].split('=')[1];
+
+    console.log('userID = ' + userID);
+
+    return userID;
+}
 
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -95,7 +184,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
             row = 0,
             $container = $(this.element),
             container_width = $container.width();
-            $article = $(this.element).children();
+        $article = $(this.element).children();
 
         if(single_column_mode === true) {
             article_width = $container.width() - self.options.padding_x;
@@ -184,7 +273,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
         return this.each(function () {
             if (!$.data(this, 'plugin_' + pluginName)) {
                 $.data(this, 'plugin_' + pluginName,
-                new Plugin(this, options));
+                       new Plugin(this, options));
             }
         });
     }
@@ -192,8 +281,59 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
 })(jQuery, window, document);
 
 $( ".talk-bubble" ).click(function() {
-  window.location = './qa.html';
+    location.href = globalUrl + 'qa.html?coursename=' + coursename + '&school=' + 'todo' + '&question=' + 'todo';//question;
+    //window.location = './qa.html';
 });
+
+function setQuestions(cid) {
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'getQuestions/',
+        data: ({ courseid : cid}),
+        dataType: "html",
+        success: function(data) {
+            //console.log(data);
+            var jsonData = $.parseJSON(data).suggestions;
+            console.log(jsonData);
+            for (var i = 0; i < jsonData.length; i++) {
+                console.log(jsonData[i].data.title);
+                var $div = $('#question0');
+                var id = jsonData[i].data.questionid;
+                console.log(id);
+                var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
+                var $question = $div.clone().prop('id', 'question'+num );
+                var qid = $question.attr('id');
+                console.log(qid);
+
+                $question.find('p').text(jsonData[i].data.title);
+
+
+
+                $('#questions-row').append($question);
+                setQuestionOnClick(qid);
+                $question.show();
+            }
+
+        },
+        error: function(data) {
+            console.log(data.error.message);
+
+        }
+    });
+
+}
+
+function setQuestionOnClick(qid) {
+
+  var qNum = qid.replace(/[^0-9]/gi, '');
+    
+
+    $('#' + qid).click(function() {
+      location.href = globalUrl + 'qa.html?questionid=' + qNum + '&courseid=' + getUrlParameter('courseid');
+      
+    });
+}
+
 $('#topic').upvote();
 $('#topic').upvote({count: 5, upvoted: 1});
 $('#topic').upvote({count: 5, downvoted: 1});

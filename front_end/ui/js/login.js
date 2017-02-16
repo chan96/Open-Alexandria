@@ -1,14 +1,18 @@
 function submitLogin(form){
-  var theUrl = "http://localhost:3000/loginUser";
+  var theUrl = globalUrl + "loginUser";
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
-  console.log("FUCK");
   $.post(theUrl, formData, function (data) {
+<<<<<<< HEAD
         console.log("SHIT");
         window.location.href = "http://localhost:3000";
+=======
+
+        //redirect to appropriate page
+        redirect();
+>>>>>>> 207f04c4c5476d5f500e5829c6f5c93a951d85c7
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
-      console.log("DOONE");
       //document.cookie;
 
     }).fail(function (){
@@ -52,5 +56,30 @@ $(document).ready(function(){
   $('#submit').click(function(){
     submitLogin();
   });
-});
-*/
+  });
+  */
+function redirect() {
+  var redirectUrl = getRedirectParameter(location.href);
+  console.log(redirectUrl.length);
+
+  if (redirectUrl != '') {
+      window.location.href = redirectUrl;
+      console.log('hi');
+  } else {
+      window.location.href = globalUrl;
+  }
+
+}
+
+var getRedirectParameter = function getRedirectParameter(fullUrl) {
+  var redirectParam = '';
+
+  try {
+    redirectParam = fullUrl.split('redirect')[1].replace('=', '');
+  } catch (err) {
+    return '';
+  }
+
+
+  return redirectParam;
+};

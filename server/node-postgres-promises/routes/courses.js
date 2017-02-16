@@ -102,6 +102,7 @@ function getCourseInfo(req, res, next){
         coursename: data.courses_name,
         coursedescription: data.courses_description,
         coursenummember: data.courses_nummember,
+	courseschool: data.courses_school_id,
       });
     })
   .catch(function(err){

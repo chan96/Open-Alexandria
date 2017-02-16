@@ -28,7 +28,7 @@ function validate() {
 function createCourse(cn, cd, s) {
      $.ajax({
         type: "POST",
-        url: 'http://Openalexandria.us.to/addNewCourse/',
+        url: globalUrl + 'addNewCourse/',
         data: ({ coursename : cn, coursedescription: cd, school : s}),
         dataType: "html",
         success: function(data) {
