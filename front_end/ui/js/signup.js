@@ -43,7 +43,7 @@ function checkAllInputs(){
 }
 
 function submitSignUp(form){
-  var theUrl = "http://localhost:3000/createNewUser";
+  var theUrl = globalUrl + "createNewUser";
   //Need email, password, firstname, and lastname
   //var theUrl = "http://openalexandria.us.to/createNewUser";
   var formData = $(form).serializeArray();
@@ -51,7 +51,7 @@ function submitSignUp(form){
   console.log(formData);
   $.post(theUrl, formData, function (data) {
         console.log("SHIT");
-        window.location.href = "http://localhost:3000";
+        window.location.href =  globalUrl;
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       console.log("DOONE");
