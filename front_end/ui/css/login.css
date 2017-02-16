@@ -55,6 +55,7 @@ over-ride "Weak" message, show font in dark grey
 .title {
 	font-size: 40px;
 }
+
 #incorrect p{
 	color: red;
 }
