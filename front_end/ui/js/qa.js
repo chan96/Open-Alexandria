@@ -1,6 +1,8 @@
 $( document ).ready(function() {
   console.log( "ready!" );
-  setQuestionInfo(getUrlParameter('questionid'));
+  var questionID = getUrlParameter('questionid');
+  getQuestionInfo(questionID);
+  getAnswers(questionID);
 });
 
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -18,7 +20,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
-function setQuestionInfo(qid) {
+function getQuestionInfo(qid) {
 
   console.log('hi');
   $.ajax({
@@ -42,41 +44,37 @@ function setQuestionInfo(qid) {
   });
 }
 
-function getAnswers(questionID) {
+function getAnswers(qid) {
 
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getAnswersToQuestion/',
+    data: ({ questionid : qid}),
+    dataType: "html",
+    success: function(data) {
+      console.log(data);
+      var parsedData = $.parseJSON(data).question[0].data;
+      var title = parsedData.title;
+      var body = parsedData.body;
+
+      //$('.topic-title').text(title);
+      //$('.author-content').text(body);
+
+    },
+    error: function(data) {
+      console.log(data.error.message);
+
+    }
+  });
 }
 
-function createQuestion(cn, cd, s) {
+
+function createAnswer(qid, cid, qbody, uid) {
     $.ajax({
         type: "POST",
-        url: globalUrl + 'createQuestion/',
+        url: globalUrl + `addAnswerToQuestion/?questionid=${qid}&courseid=${cid}&userid=${uid}`,
         data: ({
-                courseid    : cId,
-                userid      : uId,
-                title       : t,
-                body        : b
-                }),
-        dataType: "html",
-        success: function(data) {
-            console.log(data.message);
-        },
-        error: function(xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-        }
-    });
-}
-
-
-function createAnswer(cn, cd, s) {
-    $.ajax({
-        type: "POST",
-        url: 'http://Openalexandria.us.to/createAnswer/',
-        data: ({
-                questionid  : qnId,
-                courseid    : cId,
-                userid      : uId,
-                body        : b,
+                body        : qbody,
                 }),
         dataType: "html",
         success: function(data) {

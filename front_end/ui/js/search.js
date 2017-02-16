@@ -329,7 +329,7 @@ function setQuestionOnClick(qid) {
     
 
     $('#' + qid).click(function() {
-      location.href = globalUrl + 'qa.html?questionid=' + qNum;
+      location.href = globalUrl + 'qa.html?questionid=' + qNum + '&courseid=' + getUrlParameter('courseid');
       
     });
 }
