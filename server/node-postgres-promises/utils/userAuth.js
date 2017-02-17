@@ -75,6 +75,7 @@ module.exports = {
 
   checkUserAdmin: function(token){
     if(this.checkUserAlive(token)){
+      console.log("In User admin: " + userList[token].isAdmin);
       return userList[token].isAdmin;	
     }		
     return false;
