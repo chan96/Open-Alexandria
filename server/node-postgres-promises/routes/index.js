@@ -151,6 +151,8 @@ router.get('/subscriptionsByCourse', subscriptions.subscriptionsByCourse);
  * @param {int} courseid
  */
 router.get('/getQuestions', questions.getQuestions);
+
+router.get('/getAllQuestions', questions.getAllQuestions);
 /**
  * GET getQuestionInfo
  * @param {cookie} token
