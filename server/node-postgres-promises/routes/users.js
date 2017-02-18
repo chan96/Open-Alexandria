@@ -231,7 +231,7 @@ function listAllUsers(req, res, next){
     return;
   }
 
-  var dbSelect = "select * from users;";
+  var dbSelect = "select users_unique_id, users_firstname, users_lastname, users_isadmin, users_isactive, users_email, users_dateupdated from users;";
   db.any(dbSelect)
     .then(function(data){
       var commonString = [];

@@ -75,6 +75,7 @@ router.get('/getCourseInfo', courses.getCourseInfo);
  * @param {string} query
  */
 router.get('/getCourseKeyword', courses.getCourseKeyword);
+router.get('/getAllCourse', courses.getAllCourse);
 /**
  * GET disableCourse
  * @param {cookie} token
