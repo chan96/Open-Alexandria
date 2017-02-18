@@ -2,4 +2,5 @@
 //var globalUrl = 'http://openalexandria.us.to/';
 var globalUrl = "http://localhost:3000";
 //var globalUrl = 'http://openalexandria.us.to:3000/';
+//var globalUrl = 'http://openalexandria.us.to:3003/';
 //var globalUrl = 'file:///C:/Users/chan96/Open-Alexandria/front_end/ui/';

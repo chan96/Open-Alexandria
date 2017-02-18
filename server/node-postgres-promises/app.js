@@ -4,11 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//File uploader
-
 var routes = require('./routes/index');
 
 var app = express();
+
+app.get('*', function(req, res, next) {
+  if (req.get('x-forwarded-proto') != "https") {
+    res.set('x-forwarded-proto', 'https');
+    res.redirect('https://' + req.get('host') + req.url);
+  } else {
+    next();     
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,13 +33,12 @@ app.use(express.static(testing));
 app.use('/documents', express.static("/uploads"));
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Methods: GET, POST");
-    res.header("Access-Control-Allow-Headers: Content-Type, *");
-    res.header("Access-Control-Allow-Origin", "http://openalexandria.us.to");
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
+  res.header("Access-Control-Allow-Methods: GET, POST");
+  res.header("Access-Control-Allow-Headers: Content-Type, *");
+  res.header("Access-Control-Allow-Origin", "http://openalexandria.us.to");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
 });
-
 
 app.use('/', routes);
 app.set('json spaces', 2);

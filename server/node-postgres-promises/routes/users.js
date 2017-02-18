@@ -193,7 +193,7 @@ function enableUser(req, res, next){
   var userid = req.query.userid;
   var adminid = userAuth.getUserID(req.cookies.token);
   var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
-  if(!userid || !adminStatus){
+  if(!adminid || !adminStatus){
     res.status(401).json({
       status: "Error authentication error",
       code: -1
@@ -218,6 +218,36 @@ function enableUser(req, res, next){
     });
 }
 
+function listAllUsers(req, res, next){
+  var userid = req.query.userid;
+  var adminid = userAuth.getUserID(req.cookies.token);
+  var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
+
+  if(!adminid || !adminStatus){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+
+  var dbSelect = "select * from users;";
+  db.any(dbSelect)
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        commonString.push({value: data[i].users_email, data: data[i]});
+      }
+      res.status(200).json({suggstions:commonString});
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
 module.exports = {
   loginUser: loginUser,
   logoutUser: logoutUser,
@@ -225,5 +255,6 @@ module.exports = {
   getUserInfo: getUserInfo,
   editUserInfo: editUserInfo,
   enableUser: enableUser,
-  disableUser: disableUser
+  disableUser: disableUser,
+  listAllUsers: listAllUsers,
 };

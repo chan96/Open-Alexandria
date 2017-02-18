@@ -55,6 +55,8 @@ router.post('/editUserInfo', users.editUserInfo);
 
 router.get('/enableUser', users.enableUser);
 router.get('/disableUser', users.disableUser);
+router.get('/listAllUsers', users.listAllUsers);
+
 
 /**
  * POST addNewCourse
