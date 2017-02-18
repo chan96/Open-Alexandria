@@ -3,14 +3,8 @@ function submitLogin(form){
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
   $.post(theUrl, formData, function (data) {
-<<<<<<< HEAD
-        console.log("SHIT");
-        window.location.href = "http://localhost:3000";
-=======
-
         //redirect to appropriate page
         redirect();
->>>>>>> 207f04c4c5476d5f500e5829c6f5c93a951d85c7
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
       //document.cookie;
