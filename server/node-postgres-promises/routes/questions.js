@@ -42,9 +42,9 @@ function getQuestions(req, res, next) {
       }
       res.status(200).json({suggestions:commonString});
     })
-  .catch(function(err){
-    console.log(err);
-  });
+    .catch(function(err){
+      console.log(err);
+    });
 }
 
 function getQuestionInfo(req, res, next) {
@@ -69,9 +69,9 @@ function getQuestionInfo(req, res, next) {
       }
       res.status(200).json({question:commonString});
     })
-  .catch(function(err){
-    console.log(err);
-  });
+    .catch(function(err){
+      console.log(err);
+    });
 }
 
 function postQuestion(req, res, next) {
@@ -86,24 +86,31 @@ function postQuestion(req, res, next) {
 
   var dbInsert = 'insert into questions(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) values($1, $2, $3, $4);'
 
-  db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
-    .then(function(){
-      res.status(200).json({
-        status: "Successful question insert",
-        code: 1,
-        title: qTitle,
-        body: qBody,
-        courseid: qCourseID,
-        creatorid: creatorID
+  if(userAuth.checkUserAlive(token)){
+    db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
+      .then(function(){
+        res.status(200).json({
+          status: "Successful question insert",
+          code: 1,
+          title: qTitle,
+          body: qBody,
+          courseid: qCourseID,
+          creatorid: creatorID
+        });
+      })
+      .catch(function(err){
+        res.status(400).json({
+          status: "Error cannot insert question",
+          code: -1,
+          error: {name:err.name, message: err.message}
+        });
       });
-    })
-  .catch(function(err){
-    res.status(400).json({
-      status: "Error cannot insert question",
-      code: -1,
-      error: {name:err.name, message: err.message}
+  } else {
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
     });
-  });
+  }
 }
 
 module.exports = {
