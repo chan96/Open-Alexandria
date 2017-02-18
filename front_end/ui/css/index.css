@@ -59,6 +59,10 @@ p, div {
     background-color: white;
 }
 
+#mainBody{
+  padding-bottom: 50px;
+}
+
 .navbar-fixed-bottom li a{
          //   background-color: none; /* Red [0-255], Green [0-255], Blue [0-255], Alpha [0-1] */
     color: red;
