@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 
 var app = express();
-/*
 app.get('*', function(req, res, next) {
   if (req.get('x-forwarded-proto') != "https") {
     res.set('x-forwarded-proto', 'https');
@@ -16,7 +15,6 @@ app.get('*', function(req, res, next) {
     next();     
   }
 });
-*/
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
