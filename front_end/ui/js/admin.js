@@ -9,7 +9,7 @@ $(document).ready(function(){
 
   var courseUrl = globalUrl + "getAllCourse";
   var userUrl = globalUrl +"listAllUsers";
-  questionUrl = globalUrl + "getAllQuestions?courseid=";
+  questionUrl = globalUrl + "getAllQuestions?uniqueid=";
 
   	//COURSE
   	$.get(courseUrl, function (data) {
