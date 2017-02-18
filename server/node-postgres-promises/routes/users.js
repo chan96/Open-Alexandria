@@ -238,7 +238,7 @@ function listAllUsers(req, res, next){
       for(var i = 0; i < data.length; i++){
         commonString.push({value: data[i].users_email, data: data[i]});
       }
-      res.status(200).json({suggstions:commonString});
+      res.status(200).json({suggestions:commonString});
     }).catch(function(err){
       res.status(500).json({
         status: "Error unknown",
