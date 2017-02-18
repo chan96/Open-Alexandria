@@ -28,7 +28,7 @@ function getQuestions(req, res, next) {
   //gets questions based off of given course ID. Not as safe?
   var dbSelect = " select * from courses c inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.COURSES_UNIQUE_ID=$1 and c.COURSES_ISACTIVE = true;"
 
-  db.any(dbSelect, [courseID])
+    db.any(dbSelect, [courseID])
     .then(function(data){
       var commonString = [];
       for(var i = 0; i < data.length; i++){
@@ -43,18 +43,18 @@ function getQuestions(req, res, next) {
       }
       res.status(200).json({suggestions:commonString});
     })
-    .catch(function(err){
-      console.log(err);
-    });
+  .catch(function(err){
+    console.log(err);
+  });
 }
 
 function getQuestionInfo(req, res, next) {
   var questionID = req.query.questionid
-  var token = req.cookies.token;
+    var token = req.cookies.token;
 
   var dbSelect = "select * from questions where questions_unique_id=$1;"
 
-  db.any(dbSelect, [questionID])
+    db.any(dbSelect, [questionID])
     .then(function(data){
       var commonString = [];
       for(var i = 0; i < data.length; i++){
@@ -70,9 +70,9 @@ function getQuestionInfo(req, res, next) {
       }
       res.status(200).json({question:commonString});
     })
-    .catch(function(err){
-      console.log(err);
-    });
+  .catch(function(err){
+    console.log(err);
+  });
 }
 
 function postQuestion(req, res, next) {
@@ -87,18 +87,18 @@ function postQuestion(req, res, next) {
 
   var dbInsert = 'insert into questions(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) values($1, $2, $3, $4);'
 
-  if(userAuth.checkUserAlive(token)){
-    db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
-      .then(function(){
-        res.status(200).json({
-          status: "Successful question insert",
-          code: 1,
-          title: qTitle,
-          body: qBody,
-          courseid: qCourseID,
-          creatorid: creatorID
-        });
-      })
+    if(userAuth.checkUserAlive(token)){
+      db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
+        .then(function(){
+          res.status(200).json({
+            status: "Successful question insert",
+            code: 1,
+            title: qTitle,
+            body: qBody,
+            courseid: qCourseID,
+            creatorid: creatorID
+          });
+        })
       .catch(function(err){
         res.status(400).json({
           status: "Error cannot insert question",
@@ -106,7 +106,83 @@ function postQuestion(req, res, next) {
           error: {name:err.name, message: err.message}
         });
       });
-  } else {
+    } else {
+      res.status(401).json({
+        status: "Error Authentication Error",
+        code: -1
+      });
+    }
+}
+
+function disableQuestion(req, res, next){
+  var uniqueid = req.query.uniqueid;
+  var token = req.cookies.token;
+  var dbUpdate = 'update questions set QUESTIONS_ISACTIVE = $1 where QUESTIONS_UNIQUE_ID = $2;';
+  var dbSelect = 'select * from QUESTIONS where QUESTIONS_UNIQUE_ID = $1 and QUESTIONS_ISACTIVE = true;';
+
+  if(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token)){
+    db.one(dbSelect, [uniqueid])
+      .then(function(data){
+        db.none(dbUpdate, [false, uniqueid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful question disabled",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }).catch(function(err){
+        res.status(404).json({
+          status: "Error Unique ID not found or already disabled",
+          error: {name: err.name, message: err.message},
+          code: -1
+        });
+      });
+  }else{
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
+    });
+
+  }
+}
+
+function enableQuestion(req, res, next){
+  var uniqueid = req.query.uniqueid;
+  var token = req.cookies.token;
+  var dbUpdate = 'update QUESTIONS set QUESTIONS_ISACTIVE = $1 where QUESTIONS_UNIQUE_ID = $2;';
+  var dbSelect = 'select * from QUESTIONS where QUESTIONS_UNIQUE_ID = $1 and QUESTIONS_ISACTIVE = false;';
+
+  if(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token)){
+    db.one(dbSelect, [uniqueid])
+      .then(function(data){
+        db.none(dbUpdate, [true, uniqueid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful course enabled",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+
+      }).catch(function(err){
+        res.status(404).json({
+          status: "Error Unique ID not found or already enabled",
+          error: {name: err.name, message: err.message},
+          code: -1
+        });
+      });
+  }else{
     res.status(401).json({
       status: "Error Authentication Error",
       code: -1
@@ -117,5 +193,7 @@ function postQuestion(req, res, next) {
 module.exports = {
   getQuestions: getQuestions,
   getQuestionInfo: getQuestionInfo,
-  postQuestion: postQuestion
+  postQuestion: postQuestion,
+  enableQuestion: enableQuestion,
+  disableQuestion: disableQuestion
 };

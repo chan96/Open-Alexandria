@@ -172,5 +172,7 @@ router.post('/editAnswer', answers.editAnswer);
 router.get('/disableAnswer', answers.disableAnswer);
 router.get('/enableAnswer', answers.enableAnswer);
 router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
+router.get('/disableQuestion', answers.disableQuestion);
+router.get('/enableQuestion', answers.enableQuestion);
 
 module.exports = router;
