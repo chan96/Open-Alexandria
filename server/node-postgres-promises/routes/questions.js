@@ -26,7 +26,7 @@ function getQuestions(req, res, next) {
   //select * from courses c inner join universities u on u.universities_unique_id=c.courses_unique_id inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.courses_name='COURSE_NAME_HERE' and u.universities_name='SCHOOL_NAME_HERE';
 
   //gets questions based off of given course ID. Not as safe?
-  var dbSelect = " select * from courses c inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.COURSES_UNIQUE_ID=$1;"
+  var dbSelect = " select * from courses c inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.COURSES_UNIQUE_ID=$1 and c.COURSES_ISACTIVE = true;"
 
   db.any(dbSelect, [courseID])
     .then(function(data){
@@ -36,7 +36,8 @@ function getQuestions(req, res, next) {
           title:        data[i].questions_title,
           datecreated:  data[i].questions_datecreated,
           dateupdated:  data[i].questions_dateupdated,
-          questionid:   data[i].questions_unique_id
+          questionid:   data[i].questions_unique_id,
+          questionisactive: data[i]. questions_isactive
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
