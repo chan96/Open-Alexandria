@@ -49,6 +49,7 @@ function getQuestions(req, res, next) {
 }
 
 function getAllQuestions(req, res, next){
+  var courseID = req.query.courseid;
   var adminid = userAuth.getUserID(req.cookies.token);
   var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
 
