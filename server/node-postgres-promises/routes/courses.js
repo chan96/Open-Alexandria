@@ -66,7 +66,6 @@ function addNewCourse(req, res, next) {
 
 function getCourseKeyword(req, res, next) {
   var keyword = req.query.query;
-  var token = req.cookies.token;
 
   var dbSelect = "select * from courses where COURSES_NAME ~* $1 and COURSES_ISACTIVE = true;";
 
@@ -89,6 +88,36 @@ function getCourseKeyword(req, res, next) {
   });
 }
 
+function getAllCourse(req, res, next) {
+  var keyword = req.query.query;
+  var token = req.cookies.token;
+  var adminid = userAuth.getUserID(req.cookies.token);
+  var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
+
+  if(!adminid || !adminStatus){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+
+  var dbSelect = "select * from courses;";
+
+  db.any(dbSelect)
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        commonString.push({value:data[i].courses_name,data:data[i]});
+      }
+      res.status(200).json({suggestions:commonString});
+    })
+  .catch(function(err){
+    console.log(err);
+  });
+
+}
+
 function getCourseInfo(req, res, next){
   var uniqueID = req.query.uniqueid;
 
@@ -102,7 +131,7 @@ function getCourseInfo(req, res, next){
         coursename: data.courses_name,
         coursedescription: data.courses_description,
         coursenummember: data.courses_nummember,
-	courseschool: data.courses_school_id,
+        courseschool: data.courses_school_id,
       });
     })
   .catch(function(err){
@@ -234,6 +263,7 @@ module.exports = {
   addNewCourse: addNewCourse,
   getCourseInfo: getCourseInfo,
   getCourseKeyword: getCourseKeyword,
+  getAllCourse: getAllCourse,
   disableCourse: disableCourse,
   enableCourse: enableCourse,
   editCourseInfo: editCourseInfo,
