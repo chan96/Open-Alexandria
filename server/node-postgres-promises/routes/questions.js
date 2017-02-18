@@ -152,7 +152,7 @@ function disableQuestion(req, res, next){
   }
 }
 
-function enableCourse(req, res, next){
+function enableQuestion(req, res, next){
   var uniqueid = req.query.uniqueid;
   var token = req.cookies.token;
   var dbUpdate = 'update QUESTIONS set QUESTIONS_ISACTIVE = $1 where QUESTIONS_UNIQUE_ID = $2;';
@@ -193,5 +193,7 @@ function enableCourse(req, res, next){
 module.exports = {
   getQuestions: getQuestions,
   getQuestionInfo: getQuestionInfo,
-  postQuestion: postQuestion
+  postQuestion: postQuestion,
+  enableQuestion: enableQuestion,
+  disableQuestion: disableQuestion
 };
