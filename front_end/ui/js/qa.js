@@ -1,6 +1,8 @@
+var questionID;
+var currentQuestion = 0;
 $( document ).ready(function() {
     console.log( "ready!" );
-    var questionID = getUrlParameter('questionid');
+    questionID = getUrlParameter('questionid');
     getQuestionInfo(questionID);
     getAnswers(questionID);
     setAnswerBoxListener();
@@ -77,7 +79,7 @@ function getAnswers(qid) {
 
 function showAnswers(jsonData) {
 
-    for (var i = 0; i < jsonData.length; i++) {
+    for (var i = currentQuestion; i < jsonData.length; i++) {
         console.log(jsonData[i].value.answers_body);
         var $div = $('.empty-response');
         var id = jsonData[i].value.answers_unique_id;
@@ -95,6 +97,7 @@ function showAnswers(jsonData) {
         $('.inner-comments-container').append($answer);
         $answer.show();
     }
+    currentQuestion = i;
 
 }
 
@@ -110,7 +113,7 @@ function setAnswerBoxListener() {
         console.log('hi2');
 
         createAnswer(qid, cid, qbody, uid);
-        location.reload();
+        //location.reload();
         return false;
     });
 }
@@ -128,6 +131,7 @@ function createAnswer(qid, cid, qbody, uid) {
         //dataType: "html",
         success: function(data) {
             console.log(data.message);
+            getAnswers(questionID);
         },
         error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
@@ -143,7 +147,7 @@ function createAnswer(qid, cid, qbody, uid) {
  * Copyright (c) 2007 Tom Deater (http://www.tomdeater.com)
  * Licensed under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  */
 
 (function($) {
@@ -216,7 +220,7 @@ function createAnswer(qid, cid, qbody, uid) {
                 .bind("focus.charCounter", function () { count(this, container); })
                 .bind("mouseover.charCounter", function () { count(this, container); })
                 .bind("mouseout.charCounter", function () { count(this, container); })
-                .bind("paste.charCounter", function () { 
+                .bind("paste.charCounter", function () {
                 var me = this;
                 setTimeout(function () { count(me, container); }, 10);
             });
