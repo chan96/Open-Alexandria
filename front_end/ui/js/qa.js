@@ -77,21 +77,49 @@ function getAnswers(qid) {
     });
 }
 
+function showAnswersAuthor(qid, answerDiv) {
+
+  console.log('qid ' + qid);
+
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'getUserInfoFromUID/',
+        data: ({ userid : qid}),
+        dataType: "html",
+        success: function(data) {
+            console.log('asdf ' + data.firstname);
+            var parsedData = $.parseJSON(data);
+
+            console.log('author ' + parsedData.firstname);
+        answerDiv.find('#author0').text(parsedData.firstname + ' ' + parsedData.lastname);
+        answerDiv.find('#author0').prop('id', 'author' + qid );
+
+        },
+        error: function(data) {
+            console.log(data.error.message);
+
+        }
+    });
+}
+
 function showAnswers(jsonData) {
 
     for (var i = currentQuestion; i < jsonData.length; i++) {
         console.log(jsonData[i].value.answers_body);
         var $div = $('.empty-response');
         var id = jsonData[i].value.answers_unique_id;
-        console.log(id);
-        //var num = parseInt( $('#answer0').prop("id").match(/\d+/g), 10 ) + id;
-        //console.log('num ' + num);
+        var t = jsonData[i].value.answers_dateupdated.split(/[T .]/);
+        var date = t[0];
+        var time = t[1];
         var $answer = $div.clone().removeClass('empty-response');
-        $answer.find('#answer0').text(jsonData[i].value.answers_body);
+
+        console.log(id);
+        $answer.find('#answer0').html(jsonData[i].value.answers_body);
         $answer.find('#answer0').prop('id', 'answer'+id );
+        $answer.find("[name='posting-date']").text(date + ', ' + time);
 
 
-
+        showAnswersAuthor(jsonData[i].value.answers_users_id, $answer);
 
 
         $('.inner-comments-container').append($answer);
