@@ -43,6 +43,9 @@ router.post('/createNewUser', users.createNewUser);
  * @param {string} userID
  */
 router.get('/getUserInfo', users.getUserInfo);
+
+
+router.get('/getUserInfoFromUID', users.getUserInfoFromUID);
 /**
  * POST editUserInfo
  * @param {cookie} token

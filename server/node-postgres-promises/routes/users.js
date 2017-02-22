@@ -133,6 +133,30 @@ function getUserInfo(req, res, next){
   });
 }
 
+function getUserInfoFromUID(req, res, next){
+  var token = req.cookies.token;
+  var userID = req.query.userid;
+  var dbSearch = 'select * from users where USERS_UNIQUE_ID = $1 and USERS_ISACTIVE = true';
+
+  db.one(dbSearch, [userID])
+    .then(function(data){
+      res.status(200).json({
+        status: "Successful retrieval",
+        code: 1,
+        firstname: data.users_firstname,
+        lastname: data.users_lastname,
+        email: data.users_email,
+        isadmin: data.users_isadmin
+      });
+    })
+  .catch(function(err){
+    res.status(400).json({
+      status: "Error cannot find user.",
+      code: -1
+    });
+  });
+}
+
 function editUserInfo(req, res, next){
   var username = req.body.username;
   var firstname = req.body.firstname;
@@ -253,6 +277,7 @@ module.exports = {
   logoutUser: logoutUser,
   createNewUser: createNewUser,
   getUserInfo: getUserInfo,
+  getUserInfoFromUID: getUserInfoFromUID,
   editUserInfo: editUserInfo,
   enableUser: enableUser,
   disableUser: disableUser,
