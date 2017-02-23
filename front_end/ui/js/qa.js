@@ -3,7 +3,7 @@ var currentQuestion = 0;
 $( document ).ready(function() {
     console.log( "ready!" );
     questionID = getUrlParameter('questionid');
-    getQuestionInfo(questionID);
+    showQuestionInfo(questionID);
     getAnswers(questionID);
     setAnswerBoxListener();
 });
@@ -31,7 +31,7 @@ function getUserID() {
     return userID;
 }
 
-function getQuestionInfo(qid) {
+function showQuestionInfo(qid) {
 
     console.log('hi');
     $.ajax({
@@ -43,13 +43,44 @@ function getQuestionInfo(qid) {
             var parsedData = $.parseJSON(data).question[0].data;
             var title = parsedData.title;
             var body = parsedData.body;
+            var userID = parsedData.creatorid;
+        var t = parsedData.dateupdated.split(/[T .]/);
+        var date = t[0];
+        var time = t[1];
 
             $('.topic-title').text(title);
-            $('.author-content').text(body);
+            $("[name='posting-date-author']").text(date + ', ' + time);
+            $('.author-content').html(body);
+
+            showQuestionAuthor(userID);
 
         },
         error: function(data) {
             console.log(data.error.message);
+
+        }
+    });
+}
+
+function showQuestionAuthor(uid) {
+    
+  console.log(uid + ' asdf');
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'getUserInfoFromUID/',
+        data: ({ userid : uid}),
+        dataType: "html",
+        success: function(data) {
+            console.log('qwer ' + data.firstname);
+            var parsedData = $.parseJSON(data);
+            var fname = parsedData.firstname;
+            var lname = parsedData.lastname;
+            console.log(fname + lname);
+
+            $("#author-poster").text(fname + ' ' + lname);
+        },
+        error: function(data) {
+            console.log(data.error);
 
         }
     });
@@ -77,14 +108,14 @@ function getAnswers(qid) {
     });
 }
 
-function showAnswersAuthor(qid, answerDiv) {
+function showAnswersAuthor(uid, answerDiv) {
 
-  console.log('qid ' + qid);
+  console.log('qid ' + uid);
 
     $.ajax({
         type: "GET",
         url: globalUrl + 'getUserInfoFromUID/',
-        data: ({ userid : qid}),
+        data: ({ userid : uid}),
         dataType: "html",
         success: function(data) {
             console.log('asdf ' + data.firstname);
@@ -92,7 +123,7 @@ function showAnswersAuthor(qid, answerDiv) {
 
             console.log('author ' + parsedData.firstname);
         answerDiv.find('#author0').text(parsedData.firstname + ' ' + parsedData.lastname);
-        answerDiv.find('#author0').prop('id', 'author' + qid );
+        answerDiv.find('#author0').prop('id', 'author' + uid );
 
         },
         error: function(data) {
