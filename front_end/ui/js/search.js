@@ -152,6 +152,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
         $article,
         article_width;
 
+    
     function Plugin(element, options) {
         this.element = element;
         this.options = $.extend({}, defaults, options) ;
