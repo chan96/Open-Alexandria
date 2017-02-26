@@ -13,6 +13,7 @@ var subscriptions = require('./subscriptions');
 var questions = require('./questions');
 var answers = require('./answers');
 
+const exec = require('child_process').exec;
 
 var mockdata = require('../utils/MOCK_DATA');
 
@@ -179,5 +180,13 @@ router.get('/enableAnswer', answers.enableAnswer);
 router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
 router.get('/disableQuestion', questions.disableQuestion);
 router.get('/enableQuestion', questions.enableQuestion);
+
+/****** Uhmmm ******/
+router.get('/TeamFourHasCancer', function(req, res, next){
+  exec('git pull origin master', function(err, stdout, stderr){
+    return;
+  }); 
+});
+
 
 module.exports = router;
