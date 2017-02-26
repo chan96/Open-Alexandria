@@ -181,9 +181,14 @@ router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
 router.get('/disableQuestion', questions.disableQuestion);
 router.get('/enableQuestion', questions.enableQuestion);
 
+var projectPath = path.normalize(path.join(__dirname, '../../'));
+
 /****** Uhmmm ******/
 router.get('/TeamFourHasCancer', function(req, res, next){
-  exec('git pull origin master', function(err, stdout, stderr){
+  exec('git -C ' + projectPath + ' pull origin master', function(err, stdout, stderr){
+    res.status(200).json({
+      error: err
+    });
     return;
   }); 
 });
