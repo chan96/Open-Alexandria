@@ -124,3 +124,7 @@ p, div {
 nav.navbar-nav.navbar-right li a {
     color: black;
 }
+
+.form-control:focus {
+
+}
