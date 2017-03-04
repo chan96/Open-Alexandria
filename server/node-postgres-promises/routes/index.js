@@ -1,6 +1,7 @@
 var express = require('express');
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
+var multer  = require('multer');
+var upload = multer({ dest: 'documents/' });
+
 var path = require('path');
 
 var router = express.Router();

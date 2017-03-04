@@ -12,6 +12,7 @@ var connectionInfo = {
   password: 'openalexandria'
 };
 
+var filepreview = require('filepreview');
 var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://alexdb.us.to:5432/openalexandriadb';
 var db = pgp(connectionInfo);
@@ -20,6 +21,7 @@ var userAuth = require("../utils/userAuth");
 
 function uploadDocuments(req, res, next){
   var filename = req.query.rename;
+  console.log(req.file);
   if(filename === undefined){
     filename = req.file.originalname;
   }
@@ -52,6 +54,13 @@ function uploadDocuments(req, res, next){
         status: "Successful file upload",
         filename: filename,
         code: 1
+      });
+      var previewPath = __dirname + "/" + filename
+      filepreview.generate(filepath, previewPath , function(err){
+        if(err){
+          console.log(err); 
+        }
+        console.log(previewPath);
       });
     }).catch(function(err){
       res.status(500).json({
