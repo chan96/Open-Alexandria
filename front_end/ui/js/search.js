@@ -17,6 +17,7 @@ $(document).ready(function() {
 function setListeners() {
     setDocumentGridListener();
     setGetQuestionListener();
+    setGetDocumentListener();
     setNewPostQuestionListener();
     setNewDocumentListener();
     setNewFlashcardListener();
@@ -34,16 +35,20 @@ function setDocumentGridListener() {
 
 function setGetQuestionListener() {
 
-    $('#questionModal').on('show.bs.modal', function (e) {
+    setQuestions(courseID);
+}
+
+function setGetDocumentListener() {
+
+    //setDocuments(courseID);
+}
+
+function setNewPostQuestionListener() {
+    $('#newQuestionBttn').on(function () {
         if (document.cookie == '') {
           location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
         }
     })
-    setQuestions(courseID);
-}
-
-function setNewPostQuestionListener() {
-
     $('#postBttn').click(function () {
         var questionTitle = $('#question-title').val();
         var questionBody = $('#question-body').val();
@@ -88,7 +93,14 @@ function setNewFlashcardListener() {
 }
 
 function setNewDocumentListener() {
-
+    
+    $("#newDocumentModalContainer").load('newDocument.html');
+    
+    $('#newDocumentBttn').on('show.bs.modal', function (e) {
+        if (document.cookie == '') {
+          location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+        }
+    })
 }
 
 function getUserID() {
