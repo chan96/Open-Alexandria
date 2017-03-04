@@ -11,6 +11,8 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
         <link href="css/search.css" rel="stylesheet">
+        <link href="css/newDocument.css" rel="stylesheet">
+
 
 
         <!--[if lt IE 9]>
@@ -70,9 +72,14 @@
             <h1 class="course-name centering"><strong></strong></h1>
             <div class="row">
 
-                <h1>Documents</h1>
+                <div class="col-md-12 inline">
+                    <h1 class="section inline"><strong>Documents</strong></h1>
+<!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
+                    <button id="newDocumentBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#documentModal" data-whatever="@mdo">+</button>
+                </div>
                 <hr>
                 <section id="pinBoot">
+                    
 
                     <article class="white-panel"><img src="http://cdn.lrb.co.uk/blog/wp-content/uploads/2014/03/Lorem_Ipsum.jpg" alt="">
                         <h4><a href="#">Title 1</a></h4>
@@ -122,6 +129,8 @@
                         <h4><a href="#">Title 8</a></h4>
                         <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </article>
+                    
+                    <div id="newDocumentModalContainer"></div>
 
                 </section>
                 <hr>
@@ -272,6 +281,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/search.js"></script>
+        <script src="js/newDocument.js"></script>
+
 
     </body>
 </html>
