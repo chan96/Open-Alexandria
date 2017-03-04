@@ -1,11 +1,13 @@
-drop table users;
-drop table courses;
-drop table documents;
-drop table SUBSCRIPTIONS;
-drop table QUESTIONS;
-drop table ANSWERS;
-drop table FLASHCARDDECKS;
-drop table FLASHCARDS;
+drop table if exists users;
+drop table if exists courses;
+drop table if exists documents;
+drop table if exists SUBSCRIPTIONS;
+drop table if exists QUESTIONS;
+drop table if exists ANSWERS;
+drop table if exists FLASHCARDDECKS;
+drop table if exists FLASHCARDS;
+drop table if exists USERSFEEDBACK;
+drop table if exists COMMENTS;
 
 CREATE TABLE USERS(
   USERS_UNIQUE_ID serial primary key not null,
@@ -45,7 +47,8 @@ CREATE TABLE DOCUMENTS(
   DOCUMENTS_DATECREATED timestamp default current_timestamp,
   DOCUMENTS_ISACTIVE boolean not null default true,
   DOCUMENTS_NUMLIKE int default 0,
-  DOCUMENTS_NUMDISLIKE int default 0
+  DOCUMENTS_NUMDISLIKE int default 0,
+  DOCUMENTS_RATINGS int default 0
 );
 
 CREATE TABLE SUBSCRIPTIONS(
@@ -64,7 +67,9 @@ CREATE TABLE QUESTIONS(
   QUESTIONS_USERS_ID int not null,
   QUESTIONS_DATECREATED timestamp default current_timestamp,
   QUESTIONS_DATEUPDATED timestamp default current_timestamp,
-  QUESTIONS_ISACTIVE boolean not null default true
+  QUESTIONS_ISACTIVE boolean not null default true,
+  QUESTIONS_NUMLIKE int default 0,
+  QUESTIONS_NUMDISLIKE int default 0
 );
 
 CREATE TABLE ANSWERS(
@@ -102,6 +107,37 @@ CREATE TABLE FLASHCARDS(
   FLASHCARDS_DATEUPDATED timestamp default current_timestamp
 );
 
+CREATE TABLE USERSFEEDBACK(
+  USERSFEEDBACK_UNIQUE_ID serial primary key not null,
+  USERSFEEDBACK_USERS_ID int not null,
+  /*
+  ID  Type
+  0   void
+  1   document
+  2   question
+  3   answer
+  */
+  USERSFEEDBACK_TYPE int not null,
+  USERSFEEDBACK_ITEM_ID int not null,
+  USERSFEEDBACK_ISLIKE boolean,
+  USERSFEEDBACK_RATING int
+);
+
+CREATE TABLE COMMENTS(
+  COMMENTS_UNIQUE_ID serial primary key not null,
+  COMMENTS_USERS_ID int not null,
+  /*
+  ID  Type
+  0   void
+  1   document
+  2   question
+  3   answer
+  */
+  COMMENTS_TYPE int not null,
+  COMMENTS_ITEM_ID int not null,
+  COMMENTS_TEXT varchar default '<>'
+);
+
 insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIVE, USERS_EMAIL, USERS_PASSWORD, USERS_DESCRIPTION, USERS_ENTRYUSER)
  values ('Jessica','Smith', true, true, 'jessica1@openalex.com', 'hunter2', 'Original Test Admin Account', 'default');
 insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIVE, USERS_EMAIL, USERS_PASSWORD, USERS_DESCRIPTION, USERS_ENTRYUSER)
@@ -120,7 +156,7 @@ insert into COURSES (COURSES_SCHOOL_ID, COURSES_NAME, COURSES_DESCRIPTION) value
 
 insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE) values ('Cake' , 'http://i.imgur.com/6Vvno2g.jpg',1,2,'picture');
 update COURSES set COURSES_DATEUPDATED = current_timestamp where COURSES_UNIQUE_ID = 1;
-insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE) values ('Demo' , 'http://www.youtube.com/watch?v=dQw4w9WgXcQ', 2,1,'link');
+insert into DOCUMENTS (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE) values ('Demo' , 'http://i.imgur.com/QVFeCyP.jpg', 2,1,'link');
 update COURSES set COURSES_DATEUPDATED = current_timestamp where COURSES_UNIQUE_ID = 2;
 
 insert into SUBSCRIPTIONS (SUBSCRIPTIONS_COURSES_ID, SUBSCRIPTIONS_USERS_ID) values (1,2);
