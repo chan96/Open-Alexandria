@@ -43,7 +43,7 @@ function uploadDocuments(req, res, next){
   }
 
   if(filetype === undefined){
-    filetype = document;
+    filetype = 'document';
   }
 
   var dbInsert = 'insert into documents (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE, DOCUMENTS_DESCRIPTION) values ($1, $2, $3, $4, $5, $6);';

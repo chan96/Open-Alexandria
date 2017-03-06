@@ -30,7 +30,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-//app.u.e(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(cookieParser());
 var testing = path.normalize(path.join(__dirname, '../../front_end/ui'));
 console.log(testing);
