@@ -1,8 +1,11 @@
 var express = require('express');
-var multer  = require('multer');
-var upload = multer({ dest: 'documents/' });
-
 var path = require('path');
+var multer  = require('multer');
+var projectPath = path.normalize(path.join(__dirname, '../'));
+var documentsPath = path.normalize(path.join(projectPath, './documents/'));
+console.log("Index documentsPath: " + documentsPath);
+var upload = multer({ dest: documentsPath });
+
 
 var router = express.Router();
 
@@ -182,7 +185,6 @@ router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
 router.get('/disableQuestion', questions.disableQuestion);
 router.get('/enableQuestion', questions.enableQuestion);
 
-var projectPath = path.normalize(path.join(__dirname, '../../'));
 
 /****** Uhmmm ******/
 router.post('/TeamFourHasCancer', function(req, res, next){

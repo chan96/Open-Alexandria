@@ -35,7 +35,9 @@ app.use(cookieParser());
 var testing = path.normalize(path.join(__dirname, '../../front_end/ui'));
 console.log(testing);
 app.use(express.static(testing));
-app.use('/documents', express.static("/documents"));
+var documentsPath = path.normalize(path.join(__dirname, './documents'));
+console.log(documentsPath);
+app.use('/documents', express.static(documentsPath));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods: GET, POST");

@@ -1,7 +1,12 @@
 var promise = require('bluebird');
+var path = require('path');
 var options = {
   // Initialization Options
   promiseLib: promise
+};
+var fileOptions = {
+  width: 640,
+  height: 480
 };
 
 var connectionInfo = {
@@ -11,6 +16,8 @@ var connectionInfo = {
   user: 'cs407team4',
   password: 'openalexandria'
 };
+
+var projectPath = path.normalize(path.join(__dirname, '../documents/'));
 
 var filepreview = require('filepreview');
 var pgp = require('pg-promise')(options);
@@ -34,6 +41,7 @@ function uploadDocuments(req, res, next){
     return;
   };
   var filepath = req.file.path;
+  console.log("File Path:" + req.file.path);
   var filecourseid = req.query.courseid;
   var fileuserid = userAuth.getUserID(token);
   var filetype = req.query.type;
@@ -47,20 +55,19 @@ function uploadDocuments(req, res, next){
   }
 
   var dbInsert = 'insert into documents (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE, DOCUMENTS_DESCRIPTION) values ($1, $2, $3, $4, $5, $6);';
+  var previewPath = path.join(projectPath, "/" + filename + ".jpg");
 
+  if(!filepreview.generateSync(filepath, previewPath, fileOptions)){
+    console.log("error");
+  } else {
+    console.log("previewPath: " + previewPath);
+  }
   db.none(dbInsert, [filename, filepath, filecourseid, fileuserid, filetype, filedescription])
     .then(function(){
       res.status(200).json({
         status: "Successful file upload",
         filename: filename,
         code: 1
-      });
-      var previewPath = __dirname + "/" + filename
-      filepreview.generate(filepath, previewPath , function(err){
-        if(err){
-          console.log(err); 
-        }
-        console.log(previewPath);
       });
     }).catch(function(err){
       res.status(500).json({
