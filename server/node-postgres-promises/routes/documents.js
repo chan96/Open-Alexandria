@@ -1,3 +1,4 @@
+//
 const exec = require('child_process').exec;
 var promise = require('bluebird');
 var path = require('path');
@@ -105,8 +106,9 @@ function searchDocument(req, res, next){
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
           documenttype: data[i].documents_type,
-          documentlike: data[i].document_numlike,
-          documentdislike: data[i].document_numdislike
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated
         }
         commonString.push({value:data[i].documents_name,data:documentInfo});
       }
@@ -138,8 +140,9 @@ function searchDocumentByCourse(req,res,next){
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
           documenttype: data[i].documents_type,
-          documentlike: data[i].document_numlike,
-          documentdislike: data[i].document_numdislike
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated
         }
         commonString.push({value:data[i].documents_name, data: documentInfo});
       } 
@@ -171,8 +174,9 @@ function searchDocumentByUser(req,res,next){
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
           documenttype: data[i].documents_type,
-          documentlike: data[i].document_numlike,
-          documentdislike: data[i].document_numdislike
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated
         }
         commonString.push({value:data[i].documents_name, data: documentInfo});
       } 
@@ -199,8 +203,9 @@ function getDocument(req, res, next){
         documentuser: data.documents_users_id,
         documentdescription: data.documents_description,
         documenttype: data.documents_type,
-        documentlike: data.document_numlike,
-        documentdislike: data.document_numdislike
+        documentlike: data.documents_numlike,
+        documentdislike: data.documents_numdislike,
+        documentdatecreated: data[i].documents_datecreated
       });
     }).catch(function(err){
       res.status(500).json({
