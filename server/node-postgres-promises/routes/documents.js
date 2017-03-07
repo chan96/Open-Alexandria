@@ -62,7 +62,7 @@ function uploadDocuments(req, res, next){
   var dbInsert = 'insert into documents (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE, DOCUMENTS_DESCRIPTION, DOCUMENTS_PREVIEW) values ($1, $2, $3, $4, $5, $6, $7);';
   var previewPath = path.join(projectPath, "/" + req.file.filename + ".jpg");
 
-  if(!filepreview.generateSync(filepath, previewPath)){
+  if(!filepreview.generateSync(req.file.path, previewPath)){
     console.log("error");
   } else {
     console.log("previewPath: " + previewPath);

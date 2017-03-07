@@ -16,6 +16,7 @@ var documents = require('./documents');
 var subscriptions = require('./subscriptions');
 var questions = require('./questions');
 var answers = require('./answers');
+var flashcards = require('./flashcards');
 
 const exec = require('child_process').exec;
 
@@ -184,6 +185,9 @@ router.get('/enableAnswer', answers.enableAnswer);
 router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
 router.get('/disableQuestion', questions.disableQuestion);
 router.get('/enableQuestion', questions.enableQuestion);
+
+router.get('/createDeck', flashcards.createDeck);
+router.get('/createCardInDeck', flashcards.createCardInDeck);
 
 
 /****** Uhmmm ******/
