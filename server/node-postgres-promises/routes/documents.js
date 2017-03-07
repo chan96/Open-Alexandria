@@ -1,12 +1,14 @@
+const exec = require('child_process').exec;
 var promise = require('bluebird');
 var path = require('path');
+var mime = require('mime-types');
 var options = {
   // Initialization Options
   promiseLib: promise
 };
 var fileOptions = {
-  width: 640,
-  height: 480
+  width: 1920,
+  height: 1080
 };
 
 var connectionInfo = {
@@ -27,11 +29,6 @@ var db = pgp(connectionInfo);
 var userAuth = require("../utils/userAuth");
 
 function uploadDocuments(req, res, next){
-  var filename = req.query.rename;
-  console.log(req.file);
-  if(filename === undefined){
-    filename = req.file.originalname;
-  }
   var token = req.cookies.token;
   if(token === undefined){
     res.status(401).json({
@@ -40,7 +37,13 @@ function uploadDocuments(req, res, next){
     });
     return;
   };
-  var filepath = req.file.path;
+  var filename = req.query.rename;
+  console.log(req.file);
+  if(filename === undefined){
+    filename = req.file.originalname;
+  }
+  var destFileName = req.file.filename;
+
   console.log("File Path:" + req.file.path);
   var filecourseid = req.query.courseid;
   var fileuserid = userAuth.getUserID(token);
@@ -51,29 +54,36 @@ function uploadDocuments(req, res, next){
   }
 
   if(filetype === undefined){
-    filetype = 'document';
+    filetype = mime.extension(req.file.mimetype);
   }
 
-  var dbInsert = 'insert into documents (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE, DOCUMENTS_DESCRIPTION) values ($1, $2, $3, $4, $5, $6);';
-  var previewPath = path.join(projectPath, "/" + filename + ".jpg");
+  var filepath = "/documents/" + destFileName;
 
-  if(!filepreview.generateSync(filepath, previewPath, fileOptions)){
+  var dbInsert = 'insert into documents (DOCUMENTS_NAME, DOCUMENTS_LINK, DOCUMENTS_COURSES_ID, DOCUMENTS_USERS_ID, DOCUMENTS_TYPE, DOCUMENTS_DESCRIPTION, DOCUMENTS_PREVIEW) values ($1, $2, $3, $4, $5, $6, $7);';
+  var previewPath = path.join(projectPath, "/" + req.file.filename + ".jpg");
+
+  if(!filepreview.generateSync(filepath, previewPath)){
     console.log("error");
   } else {
     console.log("previewPath: " + previewPath);
   }
-  db.none(dbInsert, [filename, filepath, filecourseid, fileuserid, filetype, filedescription])
+
+  db.none(dbInsert, [filename, filepath, filecourseid, fileuserid, filetype, filedescription, previewPath])
     .then(function(){
       res.status(200).json({
         status: "Successful file upload",
         filename: filename,
+        destFileName: destFileName,
         code: 1
       });
-    }).catch(function(err){
-      res.status(500).json({
-        status: "Error unknown",
-        error: {name: err.name, message: err.message},
-        code: -1
+    }).catch(function(error){
+      exec('rm -rf ' + filepath + " " + previewPath, function(err, stdout, stderr){
+        res.status(500).json({
+          status: "Error unknown",
+          error: {name: error.name, message: error.message},
+          err: err,
+          code: -1
+        });
       });
     })
 }
@@ -90,7 +100,7 @@ function searchDocument(req, res, next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: data[i].documents_link,
+          documentlink: "http://" + req.get('host') + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
@@ -123,7 +133,7 @@ function searchDocumentByCourse(req,res,next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: data[i].documents_link,
+          documentlink: "http://" + req.get('host') + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
@@ -156,7 +166,7 @@ function searchDocumentByUser(req,res,next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: data[i].documents_link,
+          documentlink: "http://" + req.get('host') + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
@@ -184,7 +194,7 @@ function getDocument(req, res, next){
       res.status(200).json({
         documentuniqueid: data.documents_unique_id,
         documentname: data.documents_name,
-        documentlink: data.documents_link,
+        documentlink: "http://" + req.get('host') + data.documents_link,
         documentcourse: data.documents_courses_id,
         documentuser: data.documents_users_id,
         documentdescription: data.documents_description,
