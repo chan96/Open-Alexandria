@@ -188,6 +188,7 @@ router.get('/enableQuestion', questions.enableQuestion);
 
 router.get('/createDeck', flashcards.createDeck);
 router.get('/createCardInDeck', flashcards.createCardInDeck);
+router.get('/searchFlashDeckName', flashcards.searchFlashDeckName);
 
 
 /****** Uhmmm ******/
