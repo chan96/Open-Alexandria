@@ -36,7 +36,7 @@ function uploadDocuments(req, res, next){
       status: "Error unauthorized action",
       code: -1
     });
-    return;
+   return;
   };
   var filename = req.query.rename;
   console.log(req.file);
@@ -101,7 +101,7 @@ function searchDocument(req, res, next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: "http://openalex.com" + data[i].documents_link,
+          documentlink: "https://openalex.com" + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
@@ -135,7 +135,7 @@ function searchDocumentByCourse(req,res,next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: "http://openalex.com" + data[i].documents_link,
+          documentlink: "https://openalex.com" + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
@@ -169,7 +169,7 @@ function searchDocumentByUser(req,res,next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: "http://openalex.com" + data[i].documents_link,
+          documentlink: "https://openalex.com" + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
@@ -198,7 +198,7 @@ function getDocument(req, res, next){
       res.status(200).json({
         documentuniqueid: data.documents_unique_id,
         documentname: data.documents_name,
-        documentlink: "http://" + req.get('host') + data.documents_link,
+        documentlink: "https://" + req.get('host') + data.documents_link,
         documentcourse: data.documents_courses_id,
         documentuser: data.documents_users_id,
         documentdescription: data.documents_description,
