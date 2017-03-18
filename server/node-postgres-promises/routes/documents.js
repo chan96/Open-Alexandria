@@ -1,3 +1,4 @@
+//
 const exec = require('child_process').exec;
 var promise = require('bluebird');
 var path = require('path');
@@ -35,7 +36,7 @@ function uploadDocuments(req, res, next){
       status: "Error unauthorized action",
       code: -1
     });
-    return;
+   return;
   };
   var filename = req.query.rename;
   console.log(req.file);
@@ -100,13 +101,14 @@ function searchDocument(req, res, next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: "http://" + req.get('host') + data[i].documents_link,
+          documentlink: "https://openalex.com" + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
           documenttype: data[i].documents_type,
-          documentlike: data[i].document_numlike,
-          documentdislike: data[i].document_numdislike
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated
         }
         commonString.push({value:data[i].documents_name,data:documentInfo});
       }
@@ -133,13 +135,14 @@ function searchDocumentByCourse(req,res,next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: "http://" + req.get('host') + data[i].documents_link,
+          documentlink: "https://openalex.com" + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
           documenttype: data[i].documents_type,
-          documentlike: data[i].document_numlike,
-          documentdislike: data[i].document_numdislike
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated
         }
         commonString.push({value:data[i].documents_name, data: documentInfo});
       } 
@@ -166,13 +169,14 @@ function searchDocumentByUser(req,res,next){
         var documentInfo = {
           documentuniqueid: data[i].documents_unique_id,
           documentname: data[i].documents_name,
-          documentlink: "http://" + req.get('host') + data[i].documents_link,
+          documentlink: "https://openalex.com" + data[i].documents_link,
           documentcourse: data[i].documents_courses_id,
           documentuser: data[i].documents_users_id,
           documentdescription: data[i].documents_description,
           documenttype: data[i].documents_type,
-          documentlike: data[i].document_numlike,
-          documentdislike: data[i].document_numdislike
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated
         }
         commonString.push({value:data[i].documents_name, data: documentInfo});
       } 
@@ -194,13 +198,14 @@ function getDocument(req, res, next){
       res.status(200).json({
         documentuniqueid: data.documents_unique_id,
         documentname: data.documents_name,
-        documentlink: "http://" + req.get('host') + data.documents_link,
+        documentlink: "https://" + req.get('host') + data.documents_link,
         documentcourse: data.documents_courses_id,
         documentuser: data.documents_users_id,
         documentdescription: data.documents_description,
         documenttype: data.documents_type,
-        documentlike: data.document_numlike,
-        documentdislike: data.document_numdislike
+        documentlike: data.documents_numlike,
+        documentdislike: data.documents_numdislike,
+        documentdatecreated: data[i].documents_datecreated
       });
     }).catch(function(err){
       res.status(500).json({

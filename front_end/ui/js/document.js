@@ -1,36 +1,39 @@
 function showDocPreviews(parsedData) {
+    var jsonData = parsedData.suggestions;
     
-     for (var i = currentQuestion; i < jsonData.length; i++) {
+     for (var i = 0; i < jsonData.length; i++) {
         console.log(jsonData[i].value);
         var $div = $('.templateDocPreview');
-        var id = jsonData[i].value.documents_unique_id;
-        var t = jsonData[i].value.documents_datecreated.split(/[T .]/);
+        var id = jsonData[i].data.documentuniqueid;
+        var t = jsonData[i].data.documentdatecreated.split(/[T .]/);
         var date = t[0];
         var time = t[1];
         var $templateDocPreview = $div.clone().removeClass('templateDocPreview');
 
+
         console.log(id);
         $templateDocPreview.find('#doc0').prop('id', 'doc'+id );
-        $templateDocPreview.find('img').attr("src", jsonData[i].value.documents_description);
-        $templateDocPreview.find('h4').text(jsonData[i].value.documents_name);
-        $templateDocPreview.find('p').text(jsonData[i].value.documents_description);
+        $templateDocPreview.find('img').attr("src", jsonData[i].data.documentlink + '.jpg');
+        $templateDocPreview.find('h4').text(jsonData[i].data.documentname);
+        $templateDocPreview.find('p').text(jsonData[i].data.documentdescription);
          
-        $('#pinboot').append($answer);
+        $('#pinBoot').append($templateDocPreview);
         $templateDocPreview.show();
+        console.log($templateDocPreview);
     }
 }
 
 function getDocPreviews(cid) {
-     console.log('qid ' + uid);
 
     $.ajax({
         type: "GET",
-        url: globalUrl + 'getDocumentPreviews/',
-        data: ({ courseid : cid}),
+        url: globalUrl + 'searchDocumentByCourse/',
+        data: ({ courseid : cid, query : ''}),
         dataType: "html",
         success: function(data) {
             //console.log('asdf ' + data.firstname);
             var parsedData = $.parseJSON(data);
+            console.log(parsedData.suggestions);
              
             showDocPreviews(parsedData);
 
