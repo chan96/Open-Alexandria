@@ -12,6 +12,8 @@
         <link href="css/index.css" rel="stylesheet">
         <link href="css/search.css" rel="stylesheet">
         <link href="css/newDocument.css" rel="stylesheet">
+                <link href="css/document_view.css" rel="stylesheet">
+
 
 
 
@@ -31,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Open Alexandria</a>
+                <a class="navbar-brand" href="#">Open Alexandria</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -68,109 +70,19 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
-        <div class="container">
-            <h1 class="course-name centering"><strong></strong></h1>
-            <div class="row">
-
-                <div class="col-md-12 inline">
-                    <h1 class="section inline"><strong>Documents</strong></h1>
-<!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
-                    <button id="newDocumentBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#documentModal" data-whatever="@mdo">+</button>
-                </div>
-                <hr>
-                    <article hidden class="white-panel templateDocPreview"><img src="http://cdn.lrb.co.uk/blog/wp-content/uploads/2014/03/Lorem_Ipsum.jpg" alt="">
-                        <h4><a href="#">Title 1</a></h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-                    </article>
-                <section id="pinBoot">
-                    
-
-                    
-
-                </section>
-                    <div id="newDocumentModalContainer"></div>
-                <hr>
-            </div>
-        </div>
+        
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1><strong>Flashcards</strong></h1>
+                    <h1 id="doc-name"><strong></strong></h1>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="tile purple">
-                        <div class="lines"></div>
-                        <ul class="list">
-                            <li><h4>Lorem</h4></li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                        </ul>
-                    </div>
+                <div class="col-md-1">
+                    <iframe id="doc-frame" src="http://docs.google.com/gview?url=http://domain.com/pdf.pdf&embedded=true" 
+ frameborder="0"></iframe>
                 </div>
-                <div class="col-sm-4">
-                    <div class="tile red">
-                        <div class="lines"></div>
-                        <ul class="list">
-                            <li><h4>Lorem</h4></li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="tile orange">
-                        <div class="lines"></div>
-                        <ul class="list">
-                            <li><h4>Lorem</h4></li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="tile orange">
-                        <div class="lines"></div>
-                        <ul class="list">
-                            <li><h4>Lorem</h4></li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="tile orange">
-                        <div class="lines"></div>
-                        <ul class="list">
-                            <li><h4>Lorem</h4></li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                            <li>sed do eiusmod </li>
-                        </ul>
-                    </div>
-                </div>
+                
             </div>
 
         </div>
@@ -178,7 +90,7 @@
         <div class="questions-container container">
             <div class="row">
                 <div class="col-md-12 inline">
-                    <h1 class="section inline"><strong>Questions</strong></h1>
+                    <h1 class="section inline"><strong>Comments</strong></h1>
 <!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
                     <button id="newQuestionBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#questionModal" data-whatever="@mdo">+</button>
                 </div>
@@ -241,6 +153,8 @@
         <script src="js/document.js"></script>
         <script src="js/newDocument.js"></script>
         <script src="js/search.js"></script>
+                <script src="js/document_view.js"></script>
+
 
 
     </body>

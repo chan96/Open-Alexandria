@@ -1,21 +1,26 @@
 function showDocPreviews(parsedData) {
     var jsonData = parsedData.suggestions;
     
-     for (var i = 0; i < jsonData.length; i++) {
+     for (let i = 0; i < jsonData.length; i++) {
         console.log(jsonData[i].value);
         var $div = $('.templateDocPreview');
         var id = jsonData[i].data.documentuniqueid;
         var t = jsonData[i].data.documentdatecreated.split(/[T .]/);
         var date = t[0];
         var time = t[1];
+        var link = jsonData[i].data.documentlink;
+        var docName = jsonData[i].data.documentname;
         var $templateDocPreview = $div.clone().removeClass('templateDocPreview');
 
-
-        console.log(id);
+        console.log(jsonData[i].data);
         $templateDocPreview.find('#doc0').prop('id', 'doc'+id );
         $templateDocPreview.find('img').attr("src", jsonData[i].data.documentlink + '.jpg');
         $templateDocPreview.find('h4').text(jsonData[i].data.documentname);
         $templateDocPreview.find('p').text(jsonData[i].data.documentdescription);
+         $templateDocPreview.click(function() {
+           console.log('link ' + link);
+             window.location.href = globalUrl + 'document_view.html' + '?docName=' + jsonData[i].data.documentname + '&docUrl=' + encodeURIComponent(jsonData[i].data.documentlink);
+         })
          
         $('#pinBoot').append($templateDocPreview);
         $templateDocPreview.show();
