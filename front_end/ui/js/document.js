@@ -16,6 +16,9 @@ function showDocPreviews(parsedData) {
         $templateDocPreview.find('img').attr("src", jsonData[i].data.documentlink + '.jpg');
         $templateDocPreview.find('h4').text(jsonData[i].data.documentname);
         $templateDocPreview.find('p').text(jsonData[i].data.documentdescription);
+         $templateDocPreview.click(function() {
+             window.location.href = globalUrl + '/document_view.html' + '?docUrl=' + encodeURIComponent(jsonData[i].data.documentlink);
+         })
          
         $('#pinBoot').append($templateDocPreview);
         $templateDocPreview.show();
