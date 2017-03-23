@@ -1,6 +1,7 @@
 var dataGlobalCourse;
 var dataGlobalUser;
 var dataGlobalQuestion = [];
+var dataGlobalDocument = [];
 
   var questionUrl;
 
@@ -10,6 +11,7 @@ $(document).ready(function(){
   var courseUrl = globalUrl + "getAllCourse";
   var userUrl = globalUrl +"listAllUsers";
   questionUrl = globalUrl + "getAllQuestions?courseid=";
+  documentUrl = globalUrl + "searchDocumentByUser?user=";
 
   	//COURSE
   	$.get(courseUrl, function (data) {
@@ -46,10 +48,11 @@ $(document).ready(function(){
         }else{
           buttonText = "Unblock User";
         }
-        $("#userTable").append("<tbody><tr><td>" + data.suggestions[count].data.users_firstname + "</td><td>" + data.suggestions[count].data.users_lastname + 
+        $("#userTable").append("<tbody id='userBodyTable" + count + "'><tr id='userBodyRow" + count + "'><td>" + data.suggestions[count].data.users_firstname + "</td><td>" + data.suggestions[count].data.users_lastname + 
           "</td><td>"+ data.suggestions[count].data.users_email +"</td><td>"+ data.suggestions[count].data.users_isadmin +
           "</td><td>" + data.suggestions[count].data.users_unique_id + 
-          "<td><button id='block" + count + "' type='button' onclick='blockUser(" + count + ")'>" + buttonText + "</button></td></tr></tbody>");
+          "</td><td><button id='block" + count + "' type='button' onclick='blockUser(" + count + ")'>" + buttonText + "</button></td><td>"
+          + "<button id='listD" + count + "' type='button' onclick='listDocumentsByUser(" + count + ")'>List All Documents</button></td></tr></tbody>");
       }
         //window.location.href = 'http://openalexandria.us.to:3000/login.html';
     }).done(function(){
@@ -108,6 +111,28 @@ function listQuestions(count){
       $("#courseQuestion" + count).after("<tr><td></td><td>" + dataGlobalQuestion[count].suggestions[num].data.questionid + "</td><td>" 
         + dataGlobalQuestion[count].suggestions[num].data.title + "</td><td></td><td></td><td><button id='enableQuestion" + num + 
         "' type='button' onclick='disableQuestion(" + count + "," + num + ")'>" + buttonText + "</button></td></tr>");
+    }
+  }).fail(function(){
+
+  });
+}
+function listDocumentsByUser(count){
+
+  $.get(documentUrl + dataGlobalUser.suggestions[count].data.users_unique_id, function (data) {
+    dataGlobalDocument[count] = data;
+    console.log(dataGlobalDocument);
+    $("#userBodyRow" + count).after("<tr id='userDocument" + count + "'><th></th><th>Document ID</th><th></th><th>Document</th></tr>");
+    for(var num = 0; num < Object.keys(dataGlobalDocument[count].suggestions).length; num++){
+      var buttonText = "";
+      console.log(dataGlobalDocument[count].suggestions[num]);
+      if(dataGlobalDocument[count].suggestions[num].data.questionisactive){
+        buttonText = "Disable Document";
+      }else{
+        buttonText = "Enable Document";
+      }
+      $("#userDocument" + count).after("<tr><td></td><td>" + dataGlobalDocument[count].suggestions[num].data.questionid + "</td><td>" 
+        + dataGlobalDocument[count].suggestions[num].data.title + "</td><td></td><td></td><td><button id='enableDocument" + num + 
+        "' type='button' onclick='disableDocument(" + count + "," + num + ")'>" + buttonText + "</button></td></tr>");
     }
   }).fail(function(){
 
