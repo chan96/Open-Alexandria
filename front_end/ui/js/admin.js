@@ -11,7 +11,7 @@ $(document).ready(function(){
   var courseUrl = globalUrl + "getAllCourse";
   var userUrl = globalUrl +"listAllUsers";
   questionUrl = globalUrl + "getAllQuestions?courseid=";
-  documentUrl = globalUrl + "searchDocumentByUser?user=";
+  documentUrl = globalUrl + "searchDocumentByUser?query=&userid=";
 
   	//COURSE
   	$.get(courseUrl, function (data) {
@@ -125,13 +125,13 @@ function listDocumentsByUser(count){
     for(var num = 0; num < Object.keys(dataGlobalDocument[count].suggestions).length; num++){
       var buttonText = "";
       console.log(dataGlobalDocument[count].suggestions[num]);
-      if(dataGlobalDocument[count].suggestions[num].data.questionisactive){
+      if(dataGlobalDocument[count].suggestions[num].data.documentisactive){
         buttonText = "Disable Document";
       }else{
         buttonText = "Enable Document";
       }
-      $("#userDocument" + count).after("<tr><td></td><td>" + dataGlobalDocument[count].suggestions[num].data.questionid + "</td><td>" 
-        + dataGlobalDocument[count].suggestions[num].data.title + "</td><td></td><td></td><td><button id='enableDocument" + num + 
+      $("#userDocument" + count).after("<tr><td></td><td>" + dataGlobalDocument[count].suggestions[num].data.documentuniqueid + "</td><td></td><td>" 
+        + dataGlobalDocument[count].suggestions[num].data.documentname + "</td><td></td><td></td><td><button id='enableDocument" + num + 
         "' type='button' onclick='disableDocument(" + count + "," + num + ")'>" + buttonText + "</button></td></tr>");
     }
   }).fail(function(){

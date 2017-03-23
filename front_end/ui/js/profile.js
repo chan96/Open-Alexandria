@@ -8,9 +8,14 @@ $(document).ready(function(){
       dataGlobalUser = data;
       //$("#PersonalInfo").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
       console.log(dataGlobalUser);
+      document.getElementById("firstname").value = data.firstname;
+      document.getElementById("lastname").value = data.lastname;
+      document.getElementById("email").value = data.email;
+      /*
       $("#firstname").html(data.firstname);
       $("#lastname").html(data.lastname);
       $("#email").html(data.email);
+      */
       /*
       for(var count = 0; count < Object.keys(dataGlobalUser.suggestions).length; count++){
         var buttonText = "";
