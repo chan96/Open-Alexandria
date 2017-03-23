@@ -1,10 +1,19 @@
 var express = require('express');
 var path = require('path');
 var multer  = require('multer');
+var mime = require('mime-types');
 var projectPath = path.normalize(path.join(__dirname, '../'));
 var documentsPath = path.normalize(path.join(projectPath, './documents/'));
 console.log("Index documentsPath: " + documentsPath);
-var upload = multer({ dest: documentsPath });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb){
+    cb(null, documentsPath);
+  },
+  filename: function (req, file, cb){
+    cb(null, file.originalname);
+  }
+});
+var upload = multer({ storage: storage });
 
 
 var router = express.Router();
