@@ -236,3 +236,36 @@ function disableQuestion(countCourse, countQuestion){
     });
   }
 };
+
+function disableDocument(countUser, countDocument){
+  var disableDocumentUrl = globalUrl + "disableDocument?uniqueid=" + dataGlobalDocument[countUser].suggestions[countDocument].data.documentuniqueid;
+  var enableDocumentUrl = globalUrl + "enableDocument?uniqueid=" + dataGlobalDocument[countUser].suggestions[countDocument].data.documentuniqueid;
+  if(dataGlobalDocument[countUser].suggestions[countDocument].data.documentisactive){
+    $.get(disableDocumentUrl, function(data) {
+      if(data.code == 1){
+        $("#enableDocument" + countDocument).html("Enable Document");
+        dataGlobalDocument[countUser].suggestions[countDocument].data.documentisactive = false;
+      }
+      else{
+        console.log("Fail to change document");
+      }
+    })
+    .fail(function() {
+        console.log("Fail to change document");
+    });
+  }
+  else{
+    $.get(enableDocumentUrl, function(data) {
+      if(data.code == 1){
+        $("#enableDocument" + countDocument).html("Disable Document");
+        dataGlobalDocument[countUser].suggestions[countDocument].data.documentisactive = true;
+      }
+      else{
+        console.log("Fail to change document");
+      }
+    })
+    .fail(function(){
+        console.log("Fail to change document");
+    });
+  }
+};

@@ -1,5 +1,22 @@
 var dataGlobalUser;
 
+function submitChange(form){
+  var theUrl = globalUrl + "editUserInfo";
+  //var theUrl = "http://openalexandria.us.to/loginUser";
+  var formData = $(form).serializeArray();
+  $.post(theUrl, formData, function (data) {
+        //redirect to appropriate page
+        redirect();
+        //window.location.href = 'http://openalexandria.us.to:3000/login.html';
+    }).done(function(){
+      //document.cookie;
+
+    }).fail(function (){
+        $("#incorrect").html("<p>Login Incorrect</p>");
+    });
+    return false;
+}
+
 $(document).ready(function(){
   	//var theUrl = "http://localhost:3000/getCourseKeyword?query=";
   var userUrl = globalUrl +"getUserInfo";
