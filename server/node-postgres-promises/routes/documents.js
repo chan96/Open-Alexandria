@@ -176,7 +176,8 @@ function searchDocumentByUser(req,res,next){
           documenttype: data[i].documents_type,
           documentlike: data[i].documents_numlike,
           documentdislike: data[i].documents_numdislike,
-          documentdatecreated: data[i].documents_datecreated
+          documentdatecreated: data[i].documents_datecreated,
+          documentisactive: data[i].documents_isactive
         }
         commonString.push({value:data[i].documents_name, data: documentInfo});
       } 
