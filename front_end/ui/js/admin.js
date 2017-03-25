@@ -13,7 +13,7 @@ $(document).ready(function(){
   courseUrl = globalUrl + "getAllCourse";
   userUrl = globalUrl +"listAllUsers";
   questionUrl = globalUrl + "getAllQuestions?courseid=";
-  documentUrl = globalUrl + "searchDocumentByUser?query=&userid=";
+  documentUrl = globalUrl + "searchDocumentByUserAdmin?query=&userid=";
 
   	//COURSE
   	$.get(courseUrl, function (data) {
