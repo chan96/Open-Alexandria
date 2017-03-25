@@ -194,7 +194,7 @@ function searchDocumentByUserAdmin(req,res,next){
   var query = req.query.query;
   var user = req.query.userid;
   var token = req.cookies.token;
-  if(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token)){
+  if(!(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token))){
     res.status(401).json({
       status: "Error Authentication Error",
       code: -1
