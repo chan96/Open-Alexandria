@@ -82,9 +82,9 @@
                      <div class="col-md-4">
                      <section class="login-form">
                         <form method="post" action="api/loginUser" role="login">
-                        <input id="email" type="email" name="username" required class="form-control input-lg" value=""/>
-                        <input id="firstname" type="text" name="firstname" required class="form-control input-lg" value="" />
-                        <input id="lastname" type="text" name="lastname" required class="form-control input-lg" value=""/>
+                        <h4>Email</h4><input id="email" type="email" name="username" required class="form-control input-lg" value=""/>
+                        <h4>First Name</h4><input id="firstname" type="text" name="firstname" required class="form-control input-lg" value="" />
+                        <h4>Last Name</h4><input id="lastname" type="text" name="lastname" required class="form-control input-lg" value=""/>
                         <button id="submit" type="submit" name="send" class="btn btn-lg btn-primary btn-block" onclick="return submitChange(this.form)">Submit Change</button>
                         <button id="changePassword" type="button" name="send" class="btn btn-lg btn-primary btn-block" onclick="location.href='password.html'">Change Password</button>
                         <button id="cancel" type="button" name="send" class="btn btn-lg btn-primary btn-block" onclick="location.href='index.html'">Cancel</button>

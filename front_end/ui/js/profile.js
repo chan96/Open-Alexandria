@@ -7,9 +7,7 @@ function submitChange(form){
   var formData = $(form).serializeArray();
   console.log(formData);
   $.post(theUrl, formData, function (data) {
-        //redirect to appropriate page
-        redirect();
-        //window.location.href = 'http://openalexandria.us.to:3000/login.html';
+      console.log("Profile information changed!");
     }).done(function(){
       //document.cookie;
 
