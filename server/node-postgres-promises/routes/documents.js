@@ -469,7 +469,7 @@ function dislikeDocument(req, res, next){
 }
 
 function postDocumentComment(req, res, next){
-  var userid = userAuth.checkUserAlive(req.query.token);
+  var userid = userAuth.getUserID(req.query.token);
   var documentid = req.query.documentid;
   var body = req.body.text;
 
@@ -491,6 +491,20 @@ function postDocumentComment(req, res, next){
 }
 
 function getDocumentComment(req, res, next){
+  var documentid = req.query.documentid;
+  
+  var dbSelect = 'select * from COMMENTS where COMMENTS_ITEM_ID = $1';
+
+  db.any(dbSelect, [documentid])
+    .then(function(data){
+      res.status(200).json(data);
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    }); 
 }
 
 module.exports = {
