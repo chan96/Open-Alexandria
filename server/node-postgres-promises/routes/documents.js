@@ -469,9 +469,16 @@ function dislikeDocument(req, res, next){
 }
 
 function postDocumentComment(req, res, next){
-  var userid = userAuth.checkUserAlive(req.query.token);
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
   var documentid = req.query.documentid;
-  var body = req.body.text;
+  var text = req.body.text;
 
   var dbInsert = 'insert into COMMENTS (COMMENTS_USERS_ID, COMMENTS_ITEM_ID, COMMENTS_TEXT) values($1, $2, $3);';
 
@@ -491,6 +498,20 @@ function postDocumentComment(req, res, next){
 }
 
 function getDocumentComment(req, res, next){
+  var documentid = req.query.documentid;
+
+  var dbSelect = 'select * from COMMENTS where COMMENTS_ITEM_ID = $1';
+
+  db.any(dbSelect, [documentid])
+    .then(function(data){
+      res.status(200).json(data);
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    }); 
 }
 
 module.exports = {
@@ -505,4 +526,6 @@ module.exports = {
   likeDocument: likeDocument,
   dislikeDocument: dislikeDocument,
   searchFeedback: searchFeedback, 
+  postDocumentComment:postDocumentComment,
+  getDocumentComment: getDocumentComment,
 };

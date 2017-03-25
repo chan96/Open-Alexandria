@@ -162,6 +162,8 @@ router.get('/enableDocument', documents.enableDocument);
 
 router.get('/likeDocument', documents.likeDocument);
 router.get('/dislikeDocument', documents.dislikeDocument);
+router.post('/postDocumentComment', documents.postDocumentComment);
+router.get('/getDocumentComment', documents.getDocumentComment);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
