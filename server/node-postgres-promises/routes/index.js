@@ -140,6 +140,7 @@ router.get('/searchDocumentByCourse', documents.searchDocumentByCourse);
  * @param {string} userid
  */
 router.get('/searchDocumentByUser', documents.searchDocumentByUser);
+router.get('/searchDocumentByUserAdmin', documents.searchDocumentByUserAdmin);
 /**
  * GET getDocument
  * @param {string} documentuniqueid
@@ -157,6 +158,9 @@ router.get('/disableDocument', documents.disableDocument);
  * @param {string} uniqueid
  */
 router.get('/enableDocument', documents.enableDocument);
+
+router.get('/likeDocoument', documents.likeDocument);
+router.get('/disklikeDocument', documents.dislikeDocument);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
