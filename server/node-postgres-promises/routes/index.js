@@ -70,6 +70,7 @@ router.get('/getUserInfoFromUID', users.getUserInfoFromUID);
  * @param {string} password
  */
 router.post('/editUserInfo', users.editUserInfo);
+router.post('/editUserPassword', users.editUserPassword);
 
 router.get('/enableUser', users.enableUser);
 router.get('/disableUser', users.disableUser);

@@ -163,7 +163,7 @@ function editUserInfo(req, res, next){
   var lastname = req.body.lastname;
   var token = req.cookies.token;
   var userID = userAuth.getUserID(token);
-  var dbInsert = 'update users set(USERS_FIRSTNAME, USERS_LASTNAME, USERS_EMAIL) = ($1, $2, $3) where USERS_UNIQUE_ID = $5';
+  var dbInsert = 'update users set(USERS_FIRSTNAME, USERS_LASTNAME, USERS_EMAIL) = ($1, $2, $3) where USERS_UNIQUE_ID = $4';
   db.none(dbInsert, [firstname, lastname, username, userID])
     .then(function(){
       res.status(200).json({
@@ -181,6 +181,27 @@ function editUserInfo(req, res, next){
       error: {name:err.name, message: err.message}
     });
   });
+}
+
+function editUserPassword(req, res, next){
+  var userid = userAuth.checkUserAlive(token);
+  var password = req.body.password;
+
+  var dbUpdate = 'update users set(USERS_PASSWORD) = ($1) where USERS_UNIQUE_ID = $2;';
+
+  db.none(dbUpdate, [password])
+    .then(function(){
+      res.status(200).json({
+        status: "Successful password change",
+        code: 1
+      })
+    }).catch(function(err){
+      res.status(400).json({
+        status: "Error cannot change password",
+        code: -1,
+        error: {name:err.name, message: err.message}
+      });
+    });
 }
 
 
@@ -279,6 +300,7 @@ module.exports = {
   getUserInfo: getUserInfo,
   getUserInfoFromUID: getUserInfoFromUID,
   editUserInfo: editUserInfo,
+  editUserPassword: editUserPassword,
   enableUser: enableUser,
   disableUser: disableUser,
   listAllUsers: listAllUsers,
