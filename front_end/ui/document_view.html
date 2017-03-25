@@ -71,28 +71,24 @@
             <!-- /.navbar-collapse -->
         </nav>
         
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
                     <h1 id="doc-name"><strong></strong></h1>
-                </div>
             </div>
             <div class="row">
-                <div class="col-md-12 center-block">
                     <iframe id="doc-frame" src="http://docs.google.com/gview?url=http://domain.com/pdf.pdf&embedded=true" 
  frameborder="0"></iframe>
-                </div>
                 
             </div>
 
         </div>
 
-        <div class="questions-container container">
+        <div class="questions-container container-fluid">
             <div class="row">
                 <div class="col-md-12 inline">
                     <h1 class="section inline"><strong>Comments</strong></h1>
 <!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
-                    <button id="newQuestionBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#questionModal" data-whatever="@mdo">+</button>
+                    <button id="newDocQuestionBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#docQuestionModal" data-whatever="@mdo">+</button>
                 </div>
             </div>
             <div id="questions-row" class="row">
@@ -107,24 +103,21 @@
             </div>
         </div>
 
-        <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="docQuestionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Question</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"><strong>New</strong></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form>
+                            
                             <div class="form-group">
-                                <label for="message-title" class="form-control-label">Title:</label>
-                                <input type="text" class="form-control" id="question-title">
-                            </div>
-                            <div class="form-group">
-                                <label for="message-text" class="form-control-label">Body:</label>
-                                <textarea class="form-control" id="question-body"></textarea>
+                                <label for="message-text" class="form-control-label">Message:</label>
+                                <textarea class="form-control" id="comment-body"></textarea>
                             </div>
                         </form>
                     </div>
@@ -152,7 +145,6 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/document.js"></script>
         <script src="js/newDocument.js"></script>
-        <script src="js/search.js"></script>
                 <script src="js/document_view.js"></script>
 
 

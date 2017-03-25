@@ -184,7 +184,7 @@ function editUserInfo(req, res, next){
 }
 
 function editUserPassword(req, res, next){
-  var userid = userAuth.checkUserAlive(token);
+  var userid = userAuth.checkUserAlive(req.cookies.token);
   var password = req.body.password;
 
   var dbUpdate = 'update users set(USERS_PASSWORD) = ($1) where USERS_UNIQUE_ID = $2;';

@@ -19,7 +19,7 @@ function showDocPreviews(parsedData) {
         $templateDocPreview.find('p').text(jsonData[i].data.documentdescription);
          $templateDocPreview.click(function() {
            console.log('link ' + link);
-             window.location.href = globalUrl + 'document_view.html' + '?docName=' + jsonData[i].data.documentname + '&docUrl=' + encodeURIComponent(jsonData[i].data.documentlink);
+             window.location.href = globalUrl + 'document_view.html' + '?docName=' + jsonData[i].data.documentname + '&docID=' + jsonData[i].data.documentuniqueid '&docUrl=' + encodeURIComponent(jsonData[i].data.documentlink);
          })
          
         $('#pinBoot').append($templateDocPreview);
