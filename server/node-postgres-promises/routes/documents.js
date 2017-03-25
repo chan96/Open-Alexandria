@@ -193,7 +193,7 @@ function searchDocumentByUser(req,res,next){
 function searchDocumentByUserAdmin(req,res,next){
   var query = req.query.query;
   var user = req.query.userid;
-  var userid = req.cookies.token;
+  var token = req.cookies.token;
   if(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token)){
     res.status(401).json({
       status: "Error Authentication Error",
@@ -442,6 +442,9 @@ function dislikeDocument(req, res, next){
         code: -1
       });
     });
+}
+
+function postDocumentComment(req, res, next){
 }
 
 module.exports = {
