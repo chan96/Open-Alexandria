@@ -2,14 +2,16 @@ var dataGlobalCourse;
 var dataGlobalUser;
 var dataGlobalQuestion = [];
 var dataGlobalDocument = [];
-
-  var questionUrl;
+var courseUrl;
+var userUrl;
+var questionUrl;
+var documentUrl;
 
 $(document).ready(function(){
   	//var theUrl = "http://localhost:3000/getCourseKeyword?query=";
 
-  var courseUrl = globalUrl + "getAllCourse";
-  var userUrl = globalUrl +"listAllUsers";
+  courseUrl = globalUrl + "getAllCourse";
+  userUrl = globalUrl +"listAllUsers";
   questionUrl = globalUrl + "getAllQuestions?courseid=";
   documentUrl = globalUrl + "searchDocumentByUser?query=&userid=";
 

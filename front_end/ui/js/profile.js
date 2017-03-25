@@ -12,7 +12,7 @@ function submitChange(form){
       //document.cookie;
 
     }).fail(function (){
-        $("#incorrect").html("<p>Login Incorrect</p>");
+        $("#incorrect").html("<p>Changes failed to save</p>");
     });
     return false;
 }
