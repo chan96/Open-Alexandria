@@ -1,4 +1,3 @@
-//
 const exec = require('child_process').exec;
 var promise = require('bluebird');
 var path = require('path');
@@ -36,7 +35,7 @@ function uploadDocuments(req, res, next){
       status: "Error unauthorized action",
       code: -1
     });
-   return;
+    return;
   };
   var filename = req.query.rename;
   console.log(req.file);
@@ -176,7 +175,8 @@ function searchDocumentByUser(req,res,next){
           documenttype: data[i].documents_type,
           documentlike: data[i].documents_numlike,
           documentdislike: data[i].documents_numdislike,
-          documentdatecreated: data[i].documents_datecreated
+          documentdatecreated: data[i].documents_datecreated,
+          documentisactive: data[i].documents_isactive
         }
         commonString.push({value:data[i].documents_name, data: documentInfo});
       } 
@@ -189,6 +189,48 @@ function searchDocumentByUser(req,res,next){
       });
     });
 }
+
+function searchDocumentByUserAdmin(req,res,next){
+  var query = req.query.query;
+  var user = req.query.userid;
+  var token = req.cookies.token;
+  if(!(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token))){
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
+    });
+  }
+  var dbSelect = 'select * from documents where DOCUMENTS_NAME ~* $1 and DOCUMENTS_USERS_ID = $2;';
+
+  db.any(dbSelect,[query,user])
+    .then(function(data){
+      var commonString = [];
+      for (var i = 0; i < data.length; i++){
+        var documentInfo = {
+          documentuniqueid: data[i].documents_unique_id,
+          documentname: data[i].documents_name,
+          documentlink: "https://openalex.com" + data[i].documents_link,
+          documentcourse: data[i].documents_courses_id,
+          documentuser: data[i].documents_users_id,
+          documentdescription: data[i].documents_description,
+          documenttype: data[i].documents_type,
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated,
+          documentisactive: data[i].documents_isactive
+        }
+        commonString.push({value:data[i].documents_name, data: documentInfo});
+      } 
+      res.status(200).json({suggestions:commonString});
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name:err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
 
 function getDocument(req, res, next){
   var documentuniqueid = req.query.documentuniqueid;
@@ -292,13 +334,128 @@ function enableDocument(req, res, next){
 
 }
 
+function likeDocument(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+  var documentid = req.cookies.documentid;
+  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USER_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE, USERSFEEDBACK_RATING) values ($1, $2, $3, $4, $5);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = true where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1, and USERSFEEDBACK_ITEM_ID= $2;';
+
+  db.oneOrNone(dbSelect, [userid, documentid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, 1, documentid, true, -1])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful inserted",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      } else if(data.usersfeedback_type == 1){
+        db.none(dbUpdate, [userid, documentid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful inserted",
+              code: 1
+            });
+
+          }).catch(function(){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+function dislikeDocument(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+  var documentid = req.cookies.documentid;
+  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USER_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE, USERSFEEDBACK_RATING) values ($1, $2, $3, $4, $5);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = false where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1, and USERSFEEDBACK_ITEM_ID= $2;';
+
+  db.oneOrNone(dbSelect, [userid, documentid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, 1, documentid, false, -1])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful inserted",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      } else if(data.usersfeedback_type == 1){
+        db.none(dbUpdate, [userid, documentid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful inserted",
+              code: 1
+            });
+
+          }).catch(function(){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+function postDocumentComment(req, res, next){
+}
 
 module.exports = {
   uploadDocuments: uploadDocuments,
   searchDocument: searchDocument,
   searchDocumentByCourse: searchDocumentByCourse,
   searchDocumentByUser:searchDocumentByUser, 
+searchDocumentByUserAdmin: searchDocumentByUserAdmin,
   getDocument: getDocument,
   disableDocument: disableDocument,
   enableDocument: enableDocument,
+  likeDocument: likeDocument,
+  dislikeDocument: dislikeDocument
 };

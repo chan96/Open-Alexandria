@@ -1,10 +1,19 @@
 var express = require('express');
 var path = require('path');
 var multer  = require('multer');
+var mime = require('mime-types');
 var projectPath = path.normalize(path.join(__dirname, '../'));
 var documentsPath = path.normalize(path.join(projectPath, './documents/'));
 console.log("Index documentsPath: " + documentsPath);
-var upload = multer({ dest: documentsPath });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb){
+    cb(null, documentsPath);
+  },
+  filename: function (req, file, cb){
+    cb(null, file.originalname);
+  }
+});
+var upload = multer({ storage: storage });
 
 
 var router = express.Router();
@@ -131,6 +140,7 @@ router.get('/searchDocumentByCourse', documents.searchDocumentByCourse);
  * @param {string} userid
  */
 router.get('/searchDocumentByUser', documents.searchDocumentByUser);
+router.get('/searchDocumentByUserAdmin', documents.searchDocumentByUserAdmin);
 /**
  * GET getDocument
  * @param {string} documentuniqueid
@@ -148,6 +158,9 @@ router.get('/disableDocument', documents.disableDocument);
  * @param {string} uniqueid
  */
 router.get('/enableDocument', documents.enableDocument);
+
+router.get('/likeDocoument', documents.likeDocument);
+router.get('/disklikeDocument', documents.dislikeDocument);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
