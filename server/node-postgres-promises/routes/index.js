@@ -159,8 +159,8 @@ router.get('/disableDocument', documents.disableDocument);
  */
 router.get('/enableDocument', documents.enableDocument);
 
-router.get('/likeDocoument', documents.likeDocument);
-router.get('/disklikeDocument', documents.dislikeDocument);
+router.get('/likeDocument', documents.likeDocument);
+router.get('/dislikeDocument', documents.dislikeDocument);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
@@ -202,6 +202,8 @@ router.get('/enableQuestion', questions.enableQuestion);
 router.get('/createDeck', flashcards.createDeck);
 router.get('/createCardInDeck', flashcards.createCardInDeck);
 router.get('/searchFlashDeckName', flashcards.searchFlashDeckName);
+
+router.get('/searchFeedback', documents.searchFeedback);
 
 
 /****** Uhmmm ******/
