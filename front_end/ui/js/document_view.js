@@ -29,11 +29,10 @@ function setNewPostQuestionListener() {
 
         $.ajax({
             type: 'POST',
-            url: globalUrl + 'postDocumentComment/',
+            url: globalUrl + 'postDocumentComment/?documentid=' + docID,
             data: { 
-                   'commentbody': commentBody,
-                   'userid': userID,
-                   'creatorid': docID},
+                   'text': commentBody,
+                   },
             //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function(data) {
                 console.log(data);
