@@ -45,7 +45,7 @@
                     <li><a href="userDocument.html">Documents</a></li>
                     <li><a href="profile.html">User Profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="javascript:doSomething();">Log Out</a></li>
+                    <li><a href="javascript:logOut();">Log Out</a></li>
                 </ul>
             </li>
         </ul>
@@ -53,15 +53,14 @@
 </nav>
 
 <script>
-function doSomething() {
-  var cookies = document.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    function logOut() {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+        location.reload(true);
     }
-
-    location.reload(true);
-}
 </script>
