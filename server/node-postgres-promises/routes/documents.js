@@ -469,6 +469,25 @@ function dislikeDocument(req, res, next){
 }
 
 function postDocumentComment(req, res, next){
+  var userid = userAuth.checkUserAlive(req.query.token);
+  var documentid = req.query.documentid;
+  var body = req.body.text;
+
+  var dbInsert = 'insert into COMMENTS (COMMENTS_USERS_ID, COMMENTS_ITEM_ID, COMMENTS_TEXT) values($1, $2, $3);';
+
+  db.none(dbInsert, [userid, documentid, text])
+    .then(function(){
+      res.status(200).json({
+        status: "Successful Post",
+        code: 1
+      });
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
 }
 
 module.exports = {
