@@ -334,6 +334,30 @@ function enableDocument(req, res, next){
 
 }
 
+function searchFeedback(req, res, next){
+  var userid = req.query.userid;
+  var feedbacktype = req.query.feedbacktype;
+  var typeid = req.query.typeid;
+  console.log("userid: " + userid);
+  console.log("feedbacktype: " + feedbacktype);
+  console.log("typeid: " + feedbacktype);
+
+  var dbSelect = 'select * from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = $2 and USERSFEEDBACK_ITEM_ID = $3;';
+
+  db.one(dbSelect, [userid, feedbacktype, typeid])
+    .then(function(data){
+      res.status(200).json({
+        data
+      })
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
 function likeDocument(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
@@ -343,10 +367,10 @@ function likeDocument(req, res, next){
     });
     return;
   }
-  var documentid = req.cookies.documentid;
-  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USER_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
+  var documentid = req.query.documentid;
+  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
   var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE, USERSFEEDBACK_RATING) values ($1, $2, $3, $4, $5);';
-  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = true where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1, and USERSFEEDBACK_ITEM_ID= $2;';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = true where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID= $2;';
 
   db.oneOrNone(dbSelect, [userid, documentid])
     .then(function(data){
@@ -372,7 +396,7 @@ function likeDocument(req, res, next){
               code: 1
             });
 
-          }).catch(function(){
+          }).catch(function(err){
             res.status(500).json({
               status: "Error unknown",
               error: {name: err.name, message: err.message},
@@ -398,10 +422,10 @@ function dislikeDocument(req, res, next){
     });
     return;
   }
-  var documentid = req.cookies.documentid;
-  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USER_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
+  var documentid = req.query.documentid;
+  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
   var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE, USERSFEEDBACK_RATING) values ($1, $2, $3, $4, $5);';
-  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = false where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1, and USERSFEEDBACK_ITEM_ID= $2;';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = false where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID= $2;';
 
   db.oneOrNone(dbSelect, [userid, documentid])
     .then(function(data){
@@ -452,10 +476,11 @@ module.exports = {
   searchDocument: searchDocument,
   searchDocumentByCourse: searchDocumentByCourse,
   searchDocumentByUser:searchDocumentByUser, 
-searchDocumentByUserAdmin: searchDocumentByUserAdmin,
+  searchDocumentByUserAdmin: searchDocumentByUserAdmin,
   getDocument: getDocument,
   disableDocument: disableDocument,
   enableDocument: enableDocument,
   likeDocument: likeDocument,
-  dislikeDocument: dislikeDocument
+  dislikeDocument: dislikeDocument,
+  searchFeedback: searchFeedback, 
 };

@@ -161,11 +161,10 @@ function editUserInfo(req, res, next){
   var username = req.body.username;
   var firstname = req.body.firstname;
   var lastname = req.body.lastname;
-  var password = req.body.password;
   var token = req.cookies.token;
   var userID = userAuth.getUserID(token);
-  var dbInsert = 'update users set(USERS_FIRSTNAME, USERS_LASTNAME, USERS_EMAIL, USERS_PASSWORD) = ($1, $2, $3, $4) where USERS_UNIQUE_ID = $5';
-  db.none(dbInsert, [firstname, lastname, username, password, userID])
+  var dbInsert = 'update users set(USERS_FIRSTNAME, USERS_LASTNAME, USERS_EMAIL) = ($1, $2, $3) where USERS_UNIQUE_ID = $5';
+  db.none(dbInsert, [firstname, lastname, username, userID])
     .then(function(){
       res.status(200).json({
         status: "Successful profile changed",
@@ -183,6 +182,7 @@ function editUserInfo(req, res, next){
     });
   });
 }
+
 
 function disableUser(req, res, next){
   var userid = req.query.userid;
