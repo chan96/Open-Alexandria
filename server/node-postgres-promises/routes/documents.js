@@ -490,6 +490,9 @@ function postDocumentComment(req, res, next){
     });
 }
 
+function getDocumentComment(req, res, next){
+}
+
 module.exports = {
   uploadDocuments: uploadDocuments,
   searchDocument: searchDocument,

@@ -189,7 +189,7 @@ function editUserPassword(req, res, next){
 
   var dbUpdate = 'update users set(USERS_PASSWORD) = ($1) where USERS_UNIQUE_ID = $2;';
 
-  db.none(dbUpdate, [password])
+  db.none(dbUpdate, [password,userid])
     .then(function(){
       res.status(200).json({
         status: "Successful password change",
