@@ -55,11 +55,16 @@ $(document).ready(function(){
 function redirect() {
   var redirectUrl = getRedirectParameter(location.href);
   console.log(redirectUrl.length);
+  var cookieField = document.cookie.split("; ");
 
   if (redirectUrl != '') {
       window.location.href = redirectUrl;
       console.log('hi');
-  } else {
+  } 
+  else if(cookieField[2]="isadmin=true"){
+    window.location.href = globalUrl + "/admin.html";
+  }
+  else {
       window.location.href = globalUrl;
   }
 
