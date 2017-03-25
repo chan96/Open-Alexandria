@@ -1,9 +1,11 @@
 var dataGlobalUser;
+var cookieField = document.cookie.split("; ");
 
 function submitChange(form){
   var theUrl = globalUrl + "editUserInfo";
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
+  console.log(formData);
   $.post(theUrl, formData, function (data) {
         //redirect to appropriate page
         redirect();

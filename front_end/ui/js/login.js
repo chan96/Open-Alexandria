@@ -62,7 +62,7 @@ function redirect() {
       console.log('hi');
   } 
   else if(cookieField[2]="isadmin=true"){
-    window.location.href = globalUrl + "/admin.html";
+    window.location.href = globalUrl + "admin.html";
   }
   else {
       window.location.href = globalUrl;
