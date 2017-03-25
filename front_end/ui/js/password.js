@@ -7,7 +7,7 @@ function submitChange(form){
   var formData = $(form).serializeArray();
   console.log(formData);
   $.post(theUrl , formData, function (data) {
-      console.log("Profile information changed!");
+      console.log("Password information changed!");
     }).done(function(){
       //document.cookie;
 
