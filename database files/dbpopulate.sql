@@ -129,14 +129,6 @@ CREATE TABLE USERSFEEDBACK(
 CREATE TABLE COMMENTS(
   COMMENTS_UNIQUE_ID serial primary key not null,
   COMMENTS_USERS_ID int not null,
-  /*
-  ID  Type
-  0   void
-  1   document
-  2   question
-  3   answer
-  */
-  COMMENTS_TYPE int not null,
   COMMENTS_ITEM_ID int not null,
   COMMENTS_TEXT varchar default '<>'
 );
