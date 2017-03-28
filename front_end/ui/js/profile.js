@@ -8,11 +8,12 @@ function submitChange(form){
   console.log(formData);
   $.post(theUrl, formData, function (data) {
       console.log("Profile information changed!");
+      $("#log").html("<p color='black'>Profile information changed!</p>");
     }).done(function(){
       //document.cookie;
 
     }).fail(function (){
-        $("#incorrect").html("<p>Changes failed to save</p>");
+        $("#log").html("<p>Changes failed to save</p>");
     });
     return false;
 }

@@ -8,11 +8,12 @@ function submitChange(form){
   console.log(formData);
   $.post(theUrl , formData, function (data) {
       console.log("Password information changed!");
+      $("#log").html("<p color='black'>Password information changed!</p>");
     }).done(function(){
       //document.cookie;
 
     }).fail(function (){
-        $("#incorrect").html("<p>Changes failed to save</p>");
+        $("#log").html("<p>Changes failed to save</p>");
     });
     return false;
 }

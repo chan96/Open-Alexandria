@@ -1,3 +1,26 @@
+var dataGlobalUser;
+var cookieField = document.cookie.split("; ");
+var url = windows.location.href;
+var courseid = getUrlParameter('courseid');
+function submitChange(form){
+    console.log(url);
+    console.log(courseid);
+    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid ;
+  //var theUrl = "http://openalexandria.us.to/loginUser";
+  var formData = $(form).serializeArray();
+  console.log(formData);
+  $.post(theUrl , formData, function (data) {
+
+  }).done(function(){
+      //document.cookie;
+
+  }).fail(function (){
+    console.log("Failed to upload document");
+});
+  return false;
+}
+
+/*
 + function($) {
     'use strict';
 
@@ -36,3 +59,4 @@
     }
 
 }(jQuery);
+*/

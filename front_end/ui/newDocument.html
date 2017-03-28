@@ -1,6 +1,6 @@
 <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Upload Files</strong> <small>Bootstrap files upload</small></div>
         <div class="panel-body">
@@ -10,9 +10,9 @@
           <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
             <div class="form-inline">
               <div class="form-group">
-                <input type="file" name="files[]" id="js-upload-files" multiple>
+                <input type="file" name="files" id="js-upload-files" multiple>
               </div>
-              <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+              <button id="js-upload-submit" type="submit" name="send" class="btn btn-sm btn-primary" onclick="return submitChange(this.form)">Upload Files</button>
             </div>
           </form>
 
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-                </div>
-            </div>
-        </div>
+    </div>
+  </div>
+</div>
 
