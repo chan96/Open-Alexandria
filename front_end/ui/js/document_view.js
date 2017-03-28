@@ -9,6 +9,9 @@ $(document).ready(function() {
   $('#doc-frame').attr('src', 'https://docs.google.com/gview?url=' + url + '&embedded=true');
   $('#doc-name').text(getUrlParameter('docName'));
 
+    $("#input-id").rating();
+
+    
   setNewPostDocumentListener(docID); 
   setComments(docID);
 });
