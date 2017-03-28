@@ -529,22 +529,26 @@ function addTagToDocument(req, res, next){
   var documentid = req.query.documentid;
 
   var dbSelectList = 'select * from TAGLIST where TAGLIST_TEXT = $1;';
-  var dbSelectLink = 'select * from TAGLINK where TAGLINK_TAGLIST_ID = $1 and TAGLINK_DOCUMENTS_ID;';
-  var dbInsertList = 'insert into TAGLIST (TAGLIST_TEXT) value ($1);';
-  var dbInsertLink = 'insert into TAGLINK (TAGLINK_TAGLIST_ID, TAGLINK_DOCUMENTS_ID) value ($1, $2);';
+  var dbSelectLink = 'select * from TAGLINK where TAGLINK_TAGLIST_ID = $1 and TAGLINK_DOCUMENTS_ID = $2;';
+  var dbInsertList = 'insert into TAGLIST (TAGLIST_TEXT) values ($1);';
+  var dbInsertLink = 'insert into TAGLINK (TAGLINK_TAGLIST_ID, TAGLINK_DOCUMENTS_ID) values ($1, $2);';
 
   var tagid;
   db.oneOrNone(dbSelectList, [tag])
     .then(function(data){
+      console.log(data);
       if(data == null){
         db.none(dbInsertList, [tag])
           .then(function(){
+            console.log("inserted"); 
             db.oneOrNone(dbSelectList, [tag])
               .then(function(dataB){
+                console.log("SelectingAgain");
                 tagid = dataB.taglist_unique_id;
+
               }).catch(function(err){
                 res.status(500).json({
-                  status: "Error unknown",
+                  status: "Error unknown - 1",
                   error: {name: err.name, message: err.message},
                   code: -1
                 });
@@ -552,32 +556,41 @@ function addTagToDocument(req, res, next){
             //Good
           }).catch(function(err){
             res.status(500).json({
-              status: "Error unknown",
+              status: "Error unknown - 2",
               error: {name: err.name, message: err.message},
               code: -1
             });
           });
       }else{
-        tagid = data.taglist_unique.id;
+        tagid = data.taglist_unique_id;
       }
-
+      console.log("Done: " + tagid);
       db.oneOrNone(dbSelectLink, [tagid, documentid])
         .then(function(data){
           if(data == null){
             db.none(dbInsertLink, [tagid, documentid])
               .then(function(){
+                res.status(200).json({
+                  status: "Successfully added tag to document",
+                  code: 1
+                });
               }).catch(function(err){
                 res.status(500).json({
-                  status: "Error unknown",
+                  status: "Error unknown - 3",
                   error: {name: err.name, message: err.message},
                   code: -1
                 });
 
               });
+          }else{
+            res.status(200).json({
+              status: "tag to document already exist",
+              code: 1
+            });
           }
         }).catch(function(err){
           res.status(500).json({
-            status: "Error unknown",
+            status: "Error unknown - 4",
             error: {name: err.name, message: err.message},
             code: -1
           });
@@ -586,12 +599,46 @@ function addTagToDocument(req, res, next){
 
     }).catch(function(err){
       res.status(500).json({
-        status: "Error unknown",
+        status: "Error unknown - 5",
         error: {name: err.name, message: err.message},
         code: -1
       });
     });
 
+}
+
+function getDocumentsFromTag(req, res, next){
+  var dbSelect = "SELECT * from taglink where taglink.taglink_taglist_id in ( SELECT taglist.taglist_unique_id FROM taglist where taglist_text = $1);";
+
+  var tag = req.query.tag;
+
+  db.any(dbSelect, [tag])
+    .then(function(data){
+      res.status(200).json(data);
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+function getTagsFromDocument(req, res, next){
+  var dbSelect = "SELECT * FROM taglist where taglist.taglist_unique_id in( SELECT taglink.taglink_taglist_id FROM taglink WHERE taglink_documents_id = $1);";
+
+  var documentid = req.query.documentid;
+
+  db.any(dbSelect, [documentid])
+    .then(function(data){
+      res.status(200).json(data);
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
 }
 
 module.exports = {
@@ -608,4 +655,7 @@ module.exports = {
   searchFeedback: searchFeedback, 
   postDocumentComment:postDocumentComment,
   getDocumentComment: getDocumentComment,
+  addTagToDocument:addTagToDocument,
+  getDocumentsFromTag: getDocumentsFromTag,
+  getTagsFromDocument: getTagsFromDocument,
 };
