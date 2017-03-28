@@ -21,6 +21,14 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
+function getUserID() {
+    var userID = document.cookie.split(';')[1].split('=')[1];
+
+    console.log('userID = ' + userID);
+
+    return userID;
+}
+
 if (document.cookie == "") {
     console.log("The cookie is not there.");
     $(document).ready(function() {
