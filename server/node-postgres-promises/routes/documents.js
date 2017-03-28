@@ -1,3 +1,4 @@
+//
 const exec = require('child_process').exec;
 var promise = require('bluebird');
 var path = require('path');
@@ -512,6 +513,85 @@ function getDocumentComment(req, res, next){
         code: -1
       });
     }); 
+}
+
+function addTagToDocument(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+
+  var tag = req.query.tag;
+  var documentid = req.query.documentid;
+
+  var dbSelectList = 'select * from TAGLIST where TAGLIST_TEXT = $1;';
+  var dbSelectLink = 'select * from TAGLINK where TAGLINK_TAGLIST_ID = $1 and TAGLINK_DOCUMENTS_ID;';
+  var dbInsertList = 'insert into TAGLIST (TAGLIST_TEXT) value ($1);';
+  var dbInsertLink = 'insert into TAGLINK (TAGLINK_TAGLIST_ID, TAGLINK_DOCUMENTS_ID) value ($1, $2);';
+
+  var tagid;
+  db.oneOrNone(dbSelectList, [tag])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsertList, [tag])
+          .then(function(){
+            db.oneOrNone(dbSelectList, [tag])
+              .then(function(dataB){
+                tagid = dataB.taglist_unique_id;
+              }).catch(function(err){
+                res.status(500).json({
+                  status: "Error unknown",
+                  error: {name: err.name, message: err.message},
+                  code: -1
+                });
+              });
+            //Good
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }else{
+        tagid = data.taglist_unique.id;
+      }
+
+      db.oneOrNone(dbSelectLink, [tagid, documentid])
+        .then(function(data){
+          if(data == null){
+            db.none(dbInsertLink, [tagid, documentid])
+              .then(function(){
+              }).catch(function(err){
+                res.status(500).json({
+                  status: "Error unknown",
+                  error: {name: err.name, message: err.message},
+                  code: -1
+                });
+
+              });
+          }
+        }).catch(function(err){
+          res.status(500).json({
+            status: "Error unknown",
+            error: {name: err.name, message: err.message},
+            code: -1
+          });
+        });
+
+
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+
 }
 
 module.exports = {

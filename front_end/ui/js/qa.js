@@ -35,10 +35,9 @@ function showQuestionInfo(qid) {
 
     console.log('hi');
     $.ajax({
-        type: "POST",
-        url: globalUrl + 'getQuestionInfo/',
-        data: ({ questionid : qid}),
-        dataType: "application/json",
+        type: "GET",
+        url: globalUrl + 'getQuestionInfo/?questionid=' + qid,
+        dataType: "html",
         success: function(data) {
             var parsedData = $.parseJSON(data).question[0].data;
             var title = parsedData.title;

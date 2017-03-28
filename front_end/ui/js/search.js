@@ -47,8 +47,10 @@ function setGetDocumentListener() {
 function setNewPostQuestionListener() {
     $('#questionModal').on('show.bs.modal', function (e) {
         if (document.cookie == '') {
+          
           location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
         }
+        console.log('asdfasdf');
     })
     $('#postBttn').click(function () {
         var questionTitle = $('#question-title').val();
