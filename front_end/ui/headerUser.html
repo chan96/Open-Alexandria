@@ -18,6 +18,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Explore <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a href="admin.html">Admin</a></li>
+                    <li><a href="newcourse.html">Add Course</a></li>
                     <li><a href="#">Another action</a></li>
                     <li><a href="#">Something else here</a></li>
                     <li class="divider"></li>
@@ -44,9 +45,22 @@
                     <li><a href="userDocument.html">Documents</a></li>
                     <li><a href="profile.html">User Profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="index.html">Log Out</a></li>
+                    <li><a href="javascript:logOut();">Log Out</a></li>
                 </ul>
             </li>
         </ul>
     </div>
 </nav>
+
+<script>
+    function logOut() {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+        location.reload(true);
+    }
+</script>

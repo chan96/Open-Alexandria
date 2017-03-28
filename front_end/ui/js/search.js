@@ -11,6 +11,10 @@ $(document).ready(function() {
     $('.course-name').text(courseName);
     $('.course-name').css("font-weight","Bold");
 
+    $('#input-id').rating({displayOnly:true}); 
+    $('#input-id').rating('update', 5); 
+
+
     setListeners();
 
 });
@@ -47,8 +51,10 @@ function setGetDocumentListener() {
 function setNewPostQuestionListener() {
     $('#questionModal').on('show.bs.modal', function (e) {
         if (document.cookie == '') {
+          
           location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
         }
+        console.log('asdfasdf');
     })
     $('#postBttn').click(function () {
         var questionTitle = $('#question-title').val();
@@ -105,28 +111,7 @@ $('#documentModal').on('show.bs.modal', function (e) {
     
 }
 
-function getUserID() {
-    var userID = document.cookie.split(';')[1].split('=')[1];
 
-    console.log('userID = ' + userID);
-
-    return userID;
-}
-
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
-};
 
 
 /*

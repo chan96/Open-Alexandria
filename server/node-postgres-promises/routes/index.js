@@ -44,6 +44,7 @@ router.post('/loginUser', users.loginUser);
  * @param {cookie} token
  */
 router.get('/logoutUser', users.logoutUser);
+router.get('/userTTL', users.userTTL);
 /** 
  * POST createNewUser
  * @param {string} email
@@ -162,6 +163,11 @@ router.get('/enableDocument', documents.enableDocument);
 
 router.get('/likeDocument', documents.likeDocument);
 router.get('/dislikeDocument', documents.dislikeDocument);
+router.post('/postDocumentComment', documents.postDocumentComment);
+router.get('/getDocumentComment', documents.getDocumentComment);
+router.get('/addTagToDocument', documents.addTagToDocument);
+router.get('/getDocumentsFromTag', documents.getDocumentsFromTag);
+router.get('/getTagsFromDocument', documents.getTagsFromDocument);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);
