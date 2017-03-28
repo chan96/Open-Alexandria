@@ -12,10 +12,10 @@
         <link href="css/index.css" rel="stylesheet">
         <link href="css/search.css" rel="stylesheet">
         <link href="css/newDocument.css" rel="stylesheet">
-                <link href="css/document_view.css" rel="stylesheet">
-        
-        
-<link href="./kartik-v-bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="css/document_view.css" rel="stylesheet">
+
+
+        <link href="./kartik-v-bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
 
 
 
@@ -73,17 +73,18 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
-        
-        <div class="container-fluid">
-            <div class="row">
-                    <h1 id="doc-name"><strong></strong></h1>
-                                    <input id="input-id" type="text" class="rating" data-size="md" >
 
+        <div class="container-fluid">
+            <div class="row centering">
+                <h1 id="doc-name"><strong>document</strong></h1>
+            </div>
+            <div class="row centering">
+                <input id="input-id" type="text" class="rating" data-size="md" >
             </div>
             <div class="row">
-                    <iframe id="doc-frame" src="http://docs.google.com/gview?url=http://domain.com/pdf.pdf&embedded=true" 
- frameborder="0"></iframe>
-                
+                <iframe id="doc-frame" src="http://docs.google.com/gview?url=http://domain.com/pdf.pdf&embedded=true" 
+                        frameborder="0"></iframe>
+
             </div>
 
         </div>
@@ -92,10 +93,10 @@
             <div class="row">
                 <div class="col-md-12 inline">
                     <h1 class="section inline"><strong>Comments</strong></h1>
-<!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
+                    <!--                    <button id="newQuestionBttn" class="btn btn-primary inline">+</button>-->
                     <button id="newDocCommentBttn" type="button" class="btn
-                      btn-primary inline" data-toggle="modal"
-                      data-target="#docCommentModal" data-whatever="@mdo">+</button>
+                                                                        btn-primary inline" data-toggle="modal"
+                            data-target="#docCommentModal" data-whatever="@mdo">+</button>
                 </div>
             </div>
             <div id="comments-row" class="row">
@@ -121,7 +122,7 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            
+
                             <div class="form-group">
                                 <label for="message-text" class="form-control-label">Message:</label>
                                 <textarea class="form-control" id="comment-body"></textarea>
@@ -152,8 +153,8 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/document.js"></script>
         <script src="js/newDocument.js"></script>
-                <script src="js/document_view.js"></script>
-<script src="./kartik-v-bootstrap-star-rating/js/star-rating.js" type="text/javascript"></script>
+        <script src="js/document_view.js"></script>
+        <script src="./kartik-v-bootstrap-star-rating/js/star-rating.js" type="text/javascript"></script>
 
 
 
