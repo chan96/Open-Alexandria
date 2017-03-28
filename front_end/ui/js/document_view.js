@@ -1,6 +1,6 @@
 $(document).ready(function() {
   var url = decodeURIComponent(getUrlParameter('docUrl'));
-  var docID = getUrlParameter('docId');
+  var docID = getUrlParameter('docID');
   console.log('https://view.officeapps.live.com/op/embed.aspx?src=' + url);
   //use microsoft viewer 
   //$('#doc-frame').attr('src', 'https://view.officeapps.live.com/op/embed.aspx?src=' + url);
@@ -14,12 +14,12 @@ $(document).ready(function() {
 });
 
 function setNewPostDocumentListener(docID) {
-  $('#docQuestionModal').on('show.bs.modal', function (e) {
+  $('#docCommentModal').on('show.bs.modal', function (e) {
     if (document.cookie == '') {
       location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
     }
   })
-  $('#docCommentPostBttn').click(function () {
+  $('#postBttn').click(function () {
     var commentBody = $('#comment-body').val();
     var userID = getUserID();
     var postBttn = $('#postBttn');
@@ -34,6 +34,7 @@ function setNewPostDocumentListener(docID) {
       data: { 
         'text': commentBody,
       },
+      dataType: "html",
       //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
       success: function(data) {
         console.log(data);
@@ -59,30 +60,29 @@ function setNewPostDocumentListener(docID) {
 function setComments(docID) {
   $.ajax({
     type: "GET",
-    url: globalUrl + 'getDocumentComment/',
-    data: ({ documentid : docID}),
+    url: globalUrl + 'getDocumentComment/?documentid=' + docID,
     dataType: "html",
     success: function(data) {
       //console.log(data);
-      var jsonData = $.parseJSON(data).suggestions;
+      var jsonData = $.parseJSON(data);
       console.log(jsonData);
       for (var i = 0; i < jsonData.length; i++) {
-        console.log(jsonData[i].data.title);
-        var $div = $('#question0');
-        var id = jsonData[i].data.questionid;
+        console.log(jsonData[i].comments_text);
+        var $div = $('#comment0');
+        var id = jsonData[i].comments_unique_id;
         console.log(id);
         var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
-        var $question = $div.clone().prop('id', 'question'+num );
-        var qid = $question.attr('id');
+        var $comment = $div.clone().prop('id', 'comment'+num );
+        var qid = $comment.attr('id');
         console.log(qid);
 
-        $question.find('p').text(jsonData[i].data.title);
+        $comment.find('p').text(jsonData[i].comments_text);
 
 
 
-        $('#questions-row').append($question);
-        setQuestionOnClick(qid);
-        $question.show();
+        $('#comments-row').append($comment);
+        //setcommentsOnClick(qid);
+        $comment.show();
       }
 
     },
