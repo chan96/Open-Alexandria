@@ -11,6 +11,10 @@ $(document).ready(function() {
     $('.course-name').text(courseName);
     $('.course-name').css("font-weight","Bold");
 
+    $('#input-id').rating({displayOnly:true}); 
+    $('#input-id').rating('update', 5); 
+
+
     setListeners();
 
 });

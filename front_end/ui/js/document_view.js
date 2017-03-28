@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var url = decodeURIComponent(getUrlParameter('docUrl'));
   var docID = getUrlParameter('docID');
-  console.log('https://view.officeapps.live.com/op/embed.aspx?src=' + url);
+//  console.log('https://view.officeapps.live.com/op/embed.aspx?src=' + url);
   //use microsoft viewer 
   //$('#doc-frame').attr('src', 'https://view.officeapps.live.com/op/embed.aspx?src=' + url);
 
