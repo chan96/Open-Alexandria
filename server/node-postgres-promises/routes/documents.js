@@ -655,6 +655,36 @@ function getTagsFromDocument(req, res, next){
     });
 }
 
+function disableUser(req, res, next){
+  var userid = req.query.userid;
+  var adminid = userAuth.getUserID(req.cookies.token);
+  var adminStatus = userAuth.checkUserAdmin(req.cookies.token);
+  if(!userid || !adminStatus){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+
+  var dbUpdate = 'update users set(USERS_ISACTIVE) = (false) where USERS_UNIQUE_ID = $1;';
+
+  db.none(dbUpdate, [userid])
+    .then(function(){
+      res.status(200).json({
+        status: "Successful disable users",
+        code: 1
+      }); 
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+
 module.exports = {
   uploadDocuments: uploadDocuments,
   searchDocument: searchDocument,
