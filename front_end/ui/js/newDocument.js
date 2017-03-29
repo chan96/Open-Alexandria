@@ -2,15 +2,15 @@ var dataGlobalUser;
 var cookieField = document.cookie.split("; ");
 var url = window.location.href;
 var courseid = getParameterByName('courseid');
-function submitChange(form ){
-    console.log(url);
-    console.log(courseid);
-    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid;
-    var selectedFile = document.getElementById('js-upload-files').files[0];
+function submitChange(form){
+    var selectedFileType = document.getElementById('js-upload-files').files[0].type.split("/");
+    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid + "&fileType=" + selectedFileType[1];
+    console.log(theUrl);
   //var theUrl = "http://openalexandria.us.to/loginUser";
+  //var formData = new FormData(document.forms.namedItem("fileinfo"));
   var formData = $(form).serializeArray();
   console.log(formData);
-  $.post(theUrl + "&fileType=" + selectedFile.type, formData, function (data) {
+  $.post(theUrl , formData, function (data) {
     console.log(data);
   }).done(function(){
       //document.cookie;
