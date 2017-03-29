@@ -141,6 +141,8 @@ router.get('/searchDocumentByCourse', documents.searchDocumentByCourse);
  * @param {string} query
  * @param {string} userid
  */
+router.get('/searchDocumentByCurrentUser', documents.searchDocumentByCurrentUser);
+
 router.get('/searchDocumentByUser', documents.searchDocumentByUser);
 router.get('/searchDocumentByUserAdmin', documents.searchDocumentByUserAdmin);
 /**
