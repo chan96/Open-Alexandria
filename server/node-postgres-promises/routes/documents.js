@@ -56,6 +56,10 @@ function uploadDocuments(req, res, next){
 
   if(filetype === undefined){
     filetype = mime.extension(req.file.mimetype);
+    console.log(filetype);
+    if(!filename.includes(filetype)){
+      filename = filename +  '.' + filetype;
+    }
   }
 
   var filepath = "/documents/" + destFileName;
@@ -515,6 +519,43 @@ function getDocumentComment(req, res, next){
     }); 
 }
 
+function addTag(res, tagid, documentid) {
+
+  var dbSelectLink = 'select * from TAGLINK where TAGLINK_TAGLIST_ID = $1 and TAGLINK_DOCUMENTS_ID = $2;';
+  var dbInsertLink = 'insert into TAGLINK (TAGLINK_TAGLIST_ID, TAGLINK_DOCUMENTS_ID) values ($1, $2);';
+  db.oneOrNone(dbSelectLink, [tagid, documentid])
+    .then(function(dSelectLink){
+      if(dSelectLink == null){
+        db.none(dbInsertLink, [tagid, documentid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successfully added tag to document",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown - 3",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+
+          });
+      }else{
+        res.status(200).json({
+          status: "tag to document already exist",
+          code: 1
+        });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown - 4",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+
+}
+
 function addTagToDocument(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
@@ -527,24 +568,24 @@ function addTagToDocument(req, res, next){
 
   var tag = req.query.tag;
   var documentid = req.query.documentid;
+  var tagid;
 
   var dbSelectList = 'select * from TAGLIST where TAGLIST_TEXT = $1;';
-  var dbSelectLink = 'select * from TAGLINK where TAGLINK_TAGLIST_ID = $1 and TAGLINK_DOCUMENTS_ID = $2;';
   var dbInsertList = 'insert into TAGLIST (TAGLIST_TEXT) values ($1);';
-  var dbInsertLink = 'insert into TAGLINK (TAGLINK_TAGLIST_ID, TAGLINK_DOCUMENTS_ID) values ($1, $2);';
 
-  var tagid;
   db.oneOrNone(dbSelectList, [tag])
-    .then(function(data){
-      console.log(data);
-      if(data == null){
+    .then(function(dSelectList){
+      console.log(dSelectList);
+      if(dSelectList == null){
         db.none(dbInsertList, [tag])
           .then(function(){
             console.log("inserted"); 
             db.oneOrNone(dbSelectList, [tag])
-              .then(function(dataB){
+              .then(function(dSelectListB){
                 console.log("SelectingAgain");
-                tagid = dataB.taglist_unique_id;
+                tagid = dSelectListB.taglist_unique_id;
+                console.log(tagid);
+                addTag(res, tagid, documentid);
 
               }).catch(function(err){
                 res.status(500).json({
@@ -553,6 +594,8 @@ function addTagToDocument(req, res, next){
                   code: -1
                 });
               });
+
+            console.log("Done2");
             //Good
           }).catch(function(err){
             res.status(500).json({
@@ -562,41 +605,13 @@ function addTagToDocument(req, res, next){
             });
           });
       }else{
-        tagid = data.taglist_unique_id;
+        tagid = dSelectList.taglist_unique_id;
+        console.log(tagid);
+        addTag(res, tagid, documentid);
       }
+
       console.log("Done: " + tagid);
-      db.oneOrNone(dbSelectLink, [tagid, documentid])
-        .then(function(data){
-          if(data == null){
-            db.none(dbInsertLink, [tagid, documentid])
-              .then(function(){
-                res.status(200).json({
-                  status: "Successfully added tag to document",
-                  code: 1
-                });
-              }).catch(function(err){
-                res.status(500).json({
-                  status: "Error unknown - 3",
-                  error: {name: err.name, message: err.message},
-                  code: -1
-                });
-
-              });
-          }else{
-            res.status(200).json({
-              status: "tag to document already exist",
-              code: 1
-            });
-          }
-        }).catch(function(err){
-          res.status(500).json({
-            status: "Error unknown - 4",
-            error: {name: err.name, message: err.message},
-            code: -1
-          });
-        });
-
-
+      console.log("Done3");
     }).catch(function(err){
       res.status(500).json({
         status: "Error unknown - 5",
@@ -604,7 +619,6 @@ function addTagToDocument(req, res, next){
         code: -1
       });
     });
-
 }
 
 function getDocumentsFromTag(req, res, next){
