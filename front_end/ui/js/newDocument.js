@@ -1,16 +1,17 @@
 var dataGlobalUser;
 var cookieField = document.cookie.split("; ");
-var url = windows.location.href;
-var courseid = getUrlParameter('courseid');
-function submitChange(form){
+var url = window.location.href;
+var courseid = getParameterByName('courseid');
+function submitChange(form ){
     console.log(url);
     console.log(courseid);
-    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid ;
+    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid;
+    var selectedFile = document.getElementById('js-upload-files').files[0];
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
   console.log(formData);
-  $.post(theUrl , formData, function (data) {
-
+  $.post(theUrl + "&fileType=" + selectedFile.type, formData, function (data) {
+    console.log(data);
   }).done(function(){
       //document.cookie;
 
@@ -20,6 +21,17 @@ function submitChange(form){
   return false;
 }
 
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 /*
 + function($) {
     'use strict';
