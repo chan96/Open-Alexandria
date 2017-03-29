@@ -161,6 +161,48 @@ function searchDocumentByCourse(req,res,next){
     });
 }
 
+function searchDocumentByCurrentUser(req,res,next){
+  var query = req.query.query;
+  var user = userAuth.getUserID(req.cookies.token);
+  if(!user){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+  var dbSelect = 'select * from documents where DOCUMENTS_NAME ~* $1 and DOCUMENTS_USERS_ID = $2 and DOCUMENTS_ISACTIVE = true;';
+
+  db.any(dbSelect,[query,user])
+    .then(function(data){
+      var commonString = [];
+      for (var i = 0; i < data.length; i++){
+        var documentInfo = {
+          documentuniqueid: data[i].documents_unique_id,
+          documentname: data[i].documents_name,
+          documentlink: "https://openalex.com" + data[i].documents_link,
+          documentcourse: data[i].documents_courses_id,
+          documentuser: data[i].documents_users_id,
+          documentdescription: data[i].documents_description,
+          documenttype: data[i].documents_type,
+          documentlike: data[i].documents_numlike,
+          documentdislike: data[i].documents_numdislike,
+          documentdatecreated: data[i].documents_datecreated,
+          documentisactive: data[i].documents_isactive
+        }
+        commonString.push({value:data[i].documents_name, data: documentInfo});
+      } 
+      res.status(200).json({suggestions:commonString});
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name:err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+
 function searchDocumentByUser(req,res,next){
   var query = req.query.query;
   var user = req.query.userid;
@@ -689,6 +731,7 @@ module.exports = {
   uploadDocuments: uploadDocuments,
   searchDocument: searchDocument,
   searchDocumentByCourse: searchDocumentByCourse,
+  searchDocumentByCurrentUser:searchDocumentByCurrentUser,
   searchDocumentByUser:searchDocumentByUser, 
   searchDocumentByUserAdmin: searchDocumentByUserAdmin,
   getDocument: getDocument,
