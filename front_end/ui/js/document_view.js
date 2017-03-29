@@ -1,12 +1,28 @@
 $(document).ready(function() {
   var url = decodeURIComponent(getUrlParameter('docUrl'));
   var docID = getUrlParameter('docID');
+  var arr = [ 'jpg', 'png', 'gif' ];
+
 //  console.log('https://view.officeapps.live.com/op/embed.aspx?src=' + url);
   //use microsoft viewer 
   //$('#doc-frame').attr('src', 'https://view.officeapps.live.com/op/embed.aspx?src=' + url);
 
-  //use google doc viewer
   $('#doc-frame').attr('src', 'https://docs.google.com/gview?url=' + url + '&embedded=true');
+
+  for (var i = 0; i < arr.length; i++) {
+    if (url.includes(arr[i])) {
+      $('#image-container').attr('src', url);
+      $('#image-container').show();
+
+      $('#doc-frame').hide()
+
+      console.log('image');
+
+      break;  
+    } 
+  }
+
+  //use google doc viewer
   $('#doc-name').text(getUrlParameter('docName'));
 
     $("#input-id").rating();

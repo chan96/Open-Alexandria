@@ -11,10 +11,11 @@ function showDocPreviews(parsedData) {
         var link = jsonData[i].data.documentlink;
         var docName = jsonData[i].data.documentname;
         var $templateDocPreview = $div.clone().removeClass('templateDocPreview');
+        var previewSrc = (link.includes('.gif') ? link : link + '.jpg');
 
         console.log(jsonData[i].data);
         $templateDocPreview.find('#doc0').prop('id', 'doc'+id );
-        $templateDocPreview.find('img').attr("src", jsonData[i].data.documentlink + '.jpg');
+        $templateDocPreview.find('img').attr("src", previewSrc);
         $templateDocPreview.find('h4').text(jsonData[i].data.documentname);
         $templateDocPreview.find('p').text(jsonData[i].data.documentdescription);
          $templateDocPreview.click(function() {
