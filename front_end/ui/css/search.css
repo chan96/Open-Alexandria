@@ -178,3 +178,7 @@ h4 {
   -webkit-margin-after: 0em;
 }
 /************************/
+
+.talk-bubble-margin {
+  margin-bottom: 20px;
+}
