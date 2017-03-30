@@ -171,7 +171,7 @@ function searchDocumentByCurrentUser(req,res,next){
     });
     return;
   }
-  var dbSelect = 'select * from documents where DOCUMENTS_NAME ~* $1 and DOCUMENTS_USERS_ID = $2 and DOCUMENTS_ISACTIVE = true;';
+  var dbSelect = 'select * from documents where DOCUMENTS_NAME ~* $1 and DOCUMENTS_USERS_ID = $2;';
 
   db.any(dbSelect,[query,user])
     .then(function(data){
