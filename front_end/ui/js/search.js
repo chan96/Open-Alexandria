@@ -11,7 +11,6 @@ $(document).ready(function() {
     $('.course-name').text(courseName);
     $('.course-name').css("font-weight","Bold");
 
-    $('#input-id').rating({displayOnly:true}); 
 //    $('#input-id').rating('update', 5); 
 
 
@@ -333,17 +332,3 @@ function setQuestionOnClick(qid) {
       
     });
 }
-
-$('#topic').upvote();
-$('#topic').upvote({count: 5, upvoted: 1});
-$('#topic').upvote({count: 5, downvoted: 1});
-$('#topic').upvote({count: 5, upvoted: 1, starred: 1});
-
-var callback = function(data) {
-    $.ajax({
-        url: '/vote',
-        type: 'post',
-        data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred }
-    });
-};
-$('#topic-123').upvote({id: 123, callback: callback});

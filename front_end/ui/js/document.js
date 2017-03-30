@@ -13,6 +13,7 @@ function showDocPreviews(parsedData) {
         var $templateDocPreview = $div.clone().removeClass('templateDocPreview');
         var previewSrc = (link.includes('.gif') ? link : link + '.jpg');
 
+
         console.log(jsonData[i].data);
         $templateDocPreview.find('#doc0').prop('id', 'doc'+id );
         $templateDocPreview.find('img').attr("src", previewSrc);
@@ -22,11 +23,41 @@ function showDocPreviews(parsedData) {
            console.log('link ' + link);
              window.location.href = globalUrl + 'document_view.html' + '?docName=' + jsonData[i].data.documentname + '&docID=' + jsonData[i].data.documentuniqueid + '&docUrl=' + encodeURIComponent(jsonData[i].data.documentlink);
          })
+
+        
+         showDocumentRatings(id, $templateDocPreview);
+
          
         $('#pinBoot').append($templateDocPreview);
         $templateDocPreview.show();
         console.log($templateDocPreview);
     }
+}
+
+function showDocumentRatings(docid, div) {
+  console.log('id ' + docid);
+        div.find('.r-container').append('<input id="rating-doc-' + docid + '" name="input-name" class="rating" data-size="xs">');
+        //div.find('#rating-template').prop('id', 'rating-doc-'+docid );
+        //console.log('template ' + div.find('#rating-doc' + docid).attr('id'));
+console.log( '<input id="rating-docid-' + docid + '" class="rating" data-size="xs">'); 
+         //$ratingTemplate.attr('id', 'rating-doc-'+ docid);
+         //$("#rating-doc-" + docid).rating();
+    $.ajax({
+      type: 'GET',
+      url: globalUrl + 'getDocumentRating/?documentid=' + docid,
+      dataType: "json",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        console.log('sum ' + data.sum.actualrating);
+         $("#rating-doc-" + docid).rating({displayOnly: true, size: 'sm'});
+         $("#rating-doc-" + docid).rating('update', data.sum.actualrating);
+      },
+      error: function(xhr, status, error) {
+       //console.log( JSON.parse(xhr.responseText));
+
+         $("#rating-doc-" + docid).rating({displayOnly: true, size: 'sm'});
+      }
+    });
 }
 
 function getDocPreviews(cid) {
