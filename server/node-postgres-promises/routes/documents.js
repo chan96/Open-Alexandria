@@ -697,7 +697,83 @@ function getTagsFromDocument(req, res, next){
     });
 }
 
+function addRatingToDocument(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Error authentication error",
+      code: -1
+    });
+    return;
+  }
+  var rating = req.query.rating;
+  var documentid = req.query.documentid;
+  var dbSelect =  'select * from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_RATING) values ($1, $2, $3, $4);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_RATING = $1 where USERSFEEDBACK_USERS_ID = $2 and USERSFEEDBACK_TYPE = 1 and USERSFEEDBACK_ITEM_ID= $3;';
 
+  db.oneOrNone(dbSelect, [userid, documentid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, 1, documentid, rating])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful inserted",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      } else if(data.usersfeedback_type == 1){
+        db.none(dbUpdate, [rating, userid, documentid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful inserted",
+              code: 1
+            });
+
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+function getDocumentRating(req, res, next){
+  var documentid = req.query.documentid;
+
+  var dbSelect = 'select sum(USERSFEEDBACK_RATING)/count(USERSFEEDBACK_RATING) as actualrating from USERSFEEDBACK where USERSFEEDBACK_ITEM_ID = $1 AND USERSFEEDBACK_TYPE = 1 group by usersfeedback_item_id;';
+
+  db.one(dbSelect, [documentid])
+    .then(function(data){
+      res.status(200).json({
+        status: "Successful!",
+        code: 1,
+        sum: data
+      });
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+
+}
 
 module.exports = {
   uploadDocuments: uploadDocuments,
@@ -717,4 +793,6 @@ module.exports = {
   addTagToDocument:addTagToDocument,
   getDocumentsFromTag: getDocumentsFromTag,
   getTagsFromDocument: getTagsFromDocument,
+  addRatingToDocument:addRatingToDocument,
+  getDocumentRating: getDocumentRating,
 };
