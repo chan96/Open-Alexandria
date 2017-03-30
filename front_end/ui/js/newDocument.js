@@ -1,38 +1,69 @@
-+ function($) {
-    'use strict';
+$(document).ready(function() {
 
-    // UPLOAD CLASS DEFINITION
-    // ======================
 
-    var dropZone = document.getElementById('drop-zone');
-    var uploadForm = document.getElementById('js-upload-form');
+  $('#upload-submit').click( function(){
 
-    var startUpload = function(files) {
-        console.log(files)
+    console.log(':o');
+    var files = $('#js-upload-files').get(0).files;
+
+    console.log(files);
+    if (files.length > 0){
+      // create a FormData object which will be sent as the data payload in the
+      // AJAX request
+      var formData = new FormData();
+      var courseid = getUrlParameter('courseid');
+      var type;
+      var desc;
+
+      // loop through all the selected files and add them to the formData object
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+
+        // add the files to formData object for the data payload
+        formData.append('files[]', file, file.name);
+        type = 'pdf';
+        desc = 'test';
+      }
+
+      $.ajax({
+        url: globalUrl + 'uploadDocuments?courseid=' + courseid + '&type=' + type + '&description=' + desc,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data){
+          console.log('upload successful!\n' + data);
+        },
+        xhr: function() {
+          // create an XMLHttpRequest
+          var xhr = new XMLHttpRequest();
+
+          // listen to the 'progress' event
+          xhr.upload.addEventListener('progress', function(evt) {
+
+            if (evt.lengthComputable) {
+              // calculate the percentage of upload completed
+              var percentComplete = evt.loaded / evt.total;
+              percentComplete = parseInt(percentComplete * 100);
+
+              // update the Bootstrap progress bar with the new percentage
+              //$('.progress-bar').text(percentComplete + '%');
+              //$('.progress-bar').width(percentComplete + '%');
+
+              // once the upload reaches 100%, set the progress bar text to done
+              if (percentComplete === 100) {
+                //$('.progress-bar').html('Done');
+                console.log('done');
+              }
+
+            }
+
+          }, false);
+
+          return xhr;
+        }
+      });
+
     }
-
-    uploadForm.addEventListener('submit', function(e) {
-        var uploadFiles = document.getElementById('js-upload-files').files;
-        e.preventDefault()
-
-        startUpload(uploadFiles)
-    })
-
-    dropZone.ondrop = function(e) {
-        e.preventDefault();
-        this.className = 'upload-drop-zone';
-
-        startUpload(e.dataTransfer.files)
-    }
-
-    dropZone.ondragover = function() {
-        this.className = 'upload-drop-zone drop';
-        return false;
-    }
-
-    dropZone.ondragleave = function() {
-        this.className = 'upload-drop-zone';
-        return false;
-    }
-
-}(jQuery);
+  });
+});
