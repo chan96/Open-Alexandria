@@ -71,6 +71,7 @@ router.get('/getUserInfoFromUID', users.getUserInfoFromUID);
  * @param {string} password
  */
 router.post('/editUserInfo', users.editUserInfo);
+router.post('/checkPassword', users.checkPassword);
 router.post('/editUserPassword', users.editUserPassword);
 
 router.get('/enableUser', users.enableUser);
@@ -141,6 +142,8 @@ router.get('/searchDocumentByCourse', documents.searchDocumentByCourse);
  * @param {string} query
  * @param {string} userid
  */
+router.get('/searchDocumentByCurrentUser', documents.searchDocumentByCurrentUser);
+
 router.get('/searchDocumentByUser', documents.searchDocumentByUser);
 router.get('/searchDocumentByUserAdmin', documents.searchDocumentByUserAdmin);
 /**
@@ -168,6 +171,8 @@ router.get('/getDocumentComment', documents.getDocumentComment);
 router.get('/addTagToDocument', documents.addTagToDocument);
 router.get('/getDocumentsFromTag', documents.getDocumentsFromTag);
 router.get('/getTagsFromDocument', documents.getTagsFromDocument);
+router.get('/addRatingToDocument', documents.addRatingToDocument);
+router.get('/getDocumentRating', documents.getDocumentRating);
 
 router.get('/subscribeUserToCourse', subscriptions.subscribeUserToCourse);
 router.get('/unsubscribeUserToCourse', subscriptions.unsubscribeUserToCourse);

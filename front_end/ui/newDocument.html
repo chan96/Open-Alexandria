@@ -7,14 +7,12 @@
 
           <!-- Standar Form -->
           <h4>Select files from your computer</h4>
-          <form method="post" enctype="multipart/form-data" id="js-upload-form">
             <div class="form-inline">
               <div class="form-group">
-                <input type="file" name="file[]" id="js-upload-files">
+                <input type="file" name="file[]" id="js-upload-files" multiple>
               </div>
-              <button id="js-upload-submit" type="submit" name="send" class="btn btn-sm btn-primary" onclick="return submitChange()">Upload Files</button>
+              <button id="js-upload-submit" name="send" class="btn btn-sm btn-primary">Upload Files</button>
             </div>
-          </form>
 
           <!-- Drop Zone -->
           <h4>Or drag and drop files below</h4>
@@ -42,4 +40,4 @@
     </div>
   </div>
 </div>
-
+<script src="./js/newDocument.js"></script>

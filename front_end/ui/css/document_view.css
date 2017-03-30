@@ -4,6 +4,7 @@ iframe {
 }
 
 .comments-container {
+  padding-top: 20px;
   width: 100%;
   height: 100%;
 }
@@ -12,3 +13,14 @@ iframe {
   width: 100%;
   height: 100%;
 }
+body {
+      padding-bottom: 250px;
+    }
+
+    .footer {
+        position: absolute;
+          left: 0;
+            bottom: 0;
+              width: 100%;
+                height: 114px;
+              }
