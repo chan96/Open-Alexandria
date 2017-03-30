@@ -199,23 +199,67 @@ function editUserInfo(req, res, next){
   });
 }
 
-function editUserPassword(req, res, next){
+function checkPassword(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      message: "Authentication Error",
+      code: -1 
+    })
+    return;
+  }
+
   var password = req.body.password;
 
+  var dbSelect = 'select * from users where USERS_UNIQUE_ID = $1 and USERS_PASSWORD = $2 and USERS_ISACTIVE = true;';
+  db.one(dbSelect, [userid, password])
+    .then(function(data){
+      res.status(200).json({
+        status: "Successful correct password",
+        code: 1
+      });
+    }).catch(function(err){
+      res.status(401).json({
+        message: "Incorrect password",
+        code: -1
+      });
+    });
+}
+
+function editUserPassword(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      message: "Authentication Error",
+      code: -1 
+    })
+    return;
+  }
+  var oldpassword = req.body.oldpassword;
+  var password = req.body.password;
+
+  var dbSelect = 'select * from users where USERS_UNIQUE_ID = $1 and USERS_PASSWORD = $2 and USERS_ISACTIVE = true;';
   var dbUpdate = 'update users set(USERS_PASSWORD) = ($1) where USERS_UNIQUE_ID = $2;';
 
-  db.none(dbUpdate, [password,userid])
-    .then(function(){
-      res.status(200).json({
-        status: "Successful password change",
-        code: 1
-      })
+  db.one(dbSelect, [userid, oldpassword])
+    .then(function(data){
+      db.none(dbUpdate, [password,userid])
+        .then(function(){
+          res.status(200).json({
+            status: "Successful password change",
+            code: 1
+          });
+        }).catch(function(err){
+          res.status(400).json({
+            status: "Error cannot change password",
+            code: -1,
+            error: {name:err.name, message: err.message}
+          });
+        });
     }).catch(function(err){
-      res.status(400).json({
-        status: "Error cannot change password",
-        code: -1,
-        error: {name:err.name, message: err.message}
+      res.status(401).json({
+        message: "Incorrect old password",
+        code: -1
       });
     });
 }
@@ -317,6 +361,7 @@ module.exports = {
   getUserInfo: getUserInfo,
   getUserInfoFromUID: getUserInfoFromUID,
   editUserInfo: editUserInfo,
+  checkPassword: checkPassword,
   editUserPassword: editUserPassword,
   enableUser: enableUser,
   disableUser: disableUser,
