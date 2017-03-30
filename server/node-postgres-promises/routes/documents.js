@@ -31,13 +31,13 @@ var userAuth = require("../utils/userAuth");
 
 function uploadDocuments(req, res, next){
   var token = req.cookies.token;
-  /*if(token === undefined){
+  if(token === undefined){
     res.status(401).json({
       status: "Error unauthorized action",
       code: -1
     });
     return;
-  };*/
+  };
   var filename = req.query.rename;
   if(filename === undefined){
     filename = req.file.originalname;
