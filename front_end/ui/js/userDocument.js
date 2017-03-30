@@ -1,5 +1,5 @@
 var dataGlobalUser;
-var documentUrl = globalUrl + "searchDocumentByUser?query=&";
+var documentUrl = globalUrl + "searchDocumentByCurrentUser?query=&";
 var tagsUrl = globalUrl + "addTagToDocument?documentid=";
 var getTagsUrl = globalUrl + "getTagsFromDocument?documentid="
 var dataGlobalDocument;
