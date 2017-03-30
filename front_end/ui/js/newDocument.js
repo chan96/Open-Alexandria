@@ -12,16 +12,20 @@ $(document).ready(function() {
       // AJAX request
       var formData = new FormData();
       var courseid = getUrlParameter('courseid');
-      var type;
-      var desc;
+      var file = files[0];
+      var fileName = file.name;
+      var type = fileName.substring(fileName.indexOf('.'));
+      var desc = $('#upload-text').val().trim();
 
-      // loop through all the selected files and add them to the formData object
-        var file = files[0];
+      if (desc.length < 10) {
+        alert('Description must be at least 10 characters');
+        return;
+      } 
 
-        // add the files to formData object for the data payload
-        formData.append('document', file, file.name);
-        type = 'pdf';
-        desc = 'test';
+      console.log('type ' + type);
+      console.log('desc ' + desc);
+      // add the files to formData object for the data payload
+      formData.append('document', file, file.name);
 
       $.ajax({
         url: globalUrl + 'uploadDocuments?courseid=' + courseid + '&type=' + type + '&description=' + desc,
@@ -37,6 +41,9 @@ $(document).ready(function() {
         }
       });
 
+    } else {
+
+      alert('Select a file to upload');
     }
   });
 });
