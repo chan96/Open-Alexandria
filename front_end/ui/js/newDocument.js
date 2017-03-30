@@ -2,23 +2,41 @@ var dataGlobalUser;
 var cookieField = document.cookie.split("; ");
 var url = window.location.href;
 var courseid = getParameterByName('courseid');
-function submitChange(form){
+function submitChange(){
     var selectedFileType = document.getElementById('js-upload-files').files[0].type.split("/");
-    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid + "&fileType=" + selectedFileType[1];
+    var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid + "&type=" + selectedFileType[1];
     console.log(theUrl);
-  //var theUrl = "http://openalexandria.us.to/loginUser";
-  //var formData = new FormData(document.forms.namedItem("fileinfo"));
-  var formData = $(form).serializeArray();
-  console.log(formData);
-  $.post(theUrl , formData, function (data) {
-    console.log(data);
-  }).done(function(){
-      //document.cookie;
+    console.log(document.getElementById('js-upload-files').files[0]);
+      //var theUrl = "http://openalexandria.us.to/loginUser";
+      var formData = new FormData();
+      formData.append('document', document.getElementById('js-upload-files').files[0]);
+      
+      $.ajax({
+        url: theUrl,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+               // .. do something
+           },
+           error: function(jqXHR, textStatus, errorMessage) {
+               console.log(errorMessage); // Optional
+           }
+       });
+    //var formData = new FormData($("form#js-upload-form")[0]);
+    console.log(formData);
+    /*
+    $.post(theUrl , formData, function (data) {
+        console.log(data);
+    }).done(function(){
+          //document.cookie;
 
-  }).fail(function (){
-    console.log("Failed to upload document");
-});
-  return false;
+      }).fail(function (){
+        console.log("Failed to upload document");
+    });
+    */
+    return false;
 }
 
 function getParameterByName(name, url) {
