@@ -6,10 +6,11 @@ function submitChange(){
     var selectedFileType = document.getElementById('js-upload-files').files[0].type.split("/");
     var theUrl = globalUrl + "uploadDocuments?courseid=" + courseid + "&type=" + selectedFileType[1];
     console.log(theUrl);
-    console.log(document.getElementById('js-upload-files').files[0]);
-      //var theUrl = "http://openalexandria.us.to/loginUser";
-      var formData = new FormData();
-      formData.append('document', document.getElementById('js-upload-files').files[0]);
+    var files = $('#js-upload-files').get(0).files;
+    var file = files[0];
+    console.log(file);
+    var formData = new FormData();
+    formData.append('document', file, file.name);
       
       $.ajax({
         url: theUrl,
@@ -25,7 +26,6 @@ function submitChange(){
            }
        });
     //var formData = new FormData($("form#js-upload-form")[0]);
-    console.log(formData);
     /*
     $.post(theUrl , formData, function (data) {
         console.log(data);
