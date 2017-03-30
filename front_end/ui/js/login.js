@@ -13,37 +13,6 @@ function submitLogin(form){
         $("#incorrect").html("<p>Login Incorrect</p>");
     });
     return false;
-  /*
-  var formData = new FormData();
-  formData.append('username', document.getElementById("username").value);
-  formData.append('password', document.getElementById("password").value);
-
-  console.log(formData);
-  */
-  /*
-  $.ajax({
-    method: 'POST',
-    url: theUrl,
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    data: { username : document.getElementById("username").value, password : document.getElementById("password").value },
-    xhrFields: { withCredentials: true },
-    crossDomain: true,
-    success: function(data){
-      alert("SUCCESS MOFO.");
-      console.log(data);
-      //var isAdmin=JSON.parse(data).rows[0].users_isadmin;
-      //if(isAdmin === true){
-      //    window.location = "admin.html";
-      //}else{
-      //    window.location = "user.html";
-      //}
-    },
-    error: function(error){
-      alert("Email and password combination incorrect.");
-      console.log(error);
-    }
-  });
-  */
 }
 /*
 $(document).ready(function(){
@@ -55,11 +24,16 @@ $(document).ready(function(){
 function redirect() {
   var redirectUrl = getRedirectParameter(location.href);
   console.log(redirectUrl.length);
+  var cookieField = document.cookie.split("; ");
 
   if (redirectUrl != '') {
       window.location.href = redirectUrl;
       console.log('hi');
-  } else {
+  } 
+  else if(cookieField[2]="isadmin=true"){
+    window.location.href = globalUrl + "admin.html";
+  }
+  else {
       window.location.href = globalUrl;
   }
 
