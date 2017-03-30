@@ -311,7 +311,7 @@ function disableDocument(req, res, next){
   var dbUpdate = 'update DOCUMENTS set DOCUMENTS_ISACTIVE = $1 where DOCUMENTS_UNIQUE_ID = $2;';
   var dbSelect = 'select * from DOCUMENTS where DOCUMENTS_UNIQUE_ID = $1 and DOCUMENTS_ISACTIVE = true;';
 
-  if(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token)){
+  if(userAuth.checkUserAlive(token)){
     db.one(dbSelect, [uniqueid])
       .then(function(data){
         db.none(dbUpdate, [false, uniqueid])
@@ -348,7 +348,7 @@ function enableDocument(req, res, next){
   var dbUpdate = 'update DOCUMENTS set DOCUMENTS_ISACTIVE = $1 where DOCUMENTS_UNIQUE_ID = $2;';
   var dbSelect = 'select * from DOCUMENTS where DOCUMENTS_UNIQUE_ID = $1 and DOCUMENTS_ISACTIVE = false;';
 
-  if(userAuth.checkUserAlive(token) && userAuth.checkUserAdmin(token)){
+  if(userAuth.checkUserAlive(token)){
     db.one(dbSelect, [uniqueid])
       .then(function(data){
         db.none(dbUpdate, [true, uniqueid])
