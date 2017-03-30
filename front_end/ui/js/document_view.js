@@ -30,7 +30,60 @@ $(document).ready(function() {
     
   setNewPostDocumentListener(docID); 
   setComments(docID);
+  showDocRating(docID);
+  allowDocRatingUpdate(docID);
 });
+
+function showDocRating(docid) {
+  console.log('hi');
+    $.ajax({
+      type: 'GET',
+      url: globalUrl + 'getDocumentRating/?documentid=' + docid,
+      dataType: "json",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        console.log('sum ' + data.sum.actualrating);
+         $("#doc-rating").rating('update', data.sum.actualrating);
+      },
+      error: function(xhr, status, error) {
+       //console.log( JSON.parse(xhr.responseText));
+
+         $("#doc-rating").rating();
+      }
+    });
+    $('#doc-rating').on('rating.change', function(event, value, caption) {
+          console.log(value);
+    });
+
+}
+
+function allowDocRatingUpdate(docid) {
+  $('#doc-rating').on('rating.change', function(event, value, caption) {
+    sendRating(docid, value);
+  });
+}
+
+function sendRating(docid, rating) {
+    $.ajax({
+      type: 'GET',
+      url: globalUrl + 'addRatingToDocument/?documentid=' + docid + '&rating=' + rating,
+      dataType: "json",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        //console.log('sum ' + data.sum.actualrating);
+         //$("#doc-rating").rating('update', data.sum.actualrating);
+         showDocRating(docid);
+      },
+      error: function(xhr, status, error) {
+       console.log( JSON.parse(xhr.responseText));
+
+         //$("#doc-rating").rating();
+      }
+    });
+    $('#doc-rating').on('rating.change', function(event, value, caption) {
+          console.log(value);
+    });
+}
 
 function setNewPostDocumentListener(docID) {
   $('#docCommentModal').on('show.bs.modal', function (e) {

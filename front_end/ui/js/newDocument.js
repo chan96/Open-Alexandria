@@ -35,6 +35,7 @@ $(document).ready(function() {
         contentType: false,
         success: function(data){
           console.log('upload successful!\n' + data);
+          location.reload();
         },
         error: function(xhr, status, error) {
           console.log(xhr.responseText);
