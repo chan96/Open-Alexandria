@@ -30,7 +30,7 @@ function redirect() {
       window.location.href = redirectUrl;
       console.log('hi');
   } 
-  else if(cookieField[2]="isadmin=true"){
+  else if(cookieField[2]=="isadmin=true"){
     window.location.href = globalUrl + "admin.html";
   }
   else {
