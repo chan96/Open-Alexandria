@@ -29,6 +29,13 @@ function createDeck(req, res, next){
   };
 
   var userid = userAuth.getUserID(token);
+  if(!userid){
+res.status(401).json({
+      status: "Error unauthorized action",
+      code: -1
+    });
+    return;
+  }
   var courseid = req.query.courseid;
   var deckname = req.query.deckname;
 
@@ -50,28 +57,38 @@ function createDeck(req, res, next){
 }
 
 function createCardInDeck(req, res, next){
-  var token = req.cookies.token;
-  if(token === undefined){
-    res.status(401).json({
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+res.status(401).json({
       status: "Error unauthorized action",
       code: -1
     });
     return;
-  };
+  }
 
   var deckid = req.query.deckid;
   var deckfront = req.query.front;
   var deckback = req.query.back;
 
+  var dbSelect = "select * from flashcarddecks where flashcarddecks_unique_id = $1 and flashcarddecks_isactive = true;";
   var dbInsert = "insert into FLASHCARDS (flashcards_flashcardsdecks_id, FLASHCARDS_FRONT, FLASHCARDS_BACK) values ($1, $2, $3);";
 
-  db.none(dbInsert, [deckid, deckfront, deckback])
-    .then(function(){
-      res.status(200).json({
-        status: "Successful added new flash cards into deck",
-        deckid: deckid,
-        code: 1
-      });
+  db.one(dbSelect, [deckid])
+    .then(function(data){
+      db.none(dbInsert, [deckid, deckfront, deckback])
+        .then(function(){
+          res.status(200).json({
+            status: "Successful added new flash cards into deck",
+            deckid: deckid,
+            code: 1
+          });
+        }).catch(function(err){
+          res.status(500).json({
+            status: "Failure",
+            error: {name: err.name, message: err.message},
+            code: -1
+          });
+        });
     }).catch(function(err){
       res.status(500).json({
         status: "Failure",
@@ -79,6 +96,7 @@ function createCardInDeck(req, res, next){
         code: -1
       });
     });
+
 }
 
 function searchFlashDeckName(req, res, next){
@@ -110,14 +128,40 @@ function searchFlashDeckName(req, res, next){
     });
 }
 
-/*
-function getFlashCardsForDeck(req, res, nexT){
+
+function getFlashCardsForDeck(req, res, next){
+  var deckid = req.query.deckid;
+
+  var dbSelect = 'select * from flashcards where flashcards_flashcardsdecks_id = $1 and flashcards_isactive = true;';
+
+  db.any(dbSelect, [deckid])
+    .then(function(data){
+      var commonString = [];
+      for (var i = 0; i < data.length; i++){
+        var flashCardInfo = {
+          flashcards_unqiue_id: data[i].flashcards_unique_id,
+          flashcards_flashcardsdecks_id: data[i].flashcardsdecks_id,
+          flashcards_front: data[i].flashcards_front,
+          flashcards_back: data[i].flashcards_back,
+          flashcards_isactive: data[i].flashcards_isactive,
+          flashcards_datecreated: data[i].flashcards_datecreated
+        }
+        commonString.push({value:data[i].flashcards_front, data:flashCardInfo});
+      }
+      res.status(200).json({suggections:commonString});
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Failure",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
 
 }
-*/
+
 module.exports = {
   createDeck: createDeck,
   createCardInDeck: createCardInDeck,
   searchFlashDeckName: searchFlashDeckName,
-//  getFlashCardsForDeck: getFlashCardsForDeck,
+  getFlashCardsForDeck: getFlashCardsForDeck,
 };
