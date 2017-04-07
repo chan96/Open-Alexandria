@@ -214,6 +214,7 @@ router.get('/enableQuestion', questions.enableQuestion);
 router.get('/createDeck', flashcards.createDeck);
 router.get('/createCardInDeck', flashcards.createCardInDeck);
 router.get('/searchFlashDeckName', flashcards.searchFlashDeckName);
+router.get('/searchFlashDeckNameByCourse', flashcards.searchFlashDeckNameByCourse);
 router.get('/getFlashCardsForDeck', flashcards.getFlashCardsForDeck);
 
 router.get('/searchFeedback', documents.searchFeedback);
