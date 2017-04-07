@@ -1,6 +1,6 @@
-//var globalUrl = 'http://ec2-52-24-159-251.us-west-2.compute.amazonaws.com:3001/';
+var globalUrl = 'http://ec2-52-24-159-251.us-west-2.compute.amazonaws.com:3001/';
 //var globalUrl = 'http://openalexandria.us.to/';
-var globalUrl = 'https://openalex.com/';
+//var globalUrl = 'https://openalex.com/';
 //var globalUrl = 'http://openalexandria.us.to:3003/';
 //var globalUrl = 'http://localhost:3001/'
 //var globalUrl = 'http://localhost:3001/'
@@ -44,4 +44,37 @@ if (document.cookie == "") {
     } else {
         console.log("User is not admin");
     }
+}
+function addRatingToDocument(docid, rating) {
+
+    $.ajax({
+      type: 'POST',
+      url: globalUrl + 'addRatingToDocument/?documentid=' + docID + '&rating=' + rating,
+      dataType: "html",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr, status, error) {
+       console.log( JSON.parse(xhr.responseText));
+
+      }
+    });
+}
+
+function getDocumentRating(docid) {
+
+    $.ajax({
+      type: 'GET',
+      url: globalUrl + 'getDocumentRating/?documentid=' + docID,
+      dataType: "html",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr, status, error) {
+       console.log( JSON.parse(xhr.responseText));
+
+      }
+    });
 }
