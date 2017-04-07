@@ -112,6 +112,32 @@
 
             </div>
         </div>
+        
+        <div class="modal fade" id="flashcardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Flashcard Deck</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="message-title" class="form-control-label">Name:</label>
+                                <input type="text" class="form-control" id="flashcard-title">
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="postFlashcardBttn" type="button" class="btn btn-primary">Create deck!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -158,6 +184,8 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/document.js"></script>
         <script src="js/search.js"></script>
+                <script src="js/flashcard.js"></script>
+
         <script src="kartik-v-bootstrap-star-rating/js/star-rating.js"
                 type="text/javascript"></script>
 

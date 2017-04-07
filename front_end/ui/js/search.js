@@ -95,7 +95,7 @@ function setNewPostQuestionListener() {
 }
 
 function setNewPostFlashcardListener() {
-
+setNewFlashcardListener();
 }
 
 function setNewPostDocumentListener() {
