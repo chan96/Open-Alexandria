@@ -1,8 +1,18 @@
+$(document).ready(function() {
+
+    $( '#table' ).searchable({
+        striped: true,
+        oddRow: { 'background-color': '#f5f5f5' },
+        evenRow: { 'background-color': '#fff' },
+        searchType: 'fuzzy'
+    });
+});
+
 function setNewFlashcardListener() {
-     $('#flashcardModal').on('show.bs.modal', function (e) {
+    $('#flashcardModal').on('show.bs.modal', function (e) {
         if (document.cookie == '') {
-          
-          location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+
+            location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
         }
     })
     $('#postFlashcardBttn').click(function () {
@@ -39,16 +49,15 @@ function setNewFlashcardListener() {
 }
 
 function getFlashcardDecks(courseID) {
-     $.ajax({
+    $.ajax({
         type: "GET",
         url: globalUrl + 'searchFlashDeckNameByCourse/',
         data: ({ courseid : courseID}),
         dataType: "json",
         success: function(data) {
-            var 
 
             console.log(data);
-             
+
         },
         error: function(data) {
             console.log(data.error.message);
