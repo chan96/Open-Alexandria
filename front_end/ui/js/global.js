@@ -45,3 +45,36 @@ if (document.cookie == "") {
         console.log("User is not admin");
     }
 }
+function addRatingToDocument(docid, rating) {
+
+    $.ajax({
+      type: 'POST',
+      url: globalUrl + 'addRatingToDocument/?documentid=' + docID + '&rating=' + rating,
+      dataType: "html",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr, status, error) {
+       console.log( JSON.parse(xhr.responseText));
+
+      }
+    });
+}
+
+function getDocumentRating(docid) {
+
+    $.ajax({
+      type: 'GET',
+      url: globalUrl + 'getDocumentRating/?documentid=' + docID,
+      dataType: "html",
+      //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr, status, error) {
+       console.log( JSON.parse(xhr.responseText));
+
+      }
+    });
+}
