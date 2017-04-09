@@ -47,16 +47,16 @@ function setNewFlashcardListener() {
     });
 }
 
-function getFlashcardDecks(courseID) {
+function getFlashcardDecks(courseID, callbackFunction) {
     $.ajax({
         type: "GET",
-        url: globalUrl + 'searchFlashDeckNameByCourse/',
-        data: ({ courseid : courseID}),
+        url: globalUrl + 'searchFlashDeckNameByCourse/' + '?courseid=' + courseID + '&query=',
         dataType: "json",
         success: function(data) {
 
-            console.log(data);
 
+            console.log(data);
+            callbackFunction(data);
         },
         error: function(data) {
             console.log(data.error.message);

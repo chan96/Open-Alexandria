@@ -14,14 +14,15 @@ $(document).ready(function() {
 //    $('#input-id').rating('update', 5); 
 
 
-    setListeners();
+    setListeners(courseID);
 
 });
 
-function setListeners() {
+function setListeners(courseID) {
     setDocumentGridListener();
     setGetQuestionListener();
     setGetDocumentListener();
+    setGetFlashcardDecksListener(courseID);
     setNewPostQuestionListener();
     setNewPostDocumentListener();
     setNewPostFlashcardListener();
@@ -45,6 +46,14 @@ function setGetQuestionListener() {
 function setGetDocumentListener() {
 
     getDocPreviews(courseID);
+}
+
+function setGetFlashcardDecksListener(courseID) {
+  getFlashcardDecks(courseID, showFlashcardDecks);
+}
+
+function showFlashcardDecks(jsonFlashcardData) {
+console.log('jfd ' + jsonFlashcardData.suggections[0].value);
 }
 
 function setNewPostQuestionListener() {
