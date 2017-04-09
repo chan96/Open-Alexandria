@@ -11,8 +11,10 @@
 .parent-container {
 	width: 85%;
 margin: auto;
+    background-color: white;
 }
 .row-padding {
     margin-top: 25px;
     margin-bottom: 25px;
 }
+

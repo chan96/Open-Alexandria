@@ -2,8 +2,8 @@ $(document).ready(function() {
 
     $( '#table' ).searchable({
         striped: true,
-        oddRow: { 'background-color': '#f5f5f5' },
-        evenRow: { 'background-color': '#fff' },
+        oddRow: { 'background-color': '#3B5998', 'color': 'white', 'padding': '25px' },
+        evenRow: { 'background-color': '#fff', 'color': 'black', 'padding': '25px' },
         searchType: 'fuzzy'
     });
 });
