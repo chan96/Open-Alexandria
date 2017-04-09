@@ -53,7 +53,27 @@ function setGetFlashcardDecksListener(courseID) {
 }
 
 function showFlashcardDecks(jsonFlashcardData) {
-console.log('jfd ' + jsonFlashcardData.suggections[0].value);
+  console.log('jfd ' + jsonFlashcardData.suggections[0].value);
+  var data = jsonFlashcardData.suggections;
+
+  for (var i = 0; i < data.length; i++) {
+    var id;
+    var flashcard = $('<div/>')
+      .attr("id", "deckid" + (id = data[i].data.flashcarddecks_unique_id))
+    .addClass("notecard")
+      .append("<div/>");
+
+    var inner = flashcard.find('div');
+    inner.addClass('front');
+    inner.append('<p/>');
+    inner.find('p').text(data[i].data.flashcarddecks_name);
+
+    flashcard.click(function () {
+      location.href = globalUrl + 'flashcard.html?deckid=' + id;
+    });
+    $('#flashcard-row').append(flashcard);
+
+  }
 }
 
 function setNewPostQuestionListener() {

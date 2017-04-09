@@ -1,79 +1,71 @@
 #newQuestionBttn, #newDocumentBttn {
-    margin-left: 7px;
-	margin-bottom: 15px;
-}
+  margin-left: 7px;
+  margin-bottom: 15px; }
+
 img {
-    height: 100%;
-    width: 100%;
-}
-.btn-primary {
-     //background: magenta;
-}
+  height: 100%;
+  width: 100%; }
+
 .inline {
-	display: inline;
-}
+  display: inline; }
+
 /*
 Ref:
 Thanks to:
 http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Style-Grid-Layout-Pinterest-Grid.html
 */
-
 body {
- background-color:#eee;   
-}    
+  background-color: #eee; }
 
 #pinBoot {
   position: relative;
   max-width: 100%;
-  width: 100%;
-}
+  width: 100%; }
+
 img {
   width: 100%;
   max-width: 100%;
-  height: auto;
-}
+  height: auto; }
+
 .white-panel {
   position: absolute;
   background: white;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-  padding: 10px;
-}
+  padding: 10px; }
+
 /*
 stylize any heading tags withing white-panel below
 */
-
 .white-panel h1 {
-  font-size: 1em;
-}
+  font-size: 1em; }
+
 .white-panel h1 a {
-  color: #A92733;
-}
+  color: #A92733; }
+
 .white-panel:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
   margin-top: -5px;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
+  transition: all 0.3s ease-in-out; }
+
 /*****************************************/
 h4 {
   color: firebrick;
   font-size: 25px;
   letter-spacing: -2px;
-  text-align: left;
-}
+  text-align: left; }
+
 .list {
-    
   color: #555;
   font-size: 13px;
   padding: 0 !important;
   width: 100%;
   font-family: courier, monospace;
   border: 1px solid #dedede;
-    background: white;
+  background: white; }
 
-}
 .list li {
   list-style: none;
   border-bottom: 1px dotted #ccc;
@@ -81,104 +73,143 @@ h4 {
   height: auto;
   padding: 3px;
   text-transform: capitalize;
-    border-bottom-color: dodgerblue;
-}
+  border-bottom-color: dodgerblue; }
+
 .list li:hover {
   background-color: #f0f0f0;
   -webkit-transition: all 0.2s;
-  -moz-transition:    all 0.2s;
-  -ms-transition:     all 0.2s;
-  -o-transition:      all 0.2s;
-}
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s; }
+
 .lines {
   border-left: 1px solid #ffaa9f;
   border-right: 1px solid #ffaa9f;
   width: 2px;
   float: left;
   height: 215px;
-  margin-left: 40px;
-}
+  margin-left: 40px; }
 
 .tile {
   width: 100%;
-    height: 215px;
+  height: 215px;
   display: inline-block;
   box-sizing: border-box;
   background: #fff;
   margin-bottom: 30px;
-      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-}
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); }
+
 .tile .title {
-  margin-top: 0px;
-}
-
-
-
+  margin-top: 0px; }
 
 /* CSS talk bubble */
 .talk-bubble {
   display: inline-block;
   position: relative;
-	width: 200px;
-	height: auto;
-	background-color: lightyellow;
-    
-}
-.border{
-  border: 8px solid #666;
-}
-.round{
-  border-radius: 30px;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
+  width: 200px;
+  height: auto;
+  background-color: lightyellow; }
 
-}
+.border {
+  border: 8px solid #666; }
+
+.round {
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px; }
 
 /*Section for User Questions*/
-
 /* Based of of https://codepen.io/Founts/pen/gmhcl 
 
 /* Right triangle placed top left flush. */
 .tri-right.border.left-top:before {
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
   left: -40px;
-	right: auto;
+  right: auto;
   top: -8px;
-	bottom: auto;
-	border: 32px solid;
-	border-color: #666 transparent transparent transparent;
-}
-.tri-right.left-top:after{
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
-  left: -20px;
-	right: auto;
-  top: 0px;
-	bottom: auto;
-	border: 22px solid;
-	border-color: lightyellow transparent transparent transparent;
-    
-}
-/* talk bubble contents */
-.talktext{
-  padding: 1em;
-	text-align: left;
-  line-height: 1.5em;
-          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+  bottom: auto;
+  border: 32px solid;
+  border-color: #666 transparent transparent transparent; }
 
-}
-.talktext p{
+.tri-right.left-top:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -20px;
+  right: auto;
+  top: 0px;
+  bottom: auto;
+  border: 22px solid;
+  border-color: lightyellow transparent transparent transparent; }
+
+/* talk bubble contents */
+.talktext {
+  padding: 1em;
+  text-align: left;
+  line-height: 1.5em;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); }
+
+.talktext p {
   /* remove webkit p margins */
   -webkit-margin-before: 0em;
-  -webkit-margin-after: 0em;
-}
-/************************/
+  -webkit-margin-after: 0em; }
 
+/************************/
 .talk-bubble-margin {
-  margin-bottom: 20px;
-}
+  margin-bottom: 20px; }
+
+* {
+  box-sizing: border-box; }
+
+body {
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  perspective: 800px;
+  -webkit-perspective-origin: 50% 50%;
+  -moz-perspective-origin: 50% 50%;
+  perspective-origin: 50% 50%; }
+
+.notecard {
+  position: relative;
+  margin: 0 auto;
+  height: 300px;
+  width: 35%;
+  border: 1px solid black;
+  background-image: -webkit-linear-gradient(top, #ffffff 15%, #F94545 16%, #ffffff 16%, #ffffff 25%, #85b2d3 26%, #ffffff 26%, #ffffff 35%, #85b2d3 36%, #ffffff 36%, #ffffff 45%, #85b2d3 46%, #ffffff 46%, #ffffff 55%, #85b2d3 56%, #ffffff 56%, #ffffff 65%, #85b2d3 66%, #ffffff 66%, #ffffff 75%, #85b2d3 76%, #ffffff 76%, #ffffff 85%, #85b2d3 86%, #ffffff 86%, #ffffff 95%, #85b2d3 96%, #ffffff 96%);
+  background-image: linear-gradient(to bottom, #ffffff 15%, #F94545 16%, #ffffff 16%, #ffffff 25%, #85b2d3 26%, #ffffff 26%, #ffffff 35%, #85b2d3 36%, #ffffff 36%, #ffffff 45%, #85b2d3 46%, #ffffff 46%, #ffffff 55%, #85b2d3 56%, #ffffff 56%, #ffffff 65%, #85b2d3 66%, #ffffff 66%, #ffffff 75%, #85b2d3 76%, #ffffff 76%, #ffffff 85%, #85b2d3 86%, #ffffff 86%, #ffffff 95%, #85b2d3 96%, #ffffff 96%);
+  -webkit-transition: 0.6s ease-in;
+  -moz-transition: 0.6s ease-in;
+  transition: 0.6s ease-in;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d; }
+  .notecard p {
+    font: 1em/.9 "Lucida Grande", Helvetica, Sans-Serif;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center; }
+    .notecard p:first-child {
+      margin-top: 2em; }
+  .notecard div {
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    width: 100%;
+    margin: 0 auto; }
+  .notecard .front {
+    z-index: 100; }
+  .notecard .back {
+    z-index: 50;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    transform: rotateY(-180deg); }
+
+/*# sourceMappingURL=search.css.map */
