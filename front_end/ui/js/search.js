@@ -57,7 +57,7 @@ function showFlashcardDecks(jsonFlashcardData) {
   var data = jsonFlashcardData.suggections;
 
   for (var i = 0; i < data.length; i++) {
-    var id;
+    let id = 0;
     var flashcard = $('<div/>')
       .attr("id", "deckid" + (id = data[i].data.flashcarddecks_unique_id))
     .addClass("notecard")
