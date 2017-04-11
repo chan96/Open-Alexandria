@@ -13,12 +13,7 @@
         <link href="css/search.css" rel="stylesheet">
         <link href="css/newDocument.css" rel="stylesheet">
         <link href="css/document_view.css" rel="stylesheet">
-
-
         <link href="./kartik-v-bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
-
-
-
 
         <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -42,7 +37,7 @@
                         <a href="#" class="btn btn-xs btn-warning"><span
                                     class="glyphicon
                                     glyphicon-thumbs-down"></span> 0</a>
-
+                <button id="newQuestionBttn" type="button" class="btn btn-primary inline" data-toggle="modal" data-target="#reportModal" data-whatever="@mdo">Report Content</button>
             </div>
             <div class="row centering">
               <img hidden id="image-container" class="centering"></img>
@@ -75,6 +70,30 @@
             </div>
         </div>
 
+        <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="report">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Report Content</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">Please describe the issue:</label>
+                                <textarea class="form-control" id="question-body"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="postBttn" type="button" class="btn btn-primary">Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="docCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
