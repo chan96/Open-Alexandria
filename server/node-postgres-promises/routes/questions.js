@@ -221,7 +221,21 @@ function enableQuestion(req, res, next){
     });
   }
 }
+/*
+function likeQuestion(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  var isAdmin = userAuth.checkUserAdmin(req.cookies.token);
+  if(!userid || !isAdmin){
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
+    });
+  }
 
+  var dbUpdate = "update 
+
+}
+*/
 module.exports = {
   getQuestions: getQuestions,
   getAllQuestions: getAllQuestions,

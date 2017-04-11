@@ -14,14 +14,15 @@ $(document).ready(function() {
 //    $('#input-id').rating('update', 5); 
 
 
-    setListeners();
+    setListeners(courseID);
 
 });
 
-function setListeners() {
+function setListeners(courseID) {
     setDocumentGridListener();
     setGetQuestionListener();
     setGetDocumentListener();
+    setGetFlashcardDecksListener(courseID);
     setNewPostQuestionListener();
     setNewPostDocumentListener();
     setNewPostFlashcardListener();
@@ -45,6 +46,34 @@ function setGetQuestionListener() {
 function setGetDocumentListener() {
 
     getDocPreviews(courseID);
+}
+
+function setGetFlashcardDecksListener(courseID) {
+  getFlashcardDecks(courseID, showFlashcardDecks);
+}
+
+function showFlashcardDecks(jsonFlashcardData) {
+  console.log('jfd ' + jsonFlashcardData.suggections[0].value);
+  var data = jsonFlashcardData.suggections;
+
+  for (var i = 0; i < data.length; i++) {
+    let id = 0;
+    var flashcard = $('<div/>')
+      .attr("id", "deckid" + (id = data[i].data.flashcarddecks_unique_id))
+    .addClass("notecard")
+      .append("<div/>");
+
+    var inner = flashcard.find('div');
+    inner.addClass('front');
+    inner.append('<p/>');
+    inner.find('p').text(data[i].data.flashcarddecks_name);
+
+    flashcard.click(function () {
+      location.href = globalUrl + 'flashcard.html?deckid=' + id;
+    });
+    $('#flashcard-row').append(flashcard);
+
+  }
 }
 
 function setNewPostQuestionListener() {
@@ -95,7 +124,7 @@ function setNewPostQuestionListener() {
 }
 
 function setNewPostFlashcardListener() {
-
+setNewFlashcardListener();
 }
 
 function setNewPostDocumentListener() {
