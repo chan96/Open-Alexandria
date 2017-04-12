@@ -1,14 +1,9 @@
 $(document).ready(function() {
 
-    $( '#table' ).searchable({
-        striped: true,
-        oddRow: { 'background-color': '#3B5998', 'color': 'white', 'padding': '25px' },
-        evenRow: { 'background-color': '#fff', 'color': 'black', 'padding': '25px' },
-        searchType: 'fuzzy'
-    });
 
     var deckID = getUrlParameter('deckid');
 
+    getFlashcardDeckInfo(deckID, showDeckTitleDescription);
     getFlashcardsForDeck(deckID, showFlashcards);
 });
 
@@ -69,6 +64,23 @@ function getFlashcardDecks(courseID, callbackFunction) {
     });
 }
 
+function getFlashcardDeckInfo(deckID, callbackFunction) {
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'getFlashcardDeckInfo/' + '?deckid=' + deckID,
+        dataType: "json",
+        success: function(data) {
+
+
+            console.log(data);
+            callbackFunction(data);
+        },
+        error: function(data) {
+
+        }
+    });
+}
+
 function getFlashcardsForDeck(deckID, callbackFunction) {
 
     $.ajax({
@@ -117,4 +129,25 @@ function showFlashcards(jsonFlashcardData) {
 
   }
 
+  enableSearch()
+}
+
+function enableSearch() {
+
+    $( '#table' ).searchable({
+        striped: true,
+        oddRow: { 'background-color': '#3B5998', 'color': 'white', 'padding': '25px' },
+        evenRow: { 'background-color': '#fff', 'color': 'black', 'padding': '25px' },
+        searchType: 'fuzzy'
+    });
+
+}
+
+function showDeckTitleDescription(jsonFlashcardDeckData) {
+  var data = jsonFlashcardDeckData.suggections[0].data;
+  var title = data.flashcarddecks_name;
+  var desc = data.flashcarddecks_description;
+
+  $('#description').text(desc);
+  $('#title').text(title);
 }
