@@ -6,6 +6,10 @@ $(document).ready(function() {
         evenRow: { 'background-color': '#fff', 'color': 'black', 'padding': '25px' },
         searchType: 'fuzzy'
     });
+
+    var deckID = getUrlParameter('deckid');
+
+    getFlashcardsForDeck(deckID, showFlashcards);
 });
 
 function setNewFlashcardListener() {
@@ -63,4 +67,54 @@ function getFlashcardDecks(courseID, callbackFunction) {
 
         }
     });
+}
+
+function getFlashcardsForDeck(deckID, callbackFunction) {
+
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'getFlashCardsForDeck/' + '?deckid=' + deckID,
+        dataType: "json",
+        success: function(data) {
+
+
+            console.log(data);
+            callbackFunction(data);
+        },
+        error: function(data) {
+            console.log(data.error.message);
+
+        }
+    });
+}
+
+function showFlashcards(jsonFlashcardData) {
+
+  var data = jsonFlashcardData.suggections;
+
+  for (var i = 0; i < data.length; i++) {
+    let id = 0;
+    var flashcardRow = $('<tr/>')
+      .attr("id", "flashcardID" + (id = data[i].data.flashcards_unqiue_id))
+      .append("<td/>");
+
+    flashcardRow.find('td').text(data[i].data.flashcards_front);
+
+    flashcardRow
+      .append("<td/>")
+
+    flashcardRow.find('td:nth-child(2)').text(data[i].data.flashcards_back);
+
+    /*var inner = flashcard.find('td');
+    inner.addClass('front');
+    inner.append('<p/>');
+    inner.find('p').text(data[i].data.flashcarddecks_name);
+*/
+    /*flashcard.click(function () {
+      location.href = globalUrl + 'flashcard.html?deckid=' + id;
+    });*/
+    $('#tbody').append(flashcardRow);
+
+  }
+
 }
