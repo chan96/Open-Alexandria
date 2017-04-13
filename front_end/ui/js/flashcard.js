@@ -56,17 +56,16 @@ function setNewFlashcardCardListener(deckID) {
     })
     $('#postFlashcardBttn2').click(function () {
         var flashcardTerm = $('#flashcard-term').val();
-        var flashcardDesc = $('#flashcard-description').val();
+        var flashcardDef = $('#flashcard-definition').val();
 
         var flashcardBttn = $('#postFlashcardBttn2');
-        console.log(flashcardTitle + ' ' + courseID);
 
         flashcardBttn.prop('disabled', true);
         flashcardBttn.text('Submitting...');
 
         $.ajax({
             type: 'GET',
-            url: globalUrl + 'createCardInDeck/' + '?deckid=' + deckID + '&front=' + flashcardTerm + '&back=' + flashcardDesc,
+            url: globalUrl + 'createCardInDeck/' + '?deckid=' + deckID + '&front=' + flashcardTerm + '&back=' + flashcardDef,
             //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function(data) {
                 console.log(data);
