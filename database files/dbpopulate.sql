@@ -10,6 +10,7 @@ drop table if exists USERSFEEDBACK;
 drop table if exists COMMENTS;
 drop table if exists TAGLIST;
 drop table if exists TAGLINK;
+drop table if exists MESSAGE;
 
 CREATE TABLE USERS(
   USERS_UNIQUE_ID serial primary key not null,
@@ -143,6 +144,30 @@ CREATE TABLE TAGLINK(
   TAGLINK_TAGLIST_ID int,
   TAGLINK_DOCUMENTS_ID int
 );
+
+CREATE TABLE MESSAGE (
+	message_unique_id serial primary key not null,
+	message_sender_id int not null,
+	/*
+  	ID  Type
+  	0   void
+  	1   document
+  	2   question
+  	3   answer
+  	*/
+	message_item_type int,
+	message_item_id int,
+	/*
+  	ID  Type
+  	0   void
+  	1   report
+  	2   suggestion
+  	3   other
+  	*/
+	message_message_type int,
+	message_text varchar default '<>'
+);
+
 
 insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIVE, USERS_EMAIL, USERS_PASSWORD, USERS_DESCRIPTION, USERS_ENTRYUSER)
  values ('Jessica','Smith', true, true, 'jessica1@openalex.com', 'hunter2', 'Original Test Admin Account', 'default');
