@@ -21,3 +21,10 @@ margin: auto;
 .inline {
   display: inline;
 }
+
+.modal-dialog {
+    width:600px;
+}
+.thumbnail {
+    margin-bottom:6px;
+}

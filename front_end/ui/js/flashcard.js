@@ -6,6 +6,7 @@ $(document).ready(function() {
     getFlashcardDeckInfo(deckID, showDeckTitleDescription);
     getFlashcardsForDeck(deckID, showFlashcards);
     setNewFlashcardCardListener(deckID);
+    setTestFlashcardView();
 });
 
 function setNewFlashcardListener() {
@@ -190,4 +191,47 @@ function showDeckTitleDescription(jsonFlashcardDeckData) {
 
     $('#description').text(desc);
     $('#title').text(title);
+}
+
+function setTestFlashcardView() {
+
+    $('.td').click(function(){
+        $('.modal-body').empty();
+        var title = a;//$(this).parent('a').attr("title");
+        //$('.modal-title').html(title);
+
+        var flashcard = $('<div/>')
+        //.attr("id", "deckid" + (id = data[i].data.flashcarddecks_unique_id))
+        .addClass("notecard")
+        .append("<div/>");
+
+        var inner = flashcard.find('div');
+        inner.addClass('front');
+        inner.append('<p/>');
+        inner.find('p').text($(this).text());
+
+        flashcard.appendTo('.modal-body');
+        $('#myModal').modal({show:true});
+    });
+
+    $('#next-btn').click(function() {
+        var link = $('.modal-body a');
+        var number = parseInt(link.attr('title').match(/\S+$/));
+        number++;
+        if(number === 13) {
+            number = 1;
+        }
+        $('.modal-body').html($('#img-container').find('a[title="Image ' + number + '"]').parent('div').html());
+        $('.modal-title').text('Image ' + number);
+    });
+    $('#prev-btn').click(function() {
+        var link = $('.modal-body a');
+        var number = parseInt(link.attr('title').match(/\S+$/));
+        number--;
+        if(number === 0) {
+            number = 12;
+        }
+        $('.modal-body').html($('#img-container').find('a[title="Image ' + number + '"]').parent('div').html());
+        $('.modal-title').text('Image ' + number);
+    });
 }
