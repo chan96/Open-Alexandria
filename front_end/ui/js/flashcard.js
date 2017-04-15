@@ -209,6 +209,8 @@ function createFlashcard(row) {
   front = inner.find('p');
   front.text($(row).find("td:nth-child(1)").text());
 
+  console.log('hi ' + $(row).find("td:nth-child(1)").text());
+
   flashcard.append("<div/>");
   inner = flashcard.find("div:nth-child(2)");
   inner.addClass('back');
@@ -248,7 +250,7 @@ function updateTestHeader(td) {
   var index = $(td).parent().parent().children().index($(td).parent());
 
   var heading = (index + 1) + ' of ' + ($('#table tr').length - 1);
-  $('.modal-title').text(heading);
+  $('#test-modal-header').text(heading);
 
 }
 
@@ -261,7 +263,7 @@ function setTestFlashcardView() {
 
   $('#table').on("click", "td", function(){
     var heading = '';
-    $('.modal-body').empty();
+    $('#test-modal-body').empty();
     prevRow = $(this).parent().prev();
     nextRow = $(this).parent().next();
     disableNextPrevBttns($(this).parent());
@@ -273,7 +275,7 @@ function setTestFlashcardView() {
     //$('.modal-title').html(title);
 
 
-    createFlashcard($(this).parent()).appendTo('.modal-body');
+    createFlashcard($(this).parent()).appendTo('#test-modal-body');
 
     updateTestHeader(this);
 
@@ -283,8 +285,8 @@ function setTestFlashcardView() {
   $('#next-btn').click(function() {
 
 
-    $('.modal-body').empty();
-    createFlashcard($(nextRow)).appendTo('.modal-body');
+    $('#test-modal-body').empty();
+    createFlashcard($(nextRow)).appendTo('#test-modal-body');
     updateTestHeader($(nextRow).find('td'));
 
     prevRow = $(nextRow).prev();
@@ -296,8 +298,8 @@ function setTestFlashcardView() {
     //back.text($(nextRow).parent().find("td:nth-child(2)").text());
   });
   $('#prev-btn').click(function() {
-    $('.modal-body').empty();
-    createFlashcard($(prevRow)).appendTo('.modal-body');
+    $('#test-modal-body').empty();
+    createFlashcard($(prevRow)).appendTo('#test-modal-body');
     updateTestHeader($(prevRow).find('td'));
 
     nextRow = prevRow.next();
