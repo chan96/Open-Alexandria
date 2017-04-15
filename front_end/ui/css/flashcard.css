@@ -1,3 +1,6 @@
+.modal-open .container-fluid, .modal-open .container {
+  -webkit-filter: blur(10px); }
+
 .card-col {
   background-color: lightblue;
   color: black;
