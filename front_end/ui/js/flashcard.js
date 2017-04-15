@@ -1,3 +1,6 @@
+var nextRow;
+var prevRow;
+
 $(document).ready(function() {
 
 
@@ -193,12 +196,7 @@ function showDeckTitleDescription(jsonFlashcardDeckData) {
     $('#title').text(title);
 }
 
-function setTestFlashcardView() {
-
-    $('.td').click(function(){
-        $('.modal-body').empty();
-        var title = a;//$(this).parent('a').attr("title");
-        //$('.modal-title').html(title);
+function createFlashcard(row) {
 
         var flashcard = $('<div/>')
         //.attr("id", "deckid" + (id = data[i].data.flashcarddecks_unique_id))
@@ -208,30 +206,90 @@ function setTestFlashcardView() {
         var inner = flashcard.find('div');
         inner.addClass('front');
         inner.append('<p/>');
-        inner.find('p').text($(this).text());
+        front = inner.find('p');
+        front.text($(row).find("td:nth-child(1)").text());
 
-        flashcard.appendTo('.modal-body');
-        $('#myModal').modal({show:true});
+        flashcard.append("<div/>");
+        inner = flashcard.find("div:nth-child(2)");
+        inner.addClass('back');
+        inner.append('<p/>');
+        back = inner.find('p');
+        back.text(row.find("td:nth-child(2)").text());
+
+        return flashcard;
+}
+
+function disableNextPrevBttns(row) {
+        var pRow = $(row).prev();
+        var nRow = $(row).next();
+      
+        if ($(nextRow).length === 0) {
+          $('#next-btn').prop('disabled', true);
+        } else {
+  
+          $('#next-btn').prop('disabled', false);
+        }
+        if ($(prevRow).length === 0) {
+          $('#prev-btn').prop('disabled', true);
+        } else {
+  
+          $('#prev-btn').prop('disabled', false);
+        }
+}
+function enableNextPrevBttns() {
+
+        $('#next-btn').prop('disabled', false);
+        
+          $('#prev-btn').prop('disabled', false);
+}
+
+function setTestFlashcardView() {
+
+  $('#testModal').on('hidden.bs.modal', function () {
+    enableNextPrevBttns();
+
+           })
+
+    $('#table').on("click", "td", function(){
+      console.log('hi');
+        $('.modal-body').empty();
+        prevRow = $(this).parent().prev();
+        nextRow = $(this).parent().next();
+        disableNextPrevBttns($(this).parent());
+        console.log(nextRow);
+        console.log(nextRow.length);
+
+        //var title = $(this).parent('a').attr("title");
+        //$('.modal-title').html(title);
+
+
+        createFlashcard($(this).parent()).appendTo('.modal-body');
+
+
+        $('#testModal').modal({show:true});
     });
 
     $('#next-btn').click(function() {
-        var link = $('.modal-body a');
-        var number = parseInt(link.attr('title').match(/\S+$/));
-        number++;
-        if(number === 13) {
-            number = 1;
-        }
-        $('.modal-body').html($('#img-container').find('a[title="Image ' + number + '"]').parent('div').html());
-        $('.modal-title').text('Image ' + number);
+
+        
+        $('.modal-body').empty();
+        createFlashcard($(nextRow)).appendTo('.modal-body');
+
+        prevRow = $(nextRow).prev();
+        nextRow = $(nextRow).next();
+        console.log(nextRow);
+        
+        disableNextPrevBttns($(this).parent());
+        //front.text(nextRow.parent().find("td:nth-child(1)").text());
+        //back.text($(nextRow).parent().find("td:nth-child(2)").text());
     });
     $('#prev-btn').click(function() {
-        var link = $('.modal-body a');
-        var number = parseInt(link.attr('title').match(/\S+$/));
-        number--;
-        if(number === 0) {
-            number = 12;
-        }
-        $('.modal-body').html($('#img-container').find('a[title="Image ' + number + '"]').parent('div').html());
-        $('.modal-title').text('Image ' + number);
+        $('.modal-body').empty();
+        createFlashcard($(prevRow)).appendTo('.modal-body');
+
+        nextRow = prevRow.next();
+        prevRow = $(prevRow).prev();
+        
+        disableNextPrevBttns($(this).parent());
     });
 }
