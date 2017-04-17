@@ -1,4 +1,3 @@
-//
 var promise = require('bluebird');
 var options = {
   // Initialization Options
@@ -30,7 +29,7 @@ function createDeck(req, res, next){
 
   var userid = userAuth.getUserID(token);
   if(!userid){
-res.status(401).json({
+    res.status(401).json({
       status: "Error unauthorized action",
       code: -1
     });
@@ -59,7 +58,7 @@ res.status(401).json({
 function createCardInDeck(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
   if(!userid){
-res.status(401).json({
+    res.status(401).json({
       status: "Error unauthorized action",
       code: -1
     });
@@ -178,7 +177,7 @@ function getFlashCardsForDeck(req, res, next){
         }
         commonString.push({value:data[i].flashcards_front, data:flashCardInfo});
       }
-      res.status(200).json({suggections:commonString});
+      res.status(200).json({suggestions:commonString});
     }).catch(function(err){
       res.status(500).json({
         status: "Failure",
@@ -189,10 +188,32 @@ function getFlashCardsForDeck(req, res, next){
 
 }
 
+function getFlashDeckById(req, res, next){
+  var deckid = req.query.deckid;
+
+  var dbSelect = 'select * from flashcarddecks where flashcarddecks_unique_id = $1;';
+  db.any(dbSelect,[deckid])
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        commonString.push({value: data[i].flashcarddecks_name, data:data[i]});
+      }
+      res.status(200).json({suggestions:commonString}); 
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Failure",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+
+    })
+}
+
 module.exports = {
   createDeck: createDeck,
   createCardInDeck: createCardInDeck,
   searchFlashDeckName: searchFlashDeckName,
   searchFlashDeckNameByCourse: searchFlashDeckNameByCourse,
   getFlashCardsForDeck: getFlashCardsForDeck,
+  getFlashDeckById: getFlashDeckById,
 };

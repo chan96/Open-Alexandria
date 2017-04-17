@@ -216,6 +216,7 @@ router.get('/createCardInDeck', flashcards.createCardInDeck);
 router.get('/searchFlashDeckName', flashcards.searchFlashDeckName);
 router.get('/searchFlashDeckNameByCourse', flashcards.searchFlashDeckNameByCourse);
 router.get('/getFlashCardsForDeck', flashcards.getFlashCardsForDeck);
+router.get('/getFlashDeckById', flashcards.getFlashDeckById);
 
 router.get('/searchFeedback', documents.searchFeedback);
 
