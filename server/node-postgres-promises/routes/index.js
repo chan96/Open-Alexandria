@@ -208,8 +208,13 @@ router.post('/editAnswer', answers.editAnswer);
 router.get('/disableAnswer', answers.disableAnswer);
 router.get('/enableAnswer', answers.enableAnswer);
 router.get('/getAnswersToQuestion', answers.getAnswersToQuestion);
+router.get('/likeAnswer', answers.likeAnswer);
+router.get('/dislikeAnswer', answers.dislikeAnswer);
+
 router.get('/disableQuestion', questions.disableQuestion);
 router.get('/enableQuestion', questions.enableQuestion);
+router.get('/likeQuestion', questions.likeQuestion);
+router.get('/dislikeQuestion', questions.dislikeQuestion);
 
 router.get('/createDeck', flashcards.createDeck);
 router.get('/createCardInDeck', flashcards.createCardInDeck);
