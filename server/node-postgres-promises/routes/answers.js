@@ -175,10 +175,120 @@ function getAnswersToQuestion(req, res, next){
 
 }
 
+function likeAnswer(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  var answerid = req.query.answerid;
+  if(!userid){
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
+    });
+  }
+
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE) values ($1, 3, $2, true);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = true where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 3 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbSelect = 'select from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 3 and USERSFEEDBACK_ITEM_ID = $2;'; 
+
+  db.oneOrNone(dbSelect, [userid, answerid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, answerid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful liked Answer",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }else {
+        db.none(dbUpdate, [userid, answerid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful liked Answer",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
+function dislikeAnswer(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  var questionid = req.query.answerid;
+  if(!userid){
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
+    });
+  }
+
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE) values ($1, 3, $2, false);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = false where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 3 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbSelect = 'select from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 3 and USERSFEEDBACK_ITEM_ID = $2;'; 
+
+  db.oneOrNone(dbSelect, [userid, answerid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, answerid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful disliked Answer",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }else {
+        db.none(dbUpdate, [userid, answerid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful liked Answer",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
 module.exports = {
   addAnswerToQuestion: addAnswerToQuestion,
   editAnswer: editAnswer,
   disableAnswer: disableAnswer,
   enableAnswer: enableAnswer,
-  getAnswersToQuestion: getAnswersToQuestion
+  getAnswersToQuestion: getAnswersToQuestion,
+  likeAnswer: likeAnswer,
+  dislikeAnswer: dislikeAnswer,
 };
