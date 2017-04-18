@@ -61,7 +61,7 @@ function getAllQuestions(req, res, next){
     return;
   }
   var dbSelect = "select * from courses c inner join questions q on q.QUESTIONS_COURSES_ID=c.COURSES_UNIQUE_ID where c.COURSES_UNIQUE_ID=$1 and c.COURSES_ISACTIVE = true;";
-  
+
   db.any(dbSelect, [courseID])
     .then(function(data){
       var commonString = [];
@@ -221,26 +221,122 @@ function enableQuestion(req, res, next){
     });
   }
 }
-/*
+
 function likeQuestion(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
-  var isAdmin = userAuth.checkUserAdmin(req.cookies.token);
-  if(!userid || !isAdmin){
+  var questionid = req.query.questionid;
+  if(!userid){
     res.status(401).json({
       status: "Error Authentication Error",
       code: -1
     });
   }
 
-  var dbUpdate = "update 
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE) values ($1, 2, $2, true);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = true where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 2 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbSelect = 'select from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 2 and USERSFEEDBACK_ITEM_ID = $2;'; 
 
+  db.oneOrNone(dbSelect, [userid, questionid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, questionid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful liked Question",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }else {
+        db.none(dbUpdate, [userid, questionid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful liked Question",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
 }
-*/
+
+function dislikeQuestion(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  var questionid = req.query.questionid;
+  if(!userid){
+    res.status(401).json({
+      status: "Error Authentication Error",
+      code: -1
+    });
+  }
+
+  var dbInsert = 'insert into USERSFEEDBACK (USERSFEEDBACK_USERS_ID, USERSFEEDBACK_TYPE, USERSFEEDBACK_ITEM_ID, USERSFEEDBACK_ISLIKE) values ($1, 2, $2, false);';
+  var dbUpdate = 'update USERSFEEDBACK set USERSFEEDBACK_ISLIKE = false where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 2 and USERSFEEDBACK_ITEM_ID = $2;';
+  var dbSelect = 'select from USERSFEEDBACK where USERSFEEDBACK_USERS_ID = $1 and USERSFEEDBACK_TYPE = 2 and USERSFEEDBACK_ITEM_ID = $2;'; 
+
+  db.oneOrNone(dbSelect, [userid, questionid])
+    .then(function(data){
+      if(data == null){
+        db.none(dbInsert, [userid, questionid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful disliked Question",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }else {
+        db.none(dbUpdate, [userid, questionid])
+          .then(function(){
+            res.status(200).json({
+              status: "Successful liked Question",
+              code: 1
+            });
+          }).catch(function(err){
+            res.status(500).json({
+              status: "Error unknown",
+              error: {name: err.name, message: err.message},
+              code: -1
+            });
+          });
+      }
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error unknown",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
+
 module.exports = {
   getQuestions: getQuestions,
   getAllQuestions: getAllQuestions,
   getQuestionInfo: getQuestionInfo,
   postQuestion: postQuestion,
   enableQuestion: enableQuestion,
-  disableQuestion: disableQuestion
+  disableQuestion: disableQuestion,
+  likeQuestion: likeQuestion,
+  dislikeQuestion: dislikeQuestion, 
 };
