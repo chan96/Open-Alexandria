@@ -31,7 +31,7 @@ const exec = require('child_process').exec;
 
 var mockdata = require('../utils/MOCK_DATA');
 
-router.get('/getRelatedItems', queries.getRelatedItems);
+router.post('/report', queries.report);
 
 /**
  * POST loginUser

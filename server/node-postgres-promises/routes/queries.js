@@ -18,20 +18,38 @@ var db = pgp(connectionInfo);
 
 var mockdata = require('../utils/MOCK_DATA');
 var relatedString = require('../utils/relatedString');
+var userAuth = require('../utils/userAuth');
 
-function getRelatedItems(req, res, next) {
-  var phrase = req.query.query;
-  var data = relatedString.findString(mockdata.Hi, phrase);
-  res.status(200).json({
-    suggestions: data
-  }); 
+function report(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Authentication Error",
+      code: -1
+    });
+  }
+  var body = req.body.text;
+  var type = req.query.type;
+  var id = req.query.id;
+  var messagetype = req.query.messagetype;
+
+  var dbInsert = "insert into MESSAGE (message_sender_id, message_item_type, message_item_id, message_message_type, message_text) values ($1, $2, $3, $4, $5);";
+
+  db.none(dbInsert, [userid, type, id, messagetype, body])
+    .then(function(){
+      res.status(200).json({
+        status: "Succesfully reported",
+        code: 1
+      });
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error",
+        error: {name: err.name, message: err.message},
+        code: -1 
+      })
+    });
 }
 
-function uploadDocuments(req, res, next){
-  console.log(req.file);
-  res.status(200).json(req.file);
-}
 module.exports = {
-  getRelatedItems: getRelatedItems,
-  uploadDocuments: uploadDocuments,
+  report: report 
 };
