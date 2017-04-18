@@ -6,7 +6,7 @@ $(document).ready(function() {
 
   var deckID = getUrlParameter('deckid');
 
-  getFlashcardDeckInfo(deckID, showDeckTitleDescription);
+  getFlashDeckById(deckID, showDeckTitleDescription);
   getFlashcardsForDeck(deckID, showFlashcards);
   setNewFlashcardCardListener(deckID);
   setTestFlashcardView();
@@ -108,10 +108,10 @@ function getFlashcardDecks(courseID, callbackFunction) {
   });
 }
 
-function getFlashcardDeckInfo(deckID, callbackFunction) {
+function getFlashDeckById(deckID, callbackFunction) {
   $.ajax({
     type: "GET",
-    url: globalUrl + 'getFlashcardDeckInfo/' + '?deckid=' + deckID,
+    url: globalUrl + 'getFlashDeckById/' + '?deckid=' + deckID,
     dataType: "json",
     success: function(data) {
 
@@ -146,7 +146,7 @@ function getFlashcardsForDeck(deckID, callbackFunction) {
 
 function showFlashcards(jsonFlashcardData) {
 
-  var data = jsonFlashcardData.suggections;
+  var data = jsonFlashcardData.suggestions;
 
   for (var i = 0; i < data.length; i++) {
     let id = 0;
@@ -188,7 +188,7 @@ function enableSearch() {
 }
 
 function showDeckTitleDescription(jsonFlashcardDeckData) {
-  var data = jsonFlashcardDeckData.suggections[0].data;
+  var data = jsonFlashcardDeckData.suggestions[0].data;
   var title = data.flashcarddecks_name;
   var desc = data.flashcarddecks_description;
 
