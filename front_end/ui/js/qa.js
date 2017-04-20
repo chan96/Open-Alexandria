@@ -52,6 +52,7 @@ function showQuestionInfo(qid) {
             $('.author-content').html(body);
 
             showQuestionAuthor(userID);
+            //showLikesDislikes(parsedData.);
 
         },
         error: function(data) {
@@ -132,6 +133,20 @@ function showAnswersAuthor(uid, answerDiv) {
     });
 }
 
+function showLikesDislikes(dislikes, likes, div) {
+var contentContainer = $(div).find('.comment-content');
+
+contentContainer.prepend(' <a href="#" class="btn btn-xs btn-success">0</a> <a href="#" class="btn btn-xs btn-warning">0</a>' );
+var likeBttn = contentContainer.find('.btn.btn-xs.btn-success');
+var dislikeBttn = contentContainer.find('.btn.btn-xs.btn-warning');
+
+likeBttn.text(likes);
+dislikeBttn.text(dislikes);
+
+likeBttn.prepend('<span class="glyphicon glyphicon-thumbs-up"></span> ');
+dislikeBttn.prepend('<span class="glyphicon glyphicon-thumbs-down"></span> ');
+}
+
 function showAnswers(jsonData) {
 
     for (var i = currentQuestion; i < jsonData.length; i++) {
@@ -144,13 +159,15 @@ function showAnswers(jsonData) {
         var $answer = $div.clone().removeClass('empty-response');
 
         console.log(id);
-        $answer.find('#answer0').html(jsonData[i].value.answers_body);
+        $answer.find('#answer0').html('\t' + jsonData[i].value.answers_body);
         $answer.find('#answer0').prop('id', 'answer'+id );
         $answer.find("[name='posting-date']").text(date + ', ' + time);
 
 
         showAnswersAuthor(jsonData[i].value.answers_users_id, $answer);
-
+        
+        console.log(jsonData[i]);
+        showLikesDislikes(jsonData[i].value.answers_numDislike, jsonData[i].value.answers_numLike, $answer);
 
         $('.inner-comments-container').append($answer);
         $answer.show();
