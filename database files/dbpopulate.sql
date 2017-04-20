@@ -168,6 +168,20 @@ CREATE TABLE MESSAGE (
 	message_text varchar default '<>'
 );
 
+Create table VOTE (
+  vote_unique_id serial primary key not null,
+  /*
+  true = question
+  false = answer
+  */
+  vote_type boolean not null,
+  vote_item_id int not null,
+  /*
+  true = question
+  false = answer
+  */
+  vote_choice boolean not null
+);
 
 insert into USERS (USERS_FIRSTNAME, USERS_LASTNAME, USERS_ISADMIN, USERS_ISACTIVE, USERS_EMAIL, USERS_PASSWORD, USERS_DESCRIPTION, USERS_ENTRYUSER)
  values ('Jessica','Smith', true, true, 'jessica1@openalex.com', 'hunter2', 'Original Test Admin Account', 'default');
