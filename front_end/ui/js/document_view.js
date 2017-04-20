@@ -166,3 +166,15 @@ function setComments(docID) {
 
 }
 
+function report(){
+  var cookieField = document.cookie.split("; ");
+  userid = cookieField[1];
+  console.log(globalUrl + "report?" + userid + "&body=" + document.getElementById("report-body").value);
+  $.post(globalUrl + "report/?" + userid, function (data) {
+        console.log("Successfully reported!");
+        $('#reportModal').modal('toggle');
+      }).fail(function (){
+         console.log("Failed to report.");
+      });
+      return false;
+}
