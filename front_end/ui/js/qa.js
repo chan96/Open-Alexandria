@@ -213,8 +213,16 @@ function showAnswers(jsonData) {
 
 
 function setAnswerBoxListener() {
-    $('#answer-form').submit(function() {
+$('#message-box-submit-bttn').click(function () {
+  if (document.cookie == '') {
+    location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+    return;
+  }
+  if (!$.trim($("#message-box-text-box").val())) {
+    alert('You must enter a message'); 
 
+    return;
+  }
         var qid = getUrlParameter('questionid');
         var cid = getUrlParameter('courseid');
         var qbody = $('#message-box-text-box').val();
@@ -225,7 +233,7 @@ function setAnswerBoxListener() {
         createAnswer(qid, cid, qbody, uid);
         //location.reload();
         return false;
-    });
+});
 }
 
 
@@ -242,6 +250,7 @@ function createAnswer(qid, cid, qbody, uid) {
         success: function(data) {
             console.log(data.message);
             getAnswers(questionID);
+            $('#message-box-text-box').val('');
         },
         error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
