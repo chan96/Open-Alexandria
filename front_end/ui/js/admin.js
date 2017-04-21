@@ -7,9 +7,9 @@ var userUrl;
 var questionUrl;
 var documentUrl;
 
+
 $(document).ready(function(){
   	//var theUrl = "http://localhost:3000/getCourseKeyword?query=";
-
   courseUrl = globalUrl + "getAllCourse";
   userUrl = globalUrl +"listAllUsers";
   questionUrl = globalUrl + "getAllQuestions?courseid=";

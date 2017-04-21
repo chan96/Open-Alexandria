@@ -1,8 +1,20 @@
 .tables{
   display: block;
 }
+#sideBar{
+	display: inline-block;
+	float: left;
+}
 #mainBody{
-  margin-top: 20px;
+	margin-top: 20px;
+	display: inline;
+	float: left;
+}
+#courseTable{
+	margin-left: 0px;
+}
+#userTable{
+	margin-left: 0px;
 }
 .table{
     border-radius: 5px;
