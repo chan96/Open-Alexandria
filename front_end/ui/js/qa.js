@@ -108,6 +108,41 @@ function getAnswers(qid) {
     });
 }
 
+function attachDislikeBttnListener(div, id, QorA) {
+  var route = (QorA === 'a' ? 'dislikeAnswer' : 'dislikeQuestion');
+
+  $(div).click(function () {
+    $.ajax({
+      type: "GET",
+      url: globalUrl + 'openalex.com/' + route + '?answerid=' + id,
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(data) {
+        console.log(data.error.message);
+      }
+    });
+  });
+}
+function attachLikeBttnListener(div, id, QorA) {
+  var route = (QorA === 'a' ? 'likeAnswer' : 'likeQuestion');
+
+  $(div).click(function () {
+    $.ajax({
+      type: "GET",
+      url: globalUrl + 'openalex.com/' + route + '?answerid=' + id,
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(data) {
+        console.log(data.error.message);
+      }
+    });
+  });
+}
+
 function showAnswersAuthor(uid, answerDiv) {
 
   console.log('qid ' + uid);
@@ -133,15 +168,15 @@ function showAnswersAuthor(uid, answerDiv) {
     });
 }
 
-function showLikesDislikes(dislikes, likes, div) {
+function showLikesDislikes(numDislikes, numLikes, div) {
 var contentContainer = $(div).find('.comment-content');
 
 contentContainer.prepend(' <a href="#" class="btn btn-xs btn-success">0</a> <a href="#" class="btn btn-xs btn-warning">0</a>' );
 var likeBttn = contentContainer.find('.btn.btn-xs.btn-success');
 var dislikeBttn = contentContainer.find('.btn.btn-xs.btn-warning');
 
-likeBttn.text(likes);
-dislikeBttn.text(dislikes);
+likeBttn.text(numLikes);
+dislikeBttn.text(numDislikes);
 
 likeBttn.prepend('<span class="glyphicon glyphicon-thumbs-up"></span> ');
 dislikeBttn.prepend('<span class="glyphicon glyphicon-thumbs-down"></span> ');
@@ -178,8 +213,16 @@ function showAnswers(jsonData) {
 
 
 function setAnswerBoxListener() {
-    $('#answer-form').submit(function() {
+$('#message-box-submit-bttn').click(function () {
+  if (document.cookie == '') {
+    location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+    return;
+  }
+  if (!$.trim($("#message-box-text-box").val())) {
+    alert('You must enter a message'); 
 
+    return;
+  }
         var qid = getUrlParameter('questionid');
         var cid = getUrlParameter('courseid');
         var qbody = $('#message-box-text-box').val();
@@ -190,7 +233,7 @@ function setAnswerBoxListener() {
         createAnswer(qid, cid, qbody, uid);
         //location.reload();
         return false;
-    });
+});
 }
 
 
@@ -207,6 +250,7 @@ function createAnswer(qid, cid, qbody, uid) {
         success: function(data) {
             console.log(data.message);
             getAnswers(questionID);
+            $('#message-box-text-box').val('');
         },
         error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
