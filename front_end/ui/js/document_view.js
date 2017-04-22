@@ -1,6 +1,7 @@
+var docID;
 $(document).ready(function() {
   var url = decodeURIComponent(getUrlParameter('docUrl'));
-  var docID = getUrlParameter('docID');
+  docID = getUrlParameter('docID');
   var arr = [ 'jpg', 'png', 'gif' ];
 
 //  console.log('https://view.officeapps.live.com/op/embed.aspx?src=' + url);
