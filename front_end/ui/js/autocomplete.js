@@ -1,9 +1,10 @@
 $(document).ready(function(){
     $("input[id='classes']").prop("checked", true);
+    document.getElementById("classes").onchange();
 }
 
 $("input[id='classes']").change(function(){
-                console.log("Classes checked");
+            console.log("Classes checked");
             $('#autocomplete').autocomplete({
 
                 serviceUrl: globalUrl + 'getCourseKeyword/',
