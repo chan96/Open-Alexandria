@@ -168,8 +168,6 @@ function setComments(docID) {
 }
 
 function report(){
-  var cookieField = document.cookie.split("; ");
-  userid = cookieField[1];
   var formData = new FormData();
   formData.append('body', document.getElementById("report-body").value);
   console.log(globalUrl + "report?type=1&id=" + docID + "&messagetype=1");
