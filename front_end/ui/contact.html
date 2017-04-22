@@ -32,9 +32,23 @@
     </style>
 
     <div class="maintext">
-        <h2> Send e-mail to admin@openalex.com:</h2>
+        <h2>Send e-mail to admin@openalex.com:</h2>
 
-        <a target="_top" href="mailto:admin@openalex.com"> HERE </a>
+        <form action="mailto:admin@openalex.com" method="post" enctype="text/plain" target="_blank">
+            Name:
+            <br>
+            <input type="text" name="name">
+            <br> E-mail:
+            <br>
+            <input type="text" name="mail">
+            <br> Comment:
+            <br>
+            <input type="text" name="comment" size="50">
+            <br>
+            <br>
+            <input type="submit" value="Send">
+            <input type="reset" value="Reset">
+        </form>
 
     </div>
 
