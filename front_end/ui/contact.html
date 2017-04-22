@@ -22,8 +22,35 @@
     <div id="divHeader">
         <h2> </h2>
     </div>
-    
-    <h2>Contact Us</h2>
+
+    <h2> Contact Us</h2>
+
+    <style>
+        div.maintext {
+            padding: 10px;
+        }
+    </style>
+
+    <div class="maintext">
+        <h2>Send e-mail to admin@openalex.com:</h2>
+
+        <form action="mailto:admin@openalex.com" method="post" enctype="text/plain">
+            Name:
+            <br>
+            <input type="text" name="name">
+            <br> E-mail:
+            <br>
+            <input type="text" name="mail">
+            <br> Comment:
+            <br>
+            <input type="text" name="comment" size="50">
+            <br>
+            <br>
+            <input type="submit" value="Send">
+            <input type="reset" value="Reset">
+        </form>
+
+    </div>
 
     <footer>
         <div id="divFooter">
