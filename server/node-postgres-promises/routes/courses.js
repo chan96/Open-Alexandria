@@ -21,9 +21,10 @@ var db = pgp(connectionInfo);
 function addNewCourse(req, res, next) {
   var courseName = req.body.coursename;
   var courseDescription = req.body.coursedescription;
+  var courseSchoolID = req.body.courseschoolid;
   var token = req.cookies.token;
   var dbSelect = 'select * from COURSES where COURSES_NAME = $1 and COURSES_ISACTIVE = true;';
-  var dbInsert = 'insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION) values ($1, $2);';
+  var dbInsert = 'insert into COURSES (COURSES_NAME, COURSES_DESCRIPTION, COURSES_SCHOOL_ID) values ($1, $2, $3);';
 
   if(userAuth.checkUserAlive(token)){
     db.any(dbSelect, [courseName])
@@ -34,7 +35,7 @@ function addNewCourse(req, res, next) {
             code: 0
           });
         }else if(data.length === 0){
-          db.none(dbInsert,[courseName, courseDescription])
+          db.none(dbInsert,[courseName, courseDescription, courseSchoolID])
             .then(function(){
               res.status(200).json({
                 status: "Successful added course",
@@ -66,8 +67,8 @@ function addNewCourse(req, res, next) {
 
 function getCourseKeyword(req, res, next) {
   var keyword = req.query.query;
-
-  var dbSelect = "select * from courses where COURSES_NAME ~* $1 and COURSES_ISACTIVE = true;";
+  var dbSelect = 'select * from COURSES join UNIVERSITIES on COURSES.COURSES_SCHOOL_ID = UNIVERSITIES.UNIVERSITIES_UNIQUE_ID where COURSES_NAME ~* $1 and COURSES_ISACTIVE = true;';
+  //var dbSelect = "select * from courses join universities on COURSES_SCHOOL_ID = universities.universities_code where COURSES_NAME ~* $1 and COURSES_ISACTIVE = true;";
 
   db.any(dbSelect, [keyword])
     .then(function(data){
@@ -77,7 +78,9 @@ function getCourseKeyword(req, res, next) {
           coursename: data[i].courses_name,
           coursedescription: data[i].courses_description,
           coursenummember: data[i].courses_nummember,
-          courseuniqueid: data[i].courses_unique_id
+          courseuniqueid: data[i].courses_unique_id,
+          courseschoolname: data[i].universities_name,
+          courseschoolwebsite: data[i].universities_site
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
@@ -102,7 +105,7 @@ function getAllCourse(req, res, next) {
     return;
   }
 
-  var dbSelect = "select * from courses;";
+  var dbSelect = "select * from courses join universities on courses_school_id = universities_unique_id;";
 
   db.any(dbSelect)
     .then(function(data){
@@ -121,7 +124,7 @@ function getAllCourse(req, res, next) {
 function getCourseInfo(req, res, next){
   var uniqueID = req.query.uniqueid;
 
-  var dbSelect = 'select * from courses where COURSES_UNIQUE_ID = $1 and COURSES_ISACTIVE = true;';
+  var dbSelect = 'select * from courses join universities on courses_school_id = universities_unique_id where COURSES_UNIQUE_ID = $1 and COURSES_ISACTIVE = true;';
   db.one(dbSelect, [uniqueID])
     .then(function(data){
       res.status(200).json({
@@ -131,7 +134,8 @@ function getCourseInfo(req, res, next){
         coursename: data.courses_name,
         coursedescription: data.courses_description,
         coursenummember: data.courses_nummember,
-        courseschool: data.courses_school_id,
+        courseschoolname: data.universities_name,
+        courseschoolwebsite: data[i].universities_site
       });
     })
   .catch(function(err){

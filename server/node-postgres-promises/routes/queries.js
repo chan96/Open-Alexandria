@@ -50,6 +50,28 @@ function report(req, res, next){
     });
 }
 
+function getUniversity(req, res, next){
+  var query = req.query.query;
+  
+  var dbSelect = 'select * from universities where UNIVERSITIES_NAME~*$1;';
+  db.any(dbSelect,[query])
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        commonString.push({value: data[i].universities_name, data:data[i]});
+      }
+      res.status(200).json({suggestions:commonString}); 
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Failure",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+
+    })
+}
+
 module.exports = {
-  report: report 
+  report: report,
+  getUniversity: getUniversity,
 };
