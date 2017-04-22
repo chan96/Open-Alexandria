@@ -11,6 +11,7 @@ drop table if exists COMMENTS;
 drop table if exists TAGLIST;
 drop table if exists TAGLINK;
 drop table if exists MESSAGE;
+drop table if exists VOTE;
 
 CREATE TABLE USERS(
   USERS_UNIQUE_ID serial primary key not null,
