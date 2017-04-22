@@ -168,14 +168,30 @@ function setComments(docID) {
 }
 
 function report(){
-  var formData = new FormData();
-  formData.append('body', document.getElementById("report-body").value);
-  console.log(globalUrl + "report?type=1&id=" + docID + "&messagetype=1");
-  $.post(globalUrl + "report?type=1&id=" + docID + "&messagetype=1", formData, function (data) {
+/*
+  $.ajax({
+    type: "POST",
+    url: globalUrl + "report?type=1&id=" + docID + "&messagetype=1",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(data) {
+        console.log("Successfully reported!");
+        $('#reportModal').modal('toggle');
+
+    },
+    error: function(data) {
+      console.log(data.error.message);
+
+    }
+  });
+  */
+  $.get(globalUrl + "report?type=1&id=" + docID + "&messagetype=1&text=" + document.getElementById("report-body").value, function (data) {
         console.log("Successfully reported!");
         $('#reportModal').modal('toggle');
       }).fail(function (){
          console.log("Failed to report.");
       });
       return false;
+      
 }

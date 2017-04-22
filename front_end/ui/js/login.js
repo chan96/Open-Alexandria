@@ -2,6 +2,7 @@ function submitLogin(form){
   var theUrl = globalUrl + "loginUser";
   //var theUrl = "http://openalexandria.us.to/loginUser";
   var formData = $(form).serializeArray();
+  console.log($(form).serializeArray()[1]);
   $.post(theUrl, formData, function (data) {
         //redirect to appropriate page
         redirect();
