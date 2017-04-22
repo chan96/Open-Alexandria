@@ -169,8 +169,10 @@ function setComments(docID) {
 function report(){
   var cookieField = document.cookie.split("; ");
   userid = cookieField[1];
-  console.log(globalUrl + "report?" + userid + "&body=" + document.getElementById("report-body").value);
-  $.post(globalUrl + "report/?" + userid, function (data) {
+  var formData = new FormData();
+  formData.append('body', document.getElementById("report-body").value);
+  console.log(globalUrl + "report?type=1&id=" + docID + "&messagetype=1");
+  $.post(globalUrl + "report?type=1&id=" + docID + "&messagetype=1", formData, function (data) {
         console.log("Successfully reported!");
         $('#reportModal').modal('toggle');
       }).fail(function (){
