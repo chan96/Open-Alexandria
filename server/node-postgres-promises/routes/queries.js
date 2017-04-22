@@ -28,7 +28,7 @@ function report(req, res, next){
       code: -1
     });
   }
-  var body = req.body.text;
+  var body = req.query.text;
   var type = req.query.type;
   var id = req.query.id;
   var messagetype = req.query.messagetype;
