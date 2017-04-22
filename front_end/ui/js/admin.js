@@ -98,9 +98,11 @@ $(document).ready(function(){
   */
 });
 function listQuestions(count){
+  //location.href = globalUrl + 'adminQuestions.html?userid=' +  dataGlobalCourse.suggestions[count].data.courses_unique_id;
   $.get(questionUrl + dataGlobalCourse.suggestions[count].data.courses_unique_id, function (data) {
     dataGlobalQuestion[count] = data;
     console.log(dataGlobalQuestion);
+    //$("#questionTable").html("<thead><tr><th>Question ID</th><th>Question</th></tr></thead>");
     $("#courseBodyRow" + count).after("<tr id='courseQuestion" + count + "'><th></th><th>Question ID</th><th>Question</th></tr>");
     for(var num = 0; num < Object.keys(dataGlobalQuestion[count].suggestions).length; num++){
       var buttonText = "";
