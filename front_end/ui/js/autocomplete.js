@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    $("input[id='classes']").prop("checked", true);
+}
+
 $("input[id='classes']").change(function(){
                 console.log("Classes checked");
             $('#autocomplete').autocomplete({
