@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
-        <link href="css/login.css" rel="stylesheet">
+        <link href="css/profile.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 
         <!--[if lt IE 9]> 
@@ -23,31 +23,32 @@
         <div id="divHeader">
         <h2> </h2>
         </div>
-        <div class="container" id="login">
+        <div class="container" id="profile">
          <div class="row">
             <div class="col-md-12">
-               <div class="container">
-                  <div class="row" id="pwd-container">
+                <div class="container">
+                    <div class="row" id="pwd-container">
                      <div class="col-md-4"></div>
                      <div class="col-md-4">
-                     <section class="login-form">
-                        <form method="post" role="login">
-                        <h4>Email</h4><input id="email" type="email" name="username" required class="form-control input-lg" value=""/>
-                        <h4>First Name</h4><input id="firstname" type="text" name="firstname" required class="form-control input-lg" value="" />
-                        <h4>Last Name</h4><input id="lastname" type="text" name="lastname" required class="form-control input-lg" value=""/>
-                        <div class="profile_log" id="log"></div>
-                        <button id="submit" type="submit" name="send" class="btn btn-lg btn-primary btn-block" onclick="return submitChange(this.form)">Submit Change</button>
-                        <button id="changePassword" type="button" name="send" class="btn btn-lg btn-primary btn-block" onclick="location.href='password.html'">Change Password</button>
-                        <button id="cancel" type="button" name="send" class="btn btn-lg btn-primary btn-block" onclick="location.href='index.html'">Cancel</button>
-                        </form>
-                     </section>  
-                     </div>
-                     <div class="col-md-4"></div>
-                  </div>  
-               </div>
+                            <div class="card hovercard">
+                                <div class="avatar">
+                                    <img alt="" src="https://cdn.iconscout.com/public/images/icon/premium/png-256/avatar-random-person-profile-32894d0afd24be61-256x256.png">
+                                </div>
+                                <div class="info">
+                                    <div class="title">Jessica Smith</div>
+                                    <div class="desc" id="name">Administrator</div>
+                                    <div class="desc" id="email">jessica1@openalex.com</div>
+                                    <div class="desc" id="docsUploaded">2</div>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="col-md-4"></div>
+                    </div>  
+                </div>
             </div>
-         </div>
-      </div>
+        </div>
+    </div>
       <!--
         <div class="container col-md-4 col-md-offset-4 vertical-center transparent round-corners shadow " id="mainBody">
             <div class="container">  

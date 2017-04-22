@@ -14,6 +14,7 @@
 }
 
 body {
+  padding-bottom: 120px;
 }
 body::before {
   background: url(../images/symbols-background.png) repeat center center fixed;
@@ -127,4 +128,8 @@ nav.navbar-nav.navbar-right li a {
 
 .form-control:focus {
 
+}
+
+#footer{
+  margin-top: 20px;
 }
