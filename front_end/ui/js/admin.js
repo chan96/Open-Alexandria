@@ -63,42 +63,9 @@ $(document).ready(function(){
     }).fail(function (){
       console.log("fail");
     });
-    //Questions
-    /*
-    for(var count = 0; count < Object.keys(dataGlobalCourse.suggestions).length; count++){
-      $.get(questionUrl + dataGlobalCourse.suggestions[count].data.courses_unique_id, function (data) {
-        dataGlobalQuestion = data;
-        console.log(data);
-        console.log("SHIT");
-        $("#userTable").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
-        console.log(dataGlobalUser);
-        for(var count = 0; count < Object.keys(dataGlobalUser.suggestions).length; count++){
-          console.log(count);
-          var buttonText = "";
-          if(data.suggestions[count].data.users_isactive){
-            buttonText = "Block User";
-          }else{
-            buttonText = "Unblock User";
-          }
-          $("#userTable").append("<tbody><tr><td>" + data.suggestions[count].data.users_firstname + "</td><td>" + data.suggestions[count].data.users_lastname + 
-            "</td><td>"+ data.suggestions[count].data.users_email +"</td><td>"+ data.suggestions[count].data.users_isadmin +
-            "</td><td>" + data.suggestions[count].data.users_unique_id + 
-            "<td><button id='block" + count + "' type='button' onclick='blockUser(" + count + ")'>" + buttonText + "</button></td></tr></tbody>");
-        }
-        //window.location.href = 'http://openalexandria.us.to:3000/login.html';
-      }).done(function(){
-        console.log("DOONE");
-      //document.cookie;
-
-    }).fail(function (){
-      console.log("fail");
-    });
-    
-  }
-  */
 });
 function listQuestions(count){
-  //location.href = globalUrl + 'adminQuestions.html?userid=' +  dataGlobalCourse.suggestions[count].data.courses_unique_id;
+  location.href = globalUrl + 'adminQuestions.html?courseid=' +  dataGlobalCourse.suggestions[count].data.courses_unique_id;
   $.get(questionUrl + dataGlobalCourse.suggestions[count].data.courses_unique_id, function (data) {
     dataGlobalQuestion[count] = data;
     console.log(dataGlobalQuestion);
@@ -115,13 +82,19 @@ function listQuestions(count){
       $("#courseQuestion" + count).after("<tr><td></td><td>" + dataGlobalQuestion[count].suggestions[num].data.questionid + "</td><td>" 
         + dataGlobalQuestion[count].suggestions[num].data.title + "</td><td></td><td></td><td><button id='enableQuestion" + num + 
         "' type='button' onclick='disableQuestion(" + count + "," + num + ")'>" + buttonText + "</button></td></tr>");
+      /*
+      $("#questionTable").append("<tbody id='questionBodyTable" + count + "'><tr id='questionBodyRow" + count + "'><td>" 
+        + dataGlobalQuestion[count].suggestions[num].data.questionid + "</td><td>" + dataGlobalQuestion[count].suggestions[num].data.title + 
+        "</td><td><button id='enableQuestion" + num + "' type='button' onclick='disableQuestion(" + count + "," + num + ")'>" 
+        + buttonText + "</button></td></tr>");
+        */
     }
   }).fail(function(){
 
   });
 }
 function listDocumentsByUser(count){
-
+  location.href = globalUrl + 'adminDocuments.html?userid=' +  dataGlobalCourse.suggestions[count].data.courses_unique_id;
   $.get(documentUrl + dataGlobalUser.suggestions[count].data.users_unique_id, function (data) {
     dataGlobalDocument[count] = data;
     console.log(dataGlobalDocument);

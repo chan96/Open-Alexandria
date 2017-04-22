@@ -16,9 +16,15 @@
 #userTable{
 	margin-left: 0px;
 }
+#questionTable{
+	margin-left: 0px;
+}
+#documentTable{
+	margin-left: 0px;
+}
 .table{
     border-radius: 5px;
-    width: 50%;
+    width: 100%;
     margin: 0px auto;
     float: none;
 }
