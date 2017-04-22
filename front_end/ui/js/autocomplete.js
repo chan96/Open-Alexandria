@@ -3,7 +3,7 @@ $(document).ready(function(){
     $("input[id='classes']").trigger('change');
 }
 
-$("input[id='classes']").change(function(){
+$("input[id='classes']").click(function(){
             console.log("Classes checked");
             $('#autocomplete').autocomplete({
 
@@ -25,7 +25,7 @@ $("input[id='classes']").change(function(){
 
         });
 });
-$("input[id='flashcards']").change(function(){
+$("input[id='flashcards']").click(function(){
             console.log("flashcards checked");
             $('#autocomplete').autocomplete({
 
@@ -47,7 +47,7 @@ $("input[id='flashcards']").change(function(){
 
         });
 });
-$("input[id='files']").change(function(){
+$("input[id='files']").click(function(){
             console.log("files checked");
             $('#autocomplete').autocomplete({
 
