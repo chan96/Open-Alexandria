@@ -6,6 +6,7 @@ $(document).ready(function() {
 	documentUrl = globalUrl + "searchDocumentByUserAdmin?query=&userid=";
 
     userID = getUrlParameter('userid');
+    $("#heading").append("<h3>Documents for User ID " + userID + "</h3>");
     listDocumentsByUser(1);
 });
 function listDocumentsByUser(count){

@@ -66,10 +66,11 @@ $(document).ready(function(){
 });
 function listQuestions(count){
   location.href = globalUrl + 'adminQuestions.html?courseid=' +  dataGlobalCourse.suggestions[count].data.courses_unique_id;
+  /*
   $.get(questionUrl + dataGlobalCourse.suggestions[count].data.courses_unique_id, function (data) {
     dataGlobalQuestion[count] = data;
     console.log(dataGlobalQuestion);
-    //$("#questionTable").html("<thead><tr><th>Question ID</th><th>Question</th></tr></thead>");
+    $("#questionTable").html("<thead><tr><th>Question ID</th><th>Question</th></tr></thead>");
     $("#courseBodyRow" + count).after("<tr id='courseQuestion" + count + "'><th></th><th>Question ID</th><th>Question</th></tr>");
     for(var num = 0; num < Object.keys(dataGlobalQuestion[count].suggestions).length; num++){
       var buttonText = "";
@@ -82,19 +83,21 @@ function listQuestions(count){
       $("#courseQuestion" + count).after("<tr><td></td><td>" + dataGlobalQuestion[count].suggestions[num].data.questionid + "</td><td>" 
         + dataGlobalQuestion[count].suggestions[num].data.title + "</td><td></td><td></td><td><button id='enableQuestion" + num + 
         "' type='button' onclick='disableQuestion(" + count + "," + num + ")'>" + buttonText + "</button></td></tr>");
-      /*
+
       $("#questionTable").append("<tbody id='questionBodyTable" + count + "'><tr id='questionBodyRow" + count + "'><td>" 
         + dataGlobalQuestion[count].suggestions[num].data.questionid + "</td><td>" + dataGlobalQuestion[count].suggestions[num].data.title + 
         "</td><td><button id='enableQuestion" + num + "' type='button' onclick='disableQuestion(" + count + "," + num + ")'>" 
         + buttonText + "</button></td></tr>");
-        */
+
     }
   }).fail(function(){
 
   });
+          */
 }
 function listDocumentsByUser(count){
-  location.href = globalUrl + 'adminDocuments.html?userid=' +  dataGlobalCourse.suggestions[count].data.courses_unique_id;
+  location.href = globalUrl + 'adminDocuments.html?userid=' +  dataGlobalUser.suggestions[count].data.users_unique_id;
+  /*
   $.get(documentUrl + dataGlobalUser.suggestions[count].data.users_unique_id, function (data) {
     dataGlobalDocument[count] = data;
     console.log(dataGlobalDocument);
@@ -114,6 +117,7 @@ function listDocumentsByUser(count){
   }).fail(function(){
 
   });
+  */
 }
 function enableDisableCourse(count){
   var disableCourseUrl = globalUrl + "disableCourse?uniqueid=" + dataGlobalCourse.suggestions[count].data.courses_unique_id;

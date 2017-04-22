@@ -6,6 +6,7 @@ $(document).ready(function() {
     questionUrl = globalUrl + "getAllQuestions?courseid=";
 
     courseID = getUrlParameter('courseid');
+    $("#heading").append("<h3>Questions for Course ID " + courseID + "</h3>");
     listQuestions(1);
 });
 function listQuestions(count){
