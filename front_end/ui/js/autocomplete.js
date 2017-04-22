@@ -1,7 +1,8 @@
 $(document).ready(function(){
     $("input[id='classes']").prop("checked", true);
     if($("input[id='classes']").is(':checked')){
-                    $('#autocomplete').autocomplete({
+            console.log("This runs");
+                $('#autocomplete').autocomplete({
 
                 serviceUrl: globalUrl + 'getCourseKeyword/',
                 onSearchComplete: function (query, suggestions) {
