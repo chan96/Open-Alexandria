@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $("input[id='classes']").prop("checked", true);
-    document.getElementById("classes").onchange();
+    $("input[id='classes']").trigger('change');
 }
 
 $("input[id='classes']").change(function(){
