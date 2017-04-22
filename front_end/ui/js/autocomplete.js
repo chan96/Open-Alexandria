@@ -22,7 +22,7 @@ $(document).ready(function(){
 
         });
     }
-}
+});
 
 $("input[id='classes']").click(function(){
             console.log("Classes checked");
