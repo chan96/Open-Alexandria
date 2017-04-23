@@ -1,12 +1,14 @@
 $( document ).ready(function() {
+  setNewCourseAutocomplete();
     console.log( "ready!" );
      $('#createBttn').on('click', function(e) {  
          if (validate()) {
              var courseName = $('#courseNameBox').val();
          var courseDescription = $('#courseDescrBox').val();
-         var school = $('#schoolBox').val();
+         var schoolID = getSchoolID();
+         console.log(schoolID);
          
-         createCourse(courseName, courseDescription, school);
+         createCourse(courseName, courseDescription, schoolID);
          }
         
     });
@@ -25,11 +27,12 @@ function validate() {
     return 1;
 }
 
-function createCourse(cn, cd, s) {
+
+function createCourse(cn, cd, sid) {
      $.ajax({
         type: "POST",
         url: globalUrl + 'addNewCourse/',
-        data: ({ coursename : cn, coursedescription: cd, school : s}),
+        data: ({ coursename : cn, coursedescription: cd, courseschoolid : sid}),
         dataType: "html",
         success: function(data) {
             console.log(data);

@@ -4,7 +4,26 @@ $(document).ready(function(){
     setClassesAutocomplete();
   }
 });
+function setSchoolID(idNum) {
+  $('#schoolID').val(idNum);
+}
+function getSchoolID() {
 
+  return $('#schoolID').val();
+}
+function setNewCourseAutocomplete() {
+    $('#schoolBoxAutocomplete').autocomplete({
+
+      minChars: 3,
+      lookupLimit: 5,
+      serviceUrl: globalUrl + 'getUniversity/',
+      onSelect: function (suggestion) {
+        setSchoolID(suggestion.data.universities_unique_id);
+        console.log(getSchoolID());
+      },
+      showNoSuggestionNotice: true
+    });
+}
 function setClassesAutocomplete() {
     $('#autocomplete').autocomplete({
 
