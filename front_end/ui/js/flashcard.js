@@ -4,12 +4,12 @@ var prevRow;
 $(document).ready(function() {
 
   if (location.href.includes('flashcard.html')) {
-  var deckID = getUrlParameter('deckid');
+    var deckID = getUrlParameter('deckid');
 
-  getFlashDeckById(deckID, showDeckTitleDescription);
-  getFlashcardsForDeck(deckID, showFlashcards);
-  setNewFlashcardCardListener(deckID);
-  setTestFlashcardView();
+    getFlashDeckById(deckID, showDeckTitleDescription);
+    getFlashcardsForDeck(deckID, showFlashcards);
+    setNewFlashcardCardListener(deckID);
+    setTestFlashcardView();
   }
 });
 
