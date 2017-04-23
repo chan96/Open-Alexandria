@@ -96,7 +96,9 @@ function getQuestionInfo(req, res, next) {
           dateupdated:  data[i].questions_dateupdated,
           body:         data[i].questions_body,
           creatorid:    data[i].questions_users_id,
-          courseid:     data[i].questions_courses_id
+          courseid:     data[i].questions_courses_id,
+          numlike:      data[i].questions_numlike,
+          numdislike:   data[i].questions_numdislike
         }
         commonString.push({value:data[i].courses_name,data:courseInfo});
       }
