@@ -11,7 +11,7 @@ $(document).ready(function() {
   $('#doc-frame').attr('src', 'https://docs.google.com/gview?url=' + url + '&embedded=true');
 
   for (var i = 0; i < arr.length; i++) {
-    if (url.includes(arr[i])) {
+    if (url.toLowerCase().includes(arr[i])) {
       $('#image-container').attr('src', url);
       $('#image-container').show();
 
