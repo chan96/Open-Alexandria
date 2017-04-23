@@ -1,7 +1,11 @@
 $(document).ready(function(){
   $("input[id='classes']").prop("checked", true);
   if($("input[id='classes']").is(':checked')){
-    console.log("This runs");
+    setClassesAutocomplete();
+  }
+});
+
+function setClassesAutocomplete() {
     $('#autocomplete').autocomplete({
 
       serviceUrl: globalUrl + 'getCourseKeyword/',
@@ -20,35 +24,13 @@ $(document).ready(function(){
         location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename;
 
       },
-
       showNoSuggestionNotice: true
-
-
     });
-  }
-});
+}
 
 $("input[id='classes']").click(function(){
             console.log("Classes checked");
-            $('#autocomplete').autocomplete({
-
-                serviceUrl: globalUrl + 'getCourseKeyword/',
-                onSearchComplete: function (query, suggestions) {
-                    console.log(suggestions);
-                },
-                onSelect: function (suggestion) {
-                //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-                console.log(suggestion.data);
-                console.log(suggestion.data.coursename);
-
-                location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename;
-
-            },
-
-            showNoSuggestionNotice: true
-
-
-        });
+            setClassesAutocomplete();
 });
 $("input[id='flashcards']").click(function(){
             console.log("flashcards checked");
