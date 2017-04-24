@@ -29,7 +29,26 @@ function getUserID() {
     return userID;
 }
 
-if (document.cookie == "") {
+function getUserInfo(){
+    var getUserInfoUrl = globalUrl + 'getUserInfo';
+    return $.ajax({
+        type: "GET",
+        url: getUserInfoUrl,
+        async: false
+    }).responseText;
+}
+
+function checkUserAlive(){
+    var data = JSON.parse(getUserInfo());
+    console.log("code");
+    console.log(data.code);
+    if(data.code === 1){
+        return true;
+    }
+    return false;
+}
+
+if (!checkUserAlive()) {
     console.log("The cookie is not there.");
         $("#divHeader").load("header.html");
         $("#divFooter").load("footer.html");
