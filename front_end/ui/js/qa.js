@@ -46,12 +46,17 @@ function showQuestionInfo(qid) {
       var t = parsedData.dateupdated.split(/[T .]/);
       var date = t[0];
       var time = t[1];
+      var contentDiv = $('.author-content.comment-content');
+      var questionID = getUrlParameter('questionid');
 
       $('.topic-title').text(title);
       $("[name='posting-date-author']").text(date + ', ' + time);
-      $('.author-content').html(body);
+      $('.author-content').text(' ' + body);
 
       showQuestionAuthor(userID);
+      console.log(contentDiv);
+      
+    createLikesDislikes(parsedData.numdislike, parsedData.numlike, contentDiv, questionID, 'q');
       //showLikesDislikes(parsedData.);
 
     },
@@ -134,7 +139,7 @@ function showAnswersAuthor(uid, answerDiv) {
 }
 
 function createLikesDislikes(numDislikes, numLikes, div, id, QorA) {
-  var contentContainer = $(div).find('.comment-content');
+  var contentContainer = div;
 
   contentContainer.prepend(' <a href="#" class="btn btn-xs btn-success">0</a> <a href="#" class="btn btn-xs btn-warning">0</a>' );
   var likeBttn = contentContainer.find('.btn.btn-xs.btn-success');
@@ -143,18 +148,21 @@ function createLikesDislikes(numDislikes, numLikes, div, id, QorA) {
   likeBttn.text(numLikes);
   dislikeBttn.text(numDislikes);
 
-  likeBttn.prepend('<span id=' + id + ' class="glyphicon glyphicon-thumbs-up"></span> ');
-  dislikeBttn.prepend('<span id=' + id + ' class="glyphicon glyphicon-thumbs-down"></span> ');
+  likeBttn.prepend('<span id=' + QorA + id + ' class="glyphicon glyphicon-thumbs-up"></span> ');
+  dislikeBttn.prepend('<span id=' + QorA + id + ' class="glyphicon glyphicon-thumbs-down"></span> ');
 
 
   $(likeBttn).click(function (e) {
 
     var id = $(this).find('span').attr('id');
+    var route = (id[0] === 'a' ? 'likeAnswer?answerid=' : 'likeQuestion?questionid=');
+    var idNum = id.replace ( /[^\d.]/g, '' );
+
     e.preventDefault();
 
     $.ajax({
       type: "GET",
-      url: globalUrl + 'likeAnswer?answerid=' + id,
+      url: globalUrl + route + idNum,
       dataType: "json",
       success: function(data) {
         console.log(data);
@@ -169,11 +177,14 @@ function createLikesDislikes(numDislikes, numLikes, div, id, QorA) {
   $(dislikeBttn).click(function (e) {
 
     var id = $(this).find('span').attr('id');
+    var route = (id[0] === 'a' ? 'dislikeAnswer?answerid=' : 'dislikeQuestion?questionid=');
+    var idNum = id.replace ( /[^\d.]/g, '' );
+
     e.preventDefault();
 
     $.ajax({
       type: "GET",
-      url: globalUrl + 'dislikeAnswer?answerid=' + id,
+      url: globalUrl + route + idNum,
       dataType: "json",
       success: function(data) {
         console.log(data);
@@ -196,6 +207,7 @@ function showAnswers(jsonData) {
     var date = t[0];
     var time = t[1];
     var $answer = $div.clone().removeClass('empty-response');
+    var $commentBox = $answer.find('.comment-content');
 
     console.log(id);
     $answer.find('#answer0').html('\t' + jsonData[i].value.answers_body);
@@ -206,7 +218,7 @@ function showAnswers(jsonData) {
     showAnswersAuthor(jsonData[i].value.answers_users_id, $answer);
 
     console.log(jsonData[i]);
-    createLikesDislikes(jsonData[i].value.answers_numdislike, jsonData[i].value.answers_numlike, $answer, jsonData[i].value.answers_unique_id, 'a');
+    createLikesDislikes(jsonData[i].value.answers_numdislike, jsonData[i].value.answers_numlike, $commentBox, jsonData[i].value.answers_unique_id, 'a');
 
     $('.inner-comments-container').append($answer);
     $answer.show();
