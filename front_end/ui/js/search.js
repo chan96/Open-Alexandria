@@ -83,6 +83,10 @@ function setNewPostQuestionListener() {
           location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
         }
         console.log('asdfasdf');
+
+        $('html, body').animate({scrollTop : '0px'}, 0);
+
+
     })
     $('#postBttn').click(function () {
         var questionTitle = $('#question-title').val();
@@ -134,6 +138,8 @@ $('#documentModal').on('show.bs.modal', function (e) {
         if (document.cookie == '') {
           location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
         }
+        $('html, body').animate({scrollTop : '0px'}, 0);
+
     })});
     
     

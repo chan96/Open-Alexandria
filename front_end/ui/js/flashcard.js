@@ -19,6 +19,8 @@ function setNewFlashcardListener() {
 
       location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
     }
+    $('html, body').animate({scrollTop : '0px'}, 0);
+
   })
   $('#postFlashcardBttn').click(function () {
     var flashcardTitle = $('#flashcard-title').val();
@@ -58,6 +60,8 @@ function setNewFlashcardCardListener(deckID) {
 
       location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
     }
+    $('html, body').animate({scrollTop : '0px'}, 0);
+
   })
   $('#postFlashcardBttn2').click(function () {
     var flashcardTerm = $('#flashcard-term').val();
