@@ -231,7 +231,7 @@ function likeAnswer(req, res, next){
 
 function dislikeAnswer(req, res, next){
   var userid = userAuth.getUserID(req.cookies.token);
-  var questionid = req.query.answerid;
+  var answerid = req.query.answerid;
   if(!userid){
     res.status(401).json({
       status: "Error Authentication Error",
