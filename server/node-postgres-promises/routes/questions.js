@@ -119,14 +119,15 @@ function postQuestion(req, res, next) {
 
   console.log(qTitle + '| ' + qBody + '|' + qCourseID + '|' + creatorID);
 
-  var dbInsert = 'insert into questions(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) values($1, $2, $3, $4);'
+  var dbInsert = 'insert into questions(QUESTIONS_TITLE, QUESTIONS_BODY, QUESTIONS_COURSES_ID, QUESTIONS_USERS_ID) values($1, $2, $3, $4) returning questions_unique_id;';
 
     if(userAuth.checkUserAlive(token)){
-      db.none(dbInsert, [qTitle, qBody, qCourseID, creatorID])
-        .then(function(){
+      db.one(dbInsert, [qTitle, qBody, qCourseID, creatorID])
+        .then(function(data){
           res.status(200).json({
             status: "Successful question insert",
             code: 1,
+            questionid: data.questions_unique_id,
             title: qTitle,
             body: qBody,
             courseid: qCourseID,

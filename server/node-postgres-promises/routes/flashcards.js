@@ -38,13 +38,14 @@ function createDeck(req, res, next){
   var courseid = req.query.courseid;
   var deckname = req.query.deckname;
 
-  var dbInsert = "insert into FLASHCARDDECKS (FLASHCARDDECKS_COURSES_ID, FLASHCARDDECKS_USERS_ID, FLASHCARDDECKS_NAME) values ($1, $2, $3);";
+  var dbInsert = "insert into FLASHCARDDECKS (FLASHCARDDECKS_COURSES_ID, FLASHCARDDECKS_USERS_ID, FLASHCARDDECKS_NAME) values ($1, $2, $3) returning flashcarddecks_unique_id;";
 
-  db.none(dbInsert, [courseid, userid, deckname])
-    .then(function(){
+  db.one(dbInsert, [courseid, userid, deckname])
+    .then(function(data){
       res.status(200).json({
         status: "Succesful added new flashcard decks",
-        code: 1
+        code: 1,
+        uniqueid: data.flashcards_unique_id
       });     
     }).catch(function(err){
       res.status(500).json({
