@@ -37,7 +37,7 @@ function createDeck(req, res, next){
   }
   var courseid = req.query.courseid;
   var deckname = req.query.deckname;
-  var deckdesc = req.query deckdesc;
+  var deckdesc = req.query.deckdesc;
 
   var dbInsert = "insert into FLASHCARDDECKS (FLASHCARDDECKS_COURSES_ID, FLASHCARDDECKS_USERS_ID, FLASHCARDDECKS_NAME, FLASHCARDDECKS_DESCRIPTION) values ($1, $2, $3, $4) returning flashcarddecks_unique_id;";
 
