@@ -1,145 +1,110 @@
 var questionID;
 var currentQuestion = 0;
 $( document ).ready(function() {
-    console.log( "ready!" );
-    questionID = getUrlParameter('questionid');
-    showQuestionInfo(questionID);
-    getAnswers(questionID);
-    setAnswerBoxListener();
+  console.log( "ready!" );
+  questionID = getUrlParameter('questionid');
+  showQuestionInfo(questionID);
+  getAnswers(questionID);
+  setAnswerBoxListener();
 });
 
 var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+  sURLVariables = sPageURL.split('&'),
+  sParameterName,
+  i;
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
 
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1] === undefined ? true : sParameterName[1];
     }
+  }
 };
 
 function getUserID() {
-    var userID = document.cookie.split(';')[1].split('=')[1];
+  var userID = document.cookie.split(';')[1].split('=')[1];
 
-    console.log('userID = ' + userID);
+  console.log('userID = ' + userID);
 
-    return userID;
+  return userID;
 }
 
 function showQuestionInfo(qid) {
 
-    console.log('hi');
-    $.ajax({
-        type: "GET",
-        url: globalUrl + 'getQuestionInfo/?questionid=' + qid,
-        dataType: "html",
-        success: function(data) {
-            var parsedData = $.parseJSON(data).question[0].data;
-            var title = parsedData.title;
-            var body = parsedData.body;
-            var userID = parsedData.creatorid;
-        var t = parsedData.dateupdated.split(/[T .]/);
-        var date = t[0];
-        var time = t[1];
+  console.log('hi');
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getQuestionInfo/?questionid=' + qid,
+    dataType: "html",
+    success: function(data) {
+      var parsedData = $.parseJSON(data).question[0].data;
+      var title = parsedData.title;
+      var body = parsedData.body;
+      var userID = parsedData.creatorid;
+      var t = parsedData.dateupdated.split(/[T .]/);
+      var date = t[0];
+      var time = t[1];
 
-            $('.topic-title').text(title);
-            $("[name='posting-date-author']").text(date + ', ' + time);
-            $('.author-content').html(body);
+      $('.topic-title').text(title);
+      $("[name='posting-date-author']").text(date + ', ' + time);
+      $('.author-content').html(body);
 
-            showQuestionAuthor(userID);
-            //showLikesDislikes(parsedData.);
+      showQuestionAuthor(userID);
+      //showLikesDislikes(parsedData.);
 
-        },
-        error: function(data) {
-            console.log(data.error.message);
+    },
+    error: function(data) {
+      console.log(data.error.message);
 
-        }
-    });
+    }
+  });
 }
 
 function showQuestionAuthor(uid) {
-    
+
   console.log(uid + ' asdf');
-    $.ajax({
-        type: "GET",
-        url: globalUrl + 'getUserInfoFromUID/',
-        data: ({ userid : uid}),
-        dataType: "html",
-        success: function(data) {
-            console.log('qwer ' + data.firstname);
-            var parsedData = $.parseJSON(data);
-            var fname = parsedData.firstname;
-            var lname = parsedData.lastname;
-            console.log(fname + lname);
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getUserInfoFromUID/',
+    data: ({ userid : uid}),
+    dataType: "html",
+    success: function(data) {
+      console.log('qwer ' + data.firstname);
+      var parsedData = $.parseJSON(data);
+      var fname = parsedData.firstname;
+      var lname = parsedData.lastname;
+      console.log(fname + lname);
 
-            $("#author-poster").text(fname + ' ' + lname);
-        },
-        error: function(data) {
-            console.log(data.error);
+      $("#author-poster").text(fname + ' ' + lname);
+    },
+    error: function(data) {
+      console.log(data.error);
 
-        }
-    });
+    }
+  });
 }
 
 function getAnswers(qid) {
 
-    $.ajax({
-        type: "GET",
-        url: globalUrl + 'getAnswersToQuestion/',
-        data: ({ questionid : qid}),
-        dataType: "html",
-        success: function(data) {
-            console.log(data);
-            var parsedData = $.parseJSON(data).suggestions;
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getAnswersToQuestion/',
+    data: ({ questionid : qid}),
+    dataType: "html",
+    success: function(data) {
+      console.log(data);
+      var parsedData = $.parseJSON(data).suggestions;
 
-            console.log(parsedData);
-            showAnswers(parsedData);
+      console.log(parsedData);
+      showAnswers(parsedData);
 
-        },
-        error: function(data) {
-            console.log(data.error.message);
+    },
+    error: function(data) {
+      console.log(data.error.message);
 
-        }
-    });
-}
-
-function attachDislikeBttnListener(div, id, QorA) {
-  var route = (QorA === 'a' ? 'dislikeAnswer' : 'dislikeQuestion');
-
-  $(div).click(function () {
-    $.ajax({
-      type: "GET",
-      url: globalUrl + 'openalex.com/' + route + '?answerid=' + id,
-      dataType: "json",
-      success: function(data) {
-        console.log(data);
-      },
-      error: function(data) {
-        console.log(data.error.message);
-      }
-    });
-  });
-}
-function attachLikeBttnListener(div, id, QorA) {
-  var route = (QorA === 'a' ? 'likeAnswer' : 'likeQuestion');
-
-  $(div).click(function () {
-    $.ajax({
-      type: "GET",
-      url: globalUrl + 'openalex.com/' + route + '?answerid=' + id,
-      dataType: "json",
-      success: function(data) {
-        console.log(data);
-      },
-      error: function(data) {
-        console.log(data.error.message);
-      }
-    });
+    }
   });
 }
 
@@ -147,116 +112,155 @@ function showAnswersAuthor(uid, answerDiv) {
 
   console.log('qid ' + uid);
 
-    $.ajax({
-        type: "GET",
-        url: globalUrl + 'getUserInfoFromUID/',
-        data: ({ userid : uid}),
-        dataType: "html",
-        success: function(data) {
-            console.log('asdf ' + data.firstname);
-            var parsedData = $.parseJSON(data);
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getUserInfoFromUID/',
+    data: ({ userid : uid}),
+    dataType: "html",
+    success: function(data) {
+      console.log('asdf ' + data.firstname);
+      var parsedData = $.parseJSON(data);
 
-            console.log('author ' + parsedData.firstname);
-        answerDiv.find('#author0').text(parsedData.firstname + ' ' + parsedData.lastname);
-        answerDiv.find('#author0').prop('id', 'author' + uid );
+      console.log('author ' + parsedData.firstname);
+      answerDiv.find('#author0').text(parsedData.firstname + ' ' + parsedData.lastname);
+      answerDiv.find('#author0').prop('id', 'author' + uid );
 
-        },
-        error: function(data) {
-            console.log(data.error.message);
+    },
+    error: function(data) {
+      console.log(data.error.message);
 
-        }
-    });
+    }
+  });
 }
 
-function showLikesDislikes(numDislikes, numLikes, div) {
-var contentContainer = $(div).find('.comment-content');
+function createLikesDislikes(numDislikes, numLikes, div, id, QorA) {
+  var contentContainer = $(div).find('.comment-content');
 
-contentContainer.prepend(' <a href="#" class="btn btn-xs btn-success">0</a> <a href="#" class="btn btn-xs btn-warning">0</a>' );
-var likeBttn = contentContainer.find('.btn.btn-xs.btn-success');
-var dislikeBttn = contentContainer.find('.btn.btn-xs.btn-warning');
+  contentContainer.prepend(' <a href="#" class="btn btn-xs btn-success">0</a> <a href="#" class="btn btn-xs btn-warning">0</a>' );
+  var likeBttn = contentContainer.find('.btn.btn-xs.btn-success');
+  var dislikeBttn = contentContainer.find('.btn.btn-xs.btn-warning');
+  console.log('likes ' + numLikes);
+  likeBttn.text(numLikes);
+  dislikeBttn.text(numDislikes);
 
-likeBttn.text(numLikes);
-dislikeBttn.text(numDislikes);
+  likeBttn.prepend('<span id=' + id + ' class="glyphicon glyphicon-thumbs-up"></span> ');
+  dislikeBttn.prepend('<span id=' + id + ' class="glyphicon glyphicon-thumbs-down"></span> ');
 
-likeBttn.prepend('<span class="glyphicon glyphicon-thumbs-up"></span> ');
-dislikeBttn.prepend('<span class="glyphicon glyphicon-thumbs-down"></span> ');
+
+  $(likeBttn).click(function (e) {
+
+    var id = $(this).find('span').attr('id');
+    e.preventDefault();
+
+    $.ajax({
+      type: "GET",
+      url: globalUrl + 'likeAnswer?answerid=' + id,
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        location.reload();
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr.responseText);
+      }
+    });
+  });
+
+  $(dislikeBttn).click(function (e) {
+
+    var id = $(this).find('span').attr('id');
+    e.preventDefault();
+
+    $.ajax({
+      type: "GET",
+      url: globalUrl + 'dislikeAnswer?answerid=' + id,
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        location.reload();
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr.responseText);
+      }
+    });
+  });
 }
 
 function showAnswers(jsonData) {
 
-    for (var i = currentQuestion; i < jsonData.length; i++) {
-        console.log(jsonData[i].value.answers_body);
-        var $div = $('.empty-response');
-        var id = jsonData[i].value.answers_unique_id;
-        var t = jsonData[i].value.answers_dateupdated.split(/[T .]/);
-        var date = t[0];
-        var time = t[1];
-        var $answer = $div.clone().removeClass('empty-response');
+  for (var i = currentQuestion; i < jsonData.length; i++) {
+    console.log(jsonData[i].value.answers_body);
+    var $div = $('.empty-response');
+    var id = jsonData[i].value.answers_unique_id;
+    var t = jsonData[i].value.answers_dateupdated.split(/[T .]/);
+    var date = t[0];
+    var time = t[1];
+    var $answer = $div.clone().removeClass('empty-response');
 
-        console.log(id);
-        $answer.find('#answer0').html('\t' + jsonData[i].value.answers_body);
-        $answer.find('#answer0').prop('id', 'answer'+id );
-        $answer.find("[name='posting-date']").text(date + ', ' + time);
+    console.log(id);
+    $answer.find('#answer0').html('\t' + jsonData[i].value.answers_body);
+    $answer.find('#answer0').prop('id', 'answer'+id );
+    $answer.find("[name='posting-date']").text(date + ', ' + time);
 
 
-        showAnswersAuthor(jsonData[i].value.answers_users_id, $answer);
-        
-        console.log(jsonData[i]);
-        showLikesDislikes(jsonData[i].value.answers_numDislike, jsonData[i].value.answers_numLike, $answer);
+    showAnswersAuthor(jsonData[i].value.answers_users_id, $answer);
 
-        $('.inner-comments-container').append($answer);
-        $answer.show();
-    }
-    currentQuestion = i;
+    console.log(jsonData[i]);
+    createLikesDislikes(jsonData[i].value.answers_numdislike, jsonData[i].value.answers_numlike, $answer, jsonData[i].value.answers_unique_id, 'a');
+
+    $('.inner-comments-container').append($answer);
+    $answer.show();
+  }
+  currentQuestion = i;
 
 }
 
 
 function setAnswerBoxListener() {
-$('#message-box-submit-bttn').click(function () {
-  if (document.cookie == '') {
-    location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
-    return;
-  }
-  if (!$.trim($("#message-box-text-box").val())) {
-    alert('You must enter a message'); 
+  $('#message-box-submit-bttn').click(function () {
+    if (document.cookie == '') {
+      location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
+      return;
+    }
+    if (!$.trim($("#message-box-text-box").val())) {
+      alert('You must enter a message'); 
 
-    return;
-  }
-        var qid = getUrlParameter('questionid');
-        var cid = getUrlParameter('courseid');
-        var qbody = $('#message-box-text-box').val();
-        var uid = getUserID();
+      return;
+    }
+    var qid = getUrlParameter('questionid');
+    var cid = getUrlParameter('courseid');
+    var qbody = $('#message-box-text-box').val();
+    var uid = getUserID();
 
-        console.log('hi2');
+    console.log('hi2');
 
-        createAnswer(qid, cid, qbody, uid);
-        //location.reload();
-        return false;
-});
+    createAnswer(qid, cid, qbody, uid);
+    //location.reload();
+    return false;
+  });
 }
 
 
 function createAnswer(qid, cid, qbody, uid) {
-    var fullUrl = globalUrl + `addAnswerToQuestion/?questionid=${qid}&courseid=${cid}&userid=${uid}`;
-    console.log(fullUrl);
-    $.ajax({
-        type: "POST",
-        url: globalUrl + `addAnswerToQuestion/?questionid=${qid}&courseid=${cid}&userid=${uid}`,
-        data: {
-            'answerbody'        : qbody
-        },
-        //dataType: "html",
-        success: function(data) {
-            console.log(data.message);
-            getAnswers(questionID);
-            $('#message-box-text-box').val('');
-        },
-        error: function(xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-        }
-    });
+  var fullUrl = globalUrl + `addAnswerToQuestion/?questionid=${qid}&courseid=${cid}&userid=${uid}`;
+  console.log(fullUrl);
+  $.ajax({
+    type: "POST",
+    url: globalUrl + `addAnswerToQuestion/?questionid=${qid}&courseid=${cid}&userid=${uid}`,
+    data: {
+      'answerbody'        : qbody
+    },
+    //dataType: "html",
+    success: function(data) {
+      console.log(data.message);
+      getAnswers(questionID);
+      $('#message-box-text-box').val('');
+    },
+    error: function(xhr, status, error) {
+      var err = eval("(" + xhr.responseText + ")");
+      alert(err.Message);
+    }
+  });
 }
 
 /**
@@ -270,88 +274,88 @@ function createAnswer(qid, cid, qbody, uid) {
  */
 
 (function($) {
-    /**
+  /**
    * attaches a character counter to each textarea element in the jQuery object
    * usage: $("#myTextArea").charCounter(max, settings);
    */
 
-    $.fn.charCounter = function (max, settings) {
-        max = max || 100;
-        settings = $.extend({
-            container: "<span></span>",
-            classname: "charcounter",
-            format: "(%1 characters remaining)",
-            pulse: true,
-            delay: 0
-        }, settings);
-        var p, timeout;
+  $.fn.charCounter = function (max, settings) {
+    max = max || 100;
+    settings = $.extend({
+      container: "<span></span>",
+      classname: "charcounter",
+      format: "(%1 characters remaining)",
+      pulse: true,
+      delay: 0
+    }, settings);
+    var p, timeout;
 
-        function count(el, container) {
-            el = $(el);
-            if (el.val().length > max) {
-                el.val(el.val().substring(0, max));
-                if (settings.pulse && !p) {
-                    pulse(container, true);
-                };
-            };
-            if (settings.delay > 0) {
-                if (timeout) {
-                    window.clearTimeout(timeout);
-                }
-                timeout = window.setTimeout(function () {
-                    container.html(settings.format.replace(/%1/, (max - el.val().length)));
-                }, settings.delay);
-            } else {
-                container.html(settings.format.replace(/%1/, (max - el.val().length)));
-            }
+    function count(el, container) {
+      el = $(el);
+      if (el.val().length > max) {
+        el.val(el.val().substring(0, max));
+        if (settings.pulse && !p) {
+          pulse(container, true);
         };
-
-        function pulse(el, again) {
-            if (p) {
-                window.clearTimeout(p);
-                p = null;
-            };
-            el.animate({ opacity: 0.1 }, 100, function () {
-                $(this).animate({ opacity: 1.0 }, 100);
-            });
-            if (again) {
-                p = window.setTimeout(function () { pulse(el) }, 200);
-            };
-        };
-
-        return this.each(function () {
-            var container;
-            if (!settings.container.match(/^<.+>$/)) {
-                // use existing element to hold counter message
-                container = $(settings.container);
-            } else {
-                // append element to hold counter message (clean up old element first)
-                $(this).next("." + settings.classname).remove();
-                container = $(settings.container)
-                    .insertAfter(this)
-                    .addClass(settings.classname);
-            }
-            $(this)
-                .unbind(".charCounter")
-                .bind("keydown.charCounter", function () { count(this, container); })
-                .bind("keypress.charCounter", function () { count(this, container); })
-                .bind("keyup.charCounter", function () { count(this, container); })
-                .bind("focus.charCounter", function () { count(this, container); })
-                .bind("mouseover.charCounter", function () { count(this, container); })
-                .bind("mouseout.charCounter", function () { count(this, container); })
-                .bind("paste.charCounter", function () {
-                var me = this;
-                setTimeout(function () { count(me, container); }, 10);
-            });
-            if (this.addEventListener) {
-                this.addEventListener('input', function () { count(this, container); }, false);
-            };
-            count(this, container);
-        });
+      };
+      if (settings.delay > 0) {
+        if (timeout) {
+          window.clearTimeout(timeout);
+        }
+        timeout = window.setTimeout(function () {
+          container.html(settings.format.replace(/%1/, (max - el.val().length)));
+        }, settings.delay);
+      } else {
+        container.html(settings.format.replace(/%1/, (max - el.val().length)));
+      }
     };
+
+    function pulse(el, again) {
+      if (p) {
+        window.clearTimeout(p);
+        p = null;
+      };
+      el.animate({ opacity: 0.1 }, 100, function () {
+        $(this).animate({ opacity: 1.0 }, 100);
+      });
+      if (again) {
+        p = window.setTimeout(function () { pulse(el) }, 200);
+      };
+    };
+
+    return this.each(function () {
+      var container;
+      if (!settings.container.match(/^<.+>$/)) {
+        // use existing element to hold counter message
+        container = $(settings.container);
+      } else {
+        // append element to hold counter message (clean up old element first)
+        $(this).next("." + settings.classname).remove();
+        container = $(settings.container)
+          .insertAfter(this)
+          .addClass(settings.classname);
+      }
+      $(this)
+        .unbind(".charCounter")
+        .bind("keydown.charCounter", function () { count(this, container); })
+        .bind("keypress.charCounter", function () { count(this, container); })
+        .bind("keyup.charCounter", function () { count(this, container); })
+        .bind("focus.charCounter", function () { count(this, container); })
+        .bind("mouseover.charCounter", function () { count(this, container); })
+        .bind("mouseout.charCounter", function () { count(this, container); })
+        .bind("paste.charCounter", function () {
+          var me = this;
+          setTimeout(function () { count(me, container); }, 10);
+        });
+      if (this.addEventListener) {
+        this.addEventListener('input', function () { count(this, container); }, false);
+      };
+      count(this, container);
+    });
+  };
 
 })(jQuery);
 
 $(function() {
-    $(".counted").charCounter(320,{container: "#counter"});
+  $(".counted").charCounter(320,{container: "#counter"});
 });
