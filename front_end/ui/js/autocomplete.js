@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  setClassesAutocompleteHeader();
   $("input[id='classes']").prop("checked", true);
   if($("input[id='classes']").is(':checked')){
     setClassesAutocomplete();
@@ -20,6 +21,28 @@ function setNewCourseAutocomplete() {
       onSelect: function (suggestion) {
         setSchoolID(suggestion.data.universities_unique_id);
         console.log(getSchoolID());
+      },
+      showNoSuggestionNotice: true
+    });
+}
+function setClassesAutocompleteHeader() {
+    $('#headerSearch').autocomplete({
+
+      serviceUrl: globalUrl + 'getCourseKeyword/',
+      onSearchComplete: function (query, suggestions) {
+        console.log(suggestions);
+      },
+      formatResult: function (suggestion, currentValue) {
+        console.log(suggestion);
+        return suggestion.value + ' - ' + suggestion.data.courseschoolname; //+ ' - ' + suggestion.data.courseschoolwebsite;
+      },
+      onSelect: function (suggestion) {
+        //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        console.log(suggestion.data);
+        console.log(suggestion.data.coursename);
+
+        location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename;
+
       },
       showNoSuggestionNotice: true
     });
