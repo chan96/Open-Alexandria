@@ -51,42 +51,22 @@ $("input[id='classes']").click(function(){
             console.log("Classes checked");
             setClassesAutocomplete();
 });
-$("input[id='flashcards']").click(function(){
-            console.log("flashcards checked");
-            $('#autocomplete').autocomplete({
-
-                serviceUrl: globalUrl + 'getDocumentsFromTag/',
-                onSearchComplete: function (query, suggestions) {
-                    console.log(suggestions);
-                },
-                onSelect: function (suggestion) {
-                //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-                console.log(suggestion.data);
-                console.log(suggestion.data.coursename);
-
-                location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename;
-
-            },
-
-            showNoSuggestionNotice: true
-
-
-        });
-});
 $("input[id='files']").click(function(){
             console.log("files checked");
             $('#autocomplete').autocomplete({
 
-                serviceUrl: globalUrl + 'getDocumentsFromTag/',
+                serviceUrl: globalUrl + 'searchDocument/',
                 onSearchComplete: function (query, suggestions) {
                     console.log(suggestions);
                 },
                 onSelect: function (suggestion) {
                 //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
                 console.log(suggestion.data);
-                console.log(suggestion.data.coursename);
+                console.log(suggestion.data.documentname);
 
-                location.href = globalUrl + 'search.html?courseid=' +  suggestion.data.courseuniqueid + '&coursename=' + suggestion.data.coursename;
+                location.href = globalUrl + 'document_view.html?docName=' + suggestion.data.documentname + 
+                '&docID=' + suggestion.data.documentuniqueid + '&docUrl=' + suggestion.data.documentlink;
+
 
             },
 
