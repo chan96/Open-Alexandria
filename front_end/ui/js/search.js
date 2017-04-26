@@ -108,11 +108,11 @@ function setNewPostQuestionListener() {
                    'creatorid': userid},
             //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function(data) {
-                console.log(data);
+                console.log(data.questionid);
                 postBttn.prop('disabled', false);
                 postBttn.text('Post Question');
 
-                location.reload();
+                location.href = 'qa.html?questionid=' + data.questionid + '&courseid=' + getUrlParameter('courseid');
             },
             error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");

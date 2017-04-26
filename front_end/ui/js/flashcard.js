@@ -26,6 +26,14 @@ function setNewFlashcardListener() {
     var flashcardTitle = $('#flashcard-title').val();
     var courseID = getUrlParameter('courseid');
     var flashcardBttn = $('#postFlashcardBttn');
+    var flashcardDesc = $('#flashcard-description').val();
+
+    if (flashcardTitle.trim().length == 0) {
+      alert('Enter a flashcard deck name');
+    } else if (flashcardDesc.trim().length == 0) {
+      alert('Enter a flashcard deck description');
+    }
+
     console.log(flashcardTitle + ' ' + courseID);
 
     flashcardBttn.prop('disabled', true);
@@ -33,14 +41,14 @@ function setNewFlashcardListener() {
 
     $.ajax({
       type: 'GET',
-      url: globalUrl + 'createDeck/' + '?courseid=' + courseID + '&deckname=' + flashcardTitle,
+      url: globalUrl + 'createDeck/' + '?courseid=' + courseID + '&deckname=' + flashcardTitle + '&deckdesc=' + flashcardDesc,
       //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
       success: function(data) {
         console.log(data);
         flashcardBttn.prop('disabled', false);
         flashcardBttn.text('Create deck!');
 
-        location.reload();
+                location.href = 'flashcard.html?deckid=' + data.uniqueid;
       },
       error: function(xhr, status, error) {
         console.log(JSON.parse(xhr.responseText));
