@@ -1,5 +1,6 @@
 var questionID;
 var currentQuestion = 0;
+
 $( document ).ready(function() {
   console.log( "ready!" );
   questionID = getUrlParameter('questionid');
@@ -371,3 +372,9 @@ function createAnswer(qid, cid, qbody, uid) {
 $(function() {
   $(".counted").charCounter(320,{container: "#counter"});
 });
+
+function loadProfile(id) {
+    console.log(id);
+    var uid = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing
+    location.href = globalUrl + 'profile.html?userid=' +  uid;
+}
