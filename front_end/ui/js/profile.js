@@ -21,13 +21,31 @@ function submitChange(form){
   return false;
 }
 
+hashCode = function(s){
+    return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+}
+
+function hasCode(raw){
+  var hash = 0, i, chr;
+    if (raw.length === 0) return hash;
+      for (i = 0; i < raw.length; i++) {
+            chr   = raw.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                    hash |= 0; // Convert to 32bit integer
+                      }
+        return hash;
+    }
+
 $(document).ready(function(){
   	//var theUrl = "http://localhost:3000/getCourseKeyword?query=";
   var userUrl = globalUrl +"getUserInfo";
     //USERS
     $.get(userUrl, function (data) {
       dataGlobalUser = data;
-      //$("#PersonalInfo").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
+      var hashedCode = md5(data.firstname + data.lastname + data.email + data.userid);
+      $("#avatorImg").attr('src', "https://robohash.org/" + hashedCode + ".jpg");
+
+            //$("#PersonalInfo").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
       console.log(dataGlobalUser);
       document.getElementById("firstname").value = data.firstname;
       document.getElementById("lastname").value = data.lastname;
