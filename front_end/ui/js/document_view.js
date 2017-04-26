@@ -91,11 +91,13 @@ function setNewPostDocumentListener(docID) {
     if (document.cookie == '') {
       location.href = globalUrl + '/login.html' + '?redirect=' + location.href;
     }
+    $('html, body').animate({scrollTop : '0px'}, 0);
   })
   $('#postBttn').click(function () {
     var commentBody = $('#comment-body').val();
     var userID = getUserID();
     var postBttn = $('#postBttn');
+
     console.log('\nuserid: ' + userID + '\ndocid :' + docID + '\nbody: ' + commentBody);
 
     postBttn.prop('disabled', true);
