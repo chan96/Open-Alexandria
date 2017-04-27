@@ -1,6 +1,4 @@
-var userID;
-var dataGlobalUser;
-var cookieField = document.cookie.split("; ");
+var userid = getUrlParameter('userid');
 
 function submitChange(form){
   if(checkAllInputs()){
@@ -23,10 +21,18 @@ function submitChange(form){
 }
 
 $(document).ready(function(){
+  if(userid){
+    $("#otherProfile").show();
+  }else{
+    $("#ownProfile").show();
+  }
+
   loadUserProfile();
   setDocumentGridListener();
-  console.log(cookieField);
+
+  console.log(userid);
 });
+
 
 function setDocumentGridListener() {
   $('#pinBoot').pinterest_grid({
@@ -40,17 +46,25 @@ function setDocumentGridListener() {
 
 function loadUserProfile(){
   var userUrl = globalUrl +"getUserInfo";
+  if(userid){
+    userUrl = globalUrl + "getUserInfoFromUID?userid=" + userid;
+  }
+
   $.get(userUrl, function (data) {
     dataGlobalUser = data;
+    if(!data.userid){
+      data.userid = userid;
+    }
     var hashedCode = md5(data.firstname + data.lastname + data.email + data.userid);
     $("#avatarImg").attr('src', "https://robohash.org/" + hashedCode + ".jpg");
     console.log(dataGlobalUser);
     $("#name").html(data.firstname + ' ' + data.lastname);
     $("#type").html(data.isadmin);
-    $("#email").html(data.email);
+    $("#otheremail").html(data.email);
     document.getElementById("firstname").value = data.firstname;
     document.getElementById("lastname").value = data.lastname;
     document.getElementById("email").value = data.email;
+
     getDocPreviewsUser(data.userid);
     getFlashcardDecks(data.userid, showFlashcardDecks);
     setQuestions(data.userid);
@@ -85,7 +99,7 @@ function showFlashcardDecks(jsonFlashcardData) {
     let id = 0;
     var flashcard = $('<div/>')
       .attr("id", "deckid" + (id = data[i].data.flashcarddecks_unique_id))
-    .addClass("notecard")
+      .addClass("notecard")
       .append("<div/>");
 
     var inner = flashcard.find('div');
@@ -127,52 +141,52 @@ function checkAllInputs(){
 }
 
 function setQuestions(userid) {
-    $.ajax({
-        type: "GET",
-        url: globalUrl + 'getQuestionsByUser/',
-        data: ({ userid : userid}),
-        dataType: "html",
-        success: function(data) {
-            //console.log(data);
-            var jsonData = $.parseJSON(data).suggestions;
-            console.log(jsonData);
-            for (var i = 0; i < jsonData.length; i++) {
-                console.log(jsonData[i].data.title);
-                var $div = $('#question0');
-                var id = jsonData[i].data.questionid;
-                console.log(id);
-                var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
-                var $question = $div.clone().prop('id', 'question'+num );
-                var qid = $question.attr('id');
-                console.log(qid);
+  $.ajax({
+    type: "GET",
+    url: globalUrl + 'getQuestionsByUser/',
+    data: ({ userid : userid}),
+    dataType: "html",
+    success: function(data) {
+      //console.log(data);
+      var jsonData = $.parseJSON(data).suggestions;
+      console.log(jsonData);
+      for (var i = 0; i < jsonData.length; i++) {
+        console.log(jsonData[i].data.title);
+        var $div = $('#question0');
+        var id = jsonData[i].data.questionid;
+        console.log(id);
+        var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) + id;
+        var $question = $div.clone().prop('id', 'question'+num );
+        var qid = $question.attr('id');
+        console.log(qid);
 
-                $question.find('p').text(jsonData[i].data.title);
+        $question.find('p').text(jsonData[i].data.title);
 
 
 
-                $('#questions-row').append($question);
-                setQuestionOnClick(qid, jsonData[i].data.courseid);
-                $question.show();
-            }
+        $('#questions-row').append($question);
+        setQuestionOnClick(qid, jsonData[i].data.courseid);
+        $question.show();
+      }
 
-        },
-        error: function(data) {
-            console.log(data.error.message);
+    },
+    error: function(data) {
+      console.log(data.error.message);
 
-        }
-    });
+    }
+  });
 
 }
 
 function setQuestionOnClick(qid, cid) {
 
   var qNum = qid.replace(/[^0-9]/gi, '');
-    
 
-    $('#' + qid).click(function() {
-      location.href = globalUrl + 'qa.html?questionid=' + qNum + '&courseid=' + cid;
-      
-    });
+
+  $('#' + qid).click(function() {
+    location.href = globalUrl + 'qa.html?questionid=' + qNum + '&courseid=' + cid;
+
+  });
 }
 
 function openCity(evt, cityName) {
