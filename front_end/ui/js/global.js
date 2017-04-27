@@ -59,7 +59,8 @@ if (!checkUserAlive()) {
 
     var admin = document.cookie.split(";")[2].split("=")[1] == "true";
     if (admin) {
-        console.log("User is admin");
+      $("#divHeader").load("headerAdmin.html");
+      console.log("User is admin");
     } else {
         console.log("User is not admin");
     }
