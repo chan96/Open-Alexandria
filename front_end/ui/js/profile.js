@@ -29,8 +29,6 @@ $(document).ready(function(){
 
   loadUserProfile();
   setDocumentGridListener();
-
-  console.log(userid);
 });
 
 
