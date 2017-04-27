@@ -52,6 +52,10 @@ $(document).ready(function(){
       $("#name").html(data.firstname + ' ' + data.lastname);
       $("#type").html(data.isadmin);
       $("#email").html(data.email);
+      document.getElementById("firstname").value = data.firstname;
+      document.getElementById("lastname").value = data.lastname;
+      document.getElementById("email").value = data.email;
+
       /*
       $("#firstname").html(data.firstname);
       $("#lastname").html(data.lastname);
