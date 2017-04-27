@@ -53,9 +53,11 @@ stylize any heading tags withing white-panel below
 /*****************************************/
 h4 {
   color: firebrick;
-  font-size: 25px;
-  letter-spacing: -2px;
-  text-align: left; }
+  font-size: 20px;
+  letter-spacing: 0px;
+  text-align: left; 
+  word-wrap: break-word;
+}
 
 .list {
   color: #555;
@@ -214,5 +216,9 @@ body {
     -ms-transform: rotateY(-180deg);
     -o-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
+
+    p, div{
+      line-height: 10px;
+    }
 
 /*# sourceMappingURL=search.css.map */
