@@ -159,6 +159,35 @@ function searchFlashDeckNameByCourse(req, res, next){
     });
 }
 
+function searchFlashDeckNameByUser(req, res, next){
+  var keyword = req.query.query;
+  var userid = req.query.userid;
+
+  var dbSelect = 'select * from flashcarddecks where flashcarddecks_name ~* $1 and flashcarddecks_isactive = true and flashcarddecks_users_id = $2;';
+
+  db.any(dbSelect, [keyword, userid])
+    .then(function(data){
+      var commonString = [];
+      for (var i = 0; i < data.length; i++){
+        var flashDeckInfo = {
+          flashcarddecks_unique_id: data[i].flashcarddecks_unique_id,
+          flashcarddecks_courses_id: data[i].flashcarddecks_courses_id,
+          flashcarddecks_users_id: data[i].flashcarddecks_users_id,
+          flashcarddecks_name: data[i].flashcarddecks_name,
+          flashcarddecks_description: data[i].flashcarddecks_description,
+          flashcarddecks_dateupdated: data[i].flashcarddecks_dateupdated
+        } 
+        commonString.push({value:data[i].flashcarddecks_name, data: flashDeckInfo});
+      }
+      res.status(200).json({suggections:commonString});
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Failure",
+        error: {name: err.name, message: err.message},
+        code: -1
+      });
+    });
+}
 
 function getFlashCardsForDeck(req, res, next){
   var deckid = req.query.deckid;
@@ -216,6 +245,8 @@ module.exports = {
   createCardInDeck: createCardInDeck,
   searchFlashDeckName: searchFlashDeckName,
   searchFlashDeckNameByCourse: searchFlashDeckNameByCourse,
+  searchFlashDeckNameByUser: searchFlashDeckNameByUser,
   getFlashCardsForDeck: getFlashCardsForDeck,
   getFlashDeckById: getFlashDeckById,
+
 };

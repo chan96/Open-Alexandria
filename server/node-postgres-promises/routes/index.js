@@ -186,6 +186,7 @@ router.get('/subscriptionsByCourse', subscriptions.subscriptionsByCourse);
  * @param {int} courseid
  */
 router.get('/getQuestions', questions.getQuestions);
+router.get('/getQuestionsByUser', questions.getQuestionsByUser);
 
 router.get('/getAllQuestions', questions.getAllQuestions);
 /**
@@ -221,6 +222,7 @@ router.get('/createDeck', flashcards.createDeck);
 router.get('/createCardInDeck', flashcards.createCardInDeck);
 router.get('/searchFlashDeckName', flashcards.searchFlashDeckName);
 router.get('/searchFlashDeckNameByCourse', flashcards.searchFlashDeckNameByCourse);
+router.get('/searchFlashDeckNameByUser', flashcards.searchFlashDeckNameByUser);
 router.get('/getFlashCardsForDeck', flashcards.getFlashCardsForDeck);
 router.get('/getFlashDeckById', flashcards.getFlashDeckById);
 
