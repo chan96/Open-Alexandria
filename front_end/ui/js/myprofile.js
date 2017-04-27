@@ -1,4 +1,3 @@
-var userID;
 var dataGlobalUser;
 var cookieField = document.cookie.split("; ");
 
@@ -22,37 +21,17 @@ function submitChange(form){
   return false;
 }
 
-hashCode = function(s){
-    return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
-}
-
-function hasCode(raw){
-  var hash = 0, i, chr;
-    if (raw.length === 0) return hash;
-      for (i = 0; i < raw.length; i++) {
-            chr   = raw.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                    hash |= 0; // Convert to 32bit integer
-                      }
-        return hash;
-    }
-
 $(document).ready(function(){
   	//var theUrl = "http://localhost:3000/getCourseKeyword?query=";
-  userID = getUrlParameter('userid');
-  var userUrl = globalUrl +"getUserInfoFromUID/?userid=" + userID;
+  var userUrl = globalUrl +"getUserInfo";
     //USERS
     $.get(userUrl, function (data) {
       dataGlobalUser = data;
-      var hashedCode = md5(data.firstname + data.lastname + data.email + data.userid);
-      $("#avatorImg").attr('src', "https://robohash.org/" + hashedCode + ".jpg");
-
-            //$("#PersonalInfo").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
+      //$("#PersonalInfo").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
       console.log(dataGlobalUser);
-      $("#name").html(data.firstname + ' ' + data.lastname);
-      $("#type").html(data.isadmin);
-      $("#email").html(data.email);
-
+      document.getElementById("firstname").value = data.firstname;
+      document.getElementById("lastname").value = data.lastname;
+      document.getElementById("email").value = data.email;
       /*
       $("#firstname").html(data.firstname);
       $("#lastname").html(data.lastname);
