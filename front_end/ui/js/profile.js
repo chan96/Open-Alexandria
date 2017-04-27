@@ -44,7 +44,7 @@ $(document).ready(function(){
     $.get(userUrl, function (data) {
       dataGlobalUser = data;
       var hashedCode = md5(data.firstname + data.lastname + data.email + data.userid);
-      $("#avatorImg").attr('src', "https://robohash.org/" + hashedCode + ".jpg");
+      $("#avatarImg").attr('src', "https://robohash.org/" + hashedCode + ".jpg");
 
             //$("#PersonalInfo").html("<thead><tr><th>First Name</th><th>Last Name</th><th>User Email</th><th>Admin Status</th><th>User ID</th></tr></thead>");
       console.log(dataGlobalUser);
