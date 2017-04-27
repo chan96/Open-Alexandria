@@ -206,7 +206,7 @@ function createLikesDislikes(numDislikes, numLikes, div, id, QorA) {
 
 function showAnswers(jsonData) {
 
-  for (var i = currentQuestion; i < jsonData.length; i++) {
+  for (var i = 0; i < jsonData.length; i++) {
     console.log(jsonData[i].value.answers_body);
     var $div = $('.empty-response');
     var id = jsonData[i].value.answers_unique_id;
@@ -230,7 +230,7 @@ function showAnswers(jsonData) {
     $('.inner-comments-container').append($answer);
     $answer.show();
   }
-  currentQuestion = i;
+  currentQuestion = i-1;
 
 }
 
@@ -254,7 +254,8 @@ function setAnswerBoxListener() {
     console.log('hi2');
 
     createAnswer(qid, cid, qbody, uid);
-    //location.reload();
+    //showAnswers();
+    location.reload();
     return false;
   });
 }
@@ -272,7 +273,7 @@ function createAnswer(qid, cid, qbody, uid) {
     //dataType: "html",
     success: function(data) {
       console.log(data.message);
-      getAnswers(questionID);
+      //getAnswers(questionID);
       $('#message-box-text-box').val('');
     },
     error: function(xhr, status, error) {
