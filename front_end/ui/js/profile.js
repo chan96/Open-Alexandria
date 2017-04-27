@@ -39,8 +39,7 @@ function hasCode(raw){
 
 $(document).ready(function(){
   	//var theUrl = "http://localhost:3000/getCourseKeyword?query=";
-  userID = getUrlParameter('userid');
-  var userUrl = globalUrl +"getUserInfoFromUID/?userid=" + userID;
+  var userUrl = globalUrl +"getUserInfo";
     //USERS
     $.get(userUrl, function (data) {
       dataGlobalUser = data;
@@ -52,7 +51,9 @@ $(document).ready(function(){
       $("#name").html(data.firstname + ' ' + data.lastname);
       $("#type").html(data.isadmin);
       $("#email").html(data.email);
-
+       document.getElementById("firstname").value = data.firstname;
+      document.getElementById("lastname").value = data.lastname;
+       document.getElementById("email").value = data.email;
       /*
       $("#firstname").html(data.firstname);
       $("#lastname").html(data.lastname);
