@@ -36,6 +36,7 @@ function createCourse(cn, cd, sid) {
         dataType: "html",
         success: function(data) {
             console.log(data);
+            location.href = './index.html'
         },
         error: function(data) {
             console.log(data.error.message);
