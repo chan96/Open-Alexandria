@@ -217,7 +217,7 @@ body {
     -o-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
 
-    p, div{
+    p{
       line-height: 10px;
     }
 
