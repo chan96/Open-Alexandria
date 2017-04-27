@@ -195,7 +195,8 @@ body {
     font: 50px "Lucida Grande", Helvetica, Sans-Serif;
     margin-left: auto;
     margin-right: auto;
-    text-align: center; }
+    text-align: center;
+    word-wrap: break-word; }
     .notecard p:first-child {
       margin-top: 4em; }
   .notecard div {
