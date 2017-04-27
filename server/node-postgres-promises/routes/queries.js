@@ -50,9 +50,37 @@ function report(req, res, next){
     });
 }
 
+function getReport(req, res, next){
+  var userid = userAuth.getUserID(req.cookies.token);
+  if(!userid){
+    res.status(401).json({
+      status: "Authentication Error",
+      code: -1
+    });
+  }
+
+  var dbSelect = "select * from MESSAGE;";
+
+  db.any(dbSelect)
+    .then(function(data){
+      var commonString = [];
+      for(var i = 0; i < data.length; i++){
+        commonString.push({value: data[i].message_unique_id, data:data[i]});
+      }
+      res.status(200).json({suggestions:commonString}); 
+    }).catch(function(err){
+      res.status(500).json({
+        status: "Error",
+        error: {name: err.name, message: err.message},
+        code: -1 
+      })
+    });
+
+}
+
 function getUniversity(req, res, next){
   var query = req.query.query;
-  
+
   var dbSelect = 'select * from universities where UNIVERSITIES_NAME~*$1;';
   db.any(dbSelect,[query])
     .then(function(data){
@@ -73,5 +101,6 @@ function getUniversity(req, res, next){
 
 module.exports = {
   report: report,
+  getReport: getReport,
   getUniversity: getUniversity,
 };

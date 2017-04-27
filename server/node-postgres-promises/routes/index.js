@@ -32,6 +32,7 @@ const exec = require('child_process').exec;
 var mockdata = require('../utils/MOCK_DATA');
 
 router.get('/report', queries.report);
+router.get('/getReport', queries.getReport);
 router.get('/getUniversity', queries.getUniversity);
 
 /**
