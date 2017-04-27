@@ -135,6 +135,7 @@ function getUserInfo(req, res, next){
       res.status(200).json({
         status: "Successful retrieval",
         code: 1,
+        userid: data.users_unique_id,
         firstname: data.users_firstname,
         lastname: data.users_lastname,
         email: data.users_email,

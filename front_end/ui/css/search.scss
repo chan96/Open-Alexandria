@@ -195,10 +195,12 @@ body {
 
 
 .notecard {
+  zoom: 0.25;
+      -moz-transform: scale(0.25);
   position: relative;
-  margin: 0 auto;
-  height: 300px;
-  width: 35%;
+  margin: 15px;
+  height: 600px;
+  width: 30%;
   border: 1px solid black;
   @include background-image(linear-gradient(top, #ffffff 15%,#F94545 16%,#ffffff 16%,#ffffff 25%,#85b2d3 26%,#ffffff 26%, #ffffff 35%,#85b2d3 36%,#ffffff 36%,#ffffff 45%,#85b2d3 46%,#ffffff 46%, #ffffff 55%,#85b2d3 56%,#ffffff 56%, #ffffff 65%,#85b2d3 66%,#ffffff 66%, #ffffff 75%,#85b2d3 76%,#ffffff 76%, #ffffff 85%,#85b2d3 86%,#ffffff 86%, #ffffff 95%,#85b2d3 96%,#ffffff 96%));
   @include transition(.6s ease-in);
@@ -207,12 +209,13 @@ body {
     //@include transform(rotateY(180deg));
   }
   p {
-    font: 1em/.9 "Lucida Grande", Helvetica, Sans-Serif;
+    font: 50px "Lucida Grande", Helvetica, Sans-Serif;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    word-wrap: break-word;
     &:first-child {
-      margin-top: 2em;
+      margin-top: 4em;
     }
   }
   div {

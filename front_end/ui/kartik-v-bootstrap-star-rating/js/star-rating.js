@@ -570,16 +570,16 @@
     $.fn.ratingLocales.en = {
         defaultCaption: '{rating} Stars',
         starCaptions: {
-            0.5: 'Half Star',
-            1: 'One Star',
-            1.5: 'One & Half Star',
-            2: 'Two Stars',
-            2.5: 'Two & Half Stars',
-            3: 'Three Stars',
-            3.5: 'Three & Half Stars',
-            4: 'Four Stars',
-            4.5: 'Four & Half Stars',
-            5: 'Five Stars'
+            0.5: '0.5 Star',
+            1: '1.0 Star ',
+            1.5: '1.5 Star ',
+            2: '2.0 Star ',
+            2.5: '2.5 Star ',
+            3: '3.0 Star ',
+            3.5: '3.5 Star ',
+            4: '4.0 Star ',
+            4.5: '4.5 Star ',
+            5: '5.0 Star '
         },
         clearButtonTitle: 'Clear',
         clearCaption: 'Not Rated'

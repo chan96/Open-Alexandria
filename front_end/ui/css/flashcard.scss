@@ -54,12 +54,13 @@
     @include transform(rotateY(180deg));
   }
   p {
-    font: 1em/.9 "Lucida Grande", Helvetica, Sans-Serif;
+    font: 25px "Lucida Grande", Helvetica, Sans-Serif;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    word-wrap: break-word;
     &:first-child {
-      margin-top: 2em;
+      margin-top: 3em;
     }
   }
   div {

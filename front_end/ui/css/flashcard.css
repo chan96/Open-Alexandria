@@ -52,12 +52,13 @@
     -o-transform: rotateY(180deg);
     transform: rotateY(180deg); }
   .notecard p {
-    font: 1em/.9 "Lucida Grande", Helvetica, Sans-Serif;
+    font: 25px "Lucida Grande", Helvetica, Sans-Serif;
     margin-left: auto;
     margin-right: auto;
-    text-align: center; }
+    text-align: center;
+    word-wrap: break-word; }
     .notecard p:first-child {
-      margin-top: 2em; }
+      margin-top: 3em; }
   .notecard div {
     position: absolute;
     -webkit-backface-visibility: hidden;

@@ -32,6 +32,7 @@ function showDocPreviews(parsedData) {
         $templateDocPreview.show();
         console.log($templateDocPreview);
     }
+    $('#docsUploaded').text("Documents Uploaded: " + (jsonData.length));
 }
 
 function showDocumentRatings(docid, div) {
@@ -66,6 +67,28 @@ function getDocPreviews(cid) {
         type: "GET",
         url: globalUrl + 'searchDocumentByCourse/',
         data: ({ courseid : cid, query : ''}),
+        dataType: "html",
+        success: function(data) {
+            //console.log('asdf ' + data.firstname);
+            var parsedData = $.parseJSON(data);
+            console.log(parsedData.suggestions);
+             
+            showDocPreviews(parsedData);
+
+        },
+        error: function(data) {
+            console.log(data.error.message);
+
+        }
+    });
+}
+
+function getDocPreviewsUser(userid) {
+
+    $.ajax({
+        type: "GET",
+        url: globalUrl + 'searchDocumentByUser/',
+        data: ({ userid : userid, query : ''}),
         dataType: "html",
         success: function(data) {
             //console.log('asdf ' + data.firstname);

@@ -82,8 +82,10 @@ function showQuestionAuthor(uid) {
       var fname = parsedData.firstname;
       var lname = parsedData.lastname;
       console.log(fname + lname);
-
-      $("#author-poster").text(fname + ' ' + lname);
+      var userProfile = globalUrl + "profile.html?userid=" + uid;
+      $("#author-poster").html(`<a href="` +  userProfile + `">` + fname + ' ' + lname + `</a>`);
+      var hashedCode = md5(parsedData.firstname + parsedData.lastname + parsedData.email + uid);
+      $("#author-posterpic").attr("src", "https://robohash.org/" + hashedCode + ".jpg");
     },
     error: function(data) {
       console.log(data.error);
@@ -128,8 +130,12 @@ function showAnswersAuthor(uid, answerDiv) {
       var parsedData = $.parseJSON(data);
 
       console.log('author ' + parsedData.firstname);
-      answerDiv.find('#author0').text(parsedData.firstname + ' ' + parsedData.lastname);
+      var userProfile = globalUrl + "profile.html?userid=" + uid;
+      answerDiv.find('#author0').html(`<a href="` +  userProfile + `">` + parsedData.firstname + ' ' + parsedData.lastname + `</a>`);
       answerDiv.find('#author0').prop('id', 'author' + uid );
+      var hashedCode = md5(parsedData.firstname + parsedData.lastname + parsedData.email + uid);
+      console.log(hashedCode);
+      answerDiv.find("#author0pic").attr("src", "https://robohash.org/" + hashedCode + ".jpg");
 
     },
     error: function(data) {
