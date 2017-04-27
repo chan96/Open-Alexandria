@@ -26,13 +26,17 @@ $(document).ready(function() {
   //use google doc viewer
   $('#doc-name').text(getUrlParameter('docName'));
 
-    $("#input-id").rating();
+  if (document.cookie === '') {
+    $("#doc-rating").rating({readonly:true, showClear:false});
+  } else {
+    $("#doc-rating").rating({showClear:false});
+    allowDocRatingUpdate(docID);
+  }
 
     
   setNewPostDocumentListener(docID); 
   setComments(docID);
   showDocRating(docID);
-  allowDocRatingUpdate(docID);
 });
 
 function showDocRating(docid) {
