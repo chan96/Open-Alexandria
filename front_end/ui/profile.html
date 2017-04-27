@@ -1,84 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>User Profile</title>
-        <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
-        <link href="css/profile.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Profile</title>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet">
+    <link href="css/search.css" rel="stylesheet">
+    <link
+                                     href="./kartik-v-bootstrap-star-rating/css/star-rating.css"
+                                     media="all" rel="stylesheet" type="text/css" />
 
-        <!--[if lt IE 9]> 
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-    </head>
-    <body>
-        <div class="vignette"></div>
-        <div id="divHeader">
-        <h2> </h2>
-        </div>
-        <div class="container" id="profile">
-         <div class="row">
-            <div class="col-md-12">
-                <div class="container">
-                    <div class="row" id="pwd-container">
-                     <div class="col-md-4"></div>
-                     <div class="col-md-4">
-                            <div class="card hovercard">
-                                <div class="avatar">
-                                    <img alt="" src="https://cdn.iconscout.com/public/images/icon/premium/png-256/avatar-random-person-profile-32894d0afd24be61-256x256.png" id="userimg">
-                                </div>
-                                <div class="info">
-                                    <div class="title" id="name"></div>
-                                    <div class="desc" id="email"></div>
-                                    <div class="desc" id="docsUploaded">2</div>
-                                </div>
-                            </div>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 
-                    </div>
-                    <div class="col-md-4"></div>
-                    </div>  
-                </div>
-            </div>
-        </div>
+    <!--[if lt IE 9]> 
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="vignette"></div>
+    <div id="divHeader">
+      <h2> </h2>
     </div>
-      <!--
-        <div class="container col-md-4 col-md-offset-4 vertical-center transparent round-corners shadow " id="mainBody">
-            <div class="container">  
-                <table class="table" id="PersonalInfo">
-                    <tbody>
-                        <tr>
-                            <td><strong>First Name</strong></td>
-                            <td id = "first name"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Last Name</strong></td>
-                            <td id = "last name"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Email</strong></td>
-                            <td id = "Email"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="container" id="profile">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container">
+            <div class="row" id="pwd-container">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <div class="card hovercard">
+                  <div class="avatar">
+                    <img alt="" src="https://cdn.iconscout.com/public/images/icon/premium/png-256/avatar-random-person-profile-32894d0afd24be61-256x256.png" id="userimg">
+                  </div>
+                  <div class="info">
+                    <div class="title" id="name"></div>
+                    <div class="desc" id="email"></div>
+                    <div class="desc" id="docsUploaded">2</div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-4"></div>
+            </div>  
+          </div>
         </div>
-        -->
-        <footer>
-        <div id="divFooter">
-            <h2> </h2>
-        </div>
+        <article hidden class="white-panel templateDocPreview"><img src="http://cdn.lrb.co.uk/blog/wp-content/uploads/2014/03/Lorem_Ipsum.jpg" alt="">
+          <h4><a href="#">Title 1</a></h4><div
+                 class="r-container"></div>
+
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+        </article>
+
+        <!--Beginning-->
+        <section id="pinBoot">
+        </section>
+      </div>
+    </div>
+    <!--
+      <div class="container col-md-4 col-md-offset-4 vertical-center transparent round-corners shadow " id="mainBody">
+      <div class="container">  
+      <table class="table" id="PersonalInfo">
+      <tbody>
+      <tr>
+      <td><strong>First Name</strong></td>
+      <td id = "first name"></td>
+      </tr>
+      <tr>
+      <td><strong>Last Name</strong></td>
+      <td id = "last name"></td>
+      </tr>
+      <tr>
+      <td><strong>Email</strong></td>
+      <td id = "Email"></td>
+      </tr>
+      </tbody>
+      </table>
+      </div>
+      </div>
+    -->
+    <footer>
+      <div id="divFooter">
+        <h2> </h2>
+      </div>
     </footer>
-        <script src="js/md5.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="js/global.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/otherprofile.js"></script>
-    </body>
+    <script src="js/md5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/document.js"></script>
+    <script src="js/otherprofile.js"></script>
+    <script src="kartik-v-bootstrap-star-rating/js/star-rating.js"
+            type="text/javascript"></script>
+
+  </body>
 </html>
