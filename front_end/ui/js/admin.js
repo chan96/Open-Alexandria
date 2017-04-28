@@ -18,7 +18,7 @@ $(document).ready(function(){
   	//COURSE
   	$.get(courseUrl, function (data) {
       dataGlobalCourse = data;
-      $("#courseTable").html("<thead><tr><th>Course Description</th><th>Course Name</th><th>Course Members</th><th>Course ID</th></tr></thead>");
+      $("#courseTable").html("<thead><tr><th>Course Description</th><th>Course Name</th><th>Course ID</th></tr></thead>");
 
       for(var count = 0; count < Object.keys(dataGlobalCourse.suggestions).length; count++){
         var buttonText = "";
@@ -27,8 +27,9 @@ $(document).ready(function(){
         }else{
           buttonText = "Enable Course";
         }
-        $("#courseTable").append("<tbody id='courseBodyTable" + count + "'><tr id='courseBodyRow"+ count + "'><td>" + data.suggestions[count].data.courses_description + "</td><td>" + data.suggestions[count].data.courses_name + 
-          "</td><td>"+ data.suggestions[count].data.courses_nummember +"</td><td>"+ data.suggestions[count].data.courses_unique_id +
+        $("#courseTable").append("<tbody id='courseBodyTable" + count + "'><tr id='courseBodyRow"+ count + "'><td>" + 
+          data.suggestions[count].data.courses_description + "</td><td>" + data.suggestions[count].data.courses_name + 
+          "</td><td>"+ data.suggestions[count].data.courses_unique_id +
           "</td><td><button id='enableDisable" + count + "' type='button' onclick='enableDisableCourse(" + count + ")'>" + buttonText + "</button></td><td>"
           +"<button id='listQ" + count + "' type='button' onclick='listQuestions(" + count + ")'>List All Questions</button></td></tr></tbody>");
       }
